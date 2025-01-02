@@ -152,7 +152,7 @@ const CertainMovie: FC = () => {
           {isMovieLoading ? (
             <Skeleton animation="wave" variant="rectangular" />
           ) : certainMovie?.poster_path ? ( // Use the state variable
-            <div className="lg:min-w-[300px] lg:max-w-[500px] md:min-w-[300px] md:max-w-[500px] sm:min-w-[300px] sm:max-w-[500px]">
+            <div className="lg:min-w-[300px]  lg:max-w-[400px] md:min-w-[300px] md:max-w-[400px] sm:min-w-[300px] sm:max-w-[400px]">
               <img
                 className="w-[100%] rounded-md"
                 src={`${imageBaseURL}${certainMovie.poster_path}`} // Use the state variable here
@@ -170,7 +170,7 @@ const CertainMovie: FC = () => {
                 <button
                   onClick={handleToAddToFavorite}
                   type="button"
-                  className="text-gray-900 leading-normal  hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none w-44 focus:ring-gray-300 font-medium rounded-lg text-sm px-3  py-2.5 text-center me-2 mb-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800"
+                  className="text-white leading-normal   border border-gray-300 hover:bg-gray-900 focus:ring-4 focus:outline-none w-44 focus:ring-gray-300 font-medium rounded-lg text-sm px-3  py-2.5 text-center me-2 mb-2 dark:border-gray-600  dark:hover:bg-gray-600 "
                 >
                   {isLoading ? (
                     <CircularProgress size={10} style={{ margin: "0 auto" }} />
