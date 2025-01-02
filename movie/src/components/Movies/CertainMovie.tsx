@@ -170,7 +170,7 @@ const CertainMovie: FC = () => {
                 <button
                   onClick={handleToAddToFavorite}
                   type="button"
-                  className="text-white leading-normal   border border-gray-300 hover:bg-gray-900 focus:ring-4 focus:outline-none w-44 focus:ring-gray-300 font-medium rounded-lg text-sm px-3  py-2.5 text-center me-2 mb-2 dark:border-gray-600  dark:hover:bg-gray-600 "
+                  className="text-white leading-normal   border border-yellow-600 hover:bg-yellow-600 focus:ring-4 focus:outline-none w-44  font-medium rounded-lg text-sm px-3  py-2.5 text-center me-2 mb-2  "
                 >
                   {isLoading ? (
                     <CircularProgress size={10} style={{ margin: "0 auto" }} />
