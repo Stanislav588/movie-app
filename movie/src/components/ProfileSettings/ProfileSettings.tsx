@@ -1,6 +1,5 @@
 import React, { FC } from "react";
 import { Avatar, Menu, MenuItem, Divider } from "@mui/material";
-import avatarImg from "../../images/apple.png";
 import { Link } from "react-router-dom";
 import { useLogOut } from "../../hooks/useLogOut";
 import { useSelector } from "react-redux";

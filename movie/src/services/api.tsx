@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const apiKey = import.meta.env.VITE_API_KEY;
+const apiKey = import.meta.env.VITE_FIREBASE_API_KEY;
 
 export async function fetchingData(time_window = "week") {
   const response = await axios.get(
