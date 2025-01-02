@@ -10,7 +10,7 @@ const Movies: FC = () => {
   return (
     <>
       {/* <SearchMovie setSearchMovie={setSearchMovie} searchMovie={searchMovie} /> */}
-      <div className="grid relative mt-12 px-2 grid-cols-2 lg:grid-cols-5  sm:grid-cols-2 md:grid-cols-3 gap-4">
+      <div className="grid relative mt-12 px-2 grid-cols-2 lg:grid-cols-6  sm:grid-cols-2 md:grid-cols-3 gap-4">
         {isLoading ? (
           <CircularProgress size="20px" />
         ) : (
