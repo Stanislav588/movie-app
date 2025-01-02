@@ -165,21 +165,8 @@ const CertainMovie: FC = () => {
 
           <div className="flex flex-col gap-10 justify-between">
             <div className="flex flex-col gap-4 ">
-              <div className="flex gap-4 justify-between flex-col md:flex-row  flex-wrap">
+              <div className="flex gap-4 flex-col md:flex-row  flex-wrap">
                 <h1 className="text-3xl">{certainMovie?.title}</h1>
-                <button
-                  onClick={handleToAddToFavorite}
-                  type="button"
-                  className="text-white leading-normal   border border-yellow-600 hover:bg-yellow-600 focus:ring-4 focus:outline-none w-44  font-medium rounded-lg text-sm px-3  py-2.5 text-center me-2 mb-2  "
-                >
-                  {isLoading ? (
-                    <CircularProgress size={10} style={{ margin: "0 auto" }} />
-                  ) : (
-                    <h1>
-                      {isAdded ? "Remove from favorites" : "Add to favorites"}
-                    </h1>
-                  )}
-                </button>
               </div>
               <div className="flex gap-4 flex-wrap lg:gap-7">
                 {certainMovie?.spoken_languages?.map((item, id) => (
@@ -209,6 +196,19 @@ const CertainMovie: FC = () => {
               <p className="w-[100%] hidden md:block text-slate-300 lg:w-[80%]">
                 {certainMovie?.overview}
               </p>
+              <button
+                onClick={handleToAddToFavorite}
+                type="button"
+                className="text-white leading-normal   border border-yellow-600 hover:bg-yellow-600 focus:ring-4 focus:outline-none w-44  font-medium rounded-lg text-sm px-3  py-2.5 text-center me-2 mb-2  "
+              >
+                {isLoading ? (
+                  <CircularProgress size={10} style={{ margin: "0 auto" }} />
+                ) : (
+                  <h1>
+                    {isAdded ? "Remove from favorites" : "Add to favorites"}
+                  </h1>
+                )}
+              </button>
             </div>
           </div>
         </div>
@@ -328,7 +328,7 @@ const CertainMovie: FC = () => {
               return (
                 <div
                   key={film.id}
-                  className="cursor-pointer hover:scale-105 transition-all relative group"
+                  className="cursor-pointer transition-all relative group"
                 >
                   <Link to={`/${film.id}`}>
                     <div>

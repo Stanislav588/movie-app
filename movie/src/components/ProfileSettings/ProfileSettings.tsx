@@ -63,13 +63,13 @@ const ProfileSettings: FC = () => {
             <Avatar src={authUser?.profilePicture} /> Profile
           </MenuItem>
         </Link>
-        {authUser.uid && (
+        {authUser?.uid && (
           <div onClick={handleClose}>
             <MenuItem
               sx={{
                 borderTop: "1px solid rgba(0, 0, 0, 0.12)",
-                paddingTop: 1, // Adds the bottom border
-                paddingBottom: 1, // Adds the bottom border
+                paddingTop: 1,
+                paddingBottom: 1,
               }}
               onClick={logOut}
             >

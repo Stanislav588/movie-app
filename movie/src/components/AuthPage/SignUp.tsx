@@ -1,15 +1,15 @@
 import { Dispatch, FC, SetStateAction, useState } from "react";
-import appleImg from "../../images/apple.png";
+
 import facebookImg from "../../images/facebook.svg";
 import gitHubImg from "../../images/github.svg";
 import googleImg from "../../images/google.png";
 import { useSignUp } from "../../hooks/useSignUp";
 import { CircularProgress } from "@mui/material";
-import { useLogInInWithGoogle } from "../../hooks/useLogInWithGoogle";
+
 import { useSignInWithGitHub } from "../../hooks/useSignInWithGitHub";
 import { useSignUpWithFacebook } from "../../hooks/useSignUpWithFacebook";
-import { useSignUpWithMicrosoft } from "../../hooks/useSignUpWithMicrosoft";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useSignUpWithGoogle } from "../../hooks/useSignUpWithGoogle";
+
 type SignUpProps = {
   setIsOpenSignUp: Dispatch<SetStateAction<boolean>>;
 };
@@ -19,16 +19,12 @@ const SignUp: FC<SignUpProps> = ({ setIsOpenSignUp }) => {
   const [fullName, setFullName] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const { handleSignUp, isLoading } = useSignUp();
-  const { signInWithGoogle } = useLogInInWithGoogle();
+  const { handleSignUpWithGoogle, loading } = useSignUpWithGoogle();
   const { handleSignInWithGitHub } = useSignInWithGitHub();
   const { handleSignUpWithFacebook } = useSignUpWithFacebook();
 
   async function handleSigningUp() {
-    await handleSignUp(email, username, fullName, password);
-    setEmail("");
-    setPassword("");
-    setUsername("");
-    setFullName("");
+    await handleSignUpWithGoogle(email, username, fullName);
   }
   return (
     <>
@@ -110,7 +106,7 @@ const SignUp: FC<SignUpProps> = ({ setIsOpenSignUp }) => {
           />
 
           <img
-            onClick={signInWithGoogle}
+            onClick={handleSigningUp}
             src={googleImg}
             alt="Google"
             className="w-10 h-10 cursor-pointer"

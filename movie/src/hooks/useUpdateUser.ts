@@ -1,7 +1,7 @@
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
 import { firestore, storage } from "../firebase/firebase";
 import { useDispatch, useSelector } from "react-redux";
-import { doc, updateDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { enqueueSnackbar } from "notistack";
 import { updateUserInfo } from "../slices/movieSlice";
 import { useState } from "react";
@@ -28,20 +28,36 @@ export const useUpdateUser = () => {
         URL = await getDownloadURL(storageRef);
       }
 
-      const updatedUser = {
-        ...authUser,
-        username: username || authUser.username,
-        fullName: firstName || authUser.fullName,
-        email: email || authUser.email,
-        profilePicture: URL,
-      };
-      await updateDoc(userRef, updatedUser);
+      const docSnap = await getDoc(userRef);
+      if (!docSnap.exists()) {
+        const newUser = {
+          username: username || authUser.username,
+          fullName: firstName || authUser.fullName,
+          email: email || authUser.email,
+          profilePicture: URL,
+        };
+        dispatch(updateUserInfo(newUser));
+        localStorage.setItem("users", JSON.stringify(newUser));
+        enqueueSnackbar("User profile updated successfully", {
+          variant: "success",
+        });
+        await setDoc(userRef, newUser);
+      } else {
+        const updatedUser = {
+          ...authUser,
+          username: username || authUser.username,
+          fullName: firstName || authUser.fullName,
+          email: email || authUser.email,
+          profilePicture: URL,
+        };
+        await updateDoc(userRef, updatedUser);
 
-      dispatch(updateUserInfo(updatedUser));
-      localStorage.setItem("users", JSON.stringify(updatedUser));
-      enqueueSnackbar("User profile updated successfully", {
-        variant: "success",
-      });
+        dispatch(updateUserInfo(updatedUser));
+        localStorage.setItem("users", JSON.stringify(updatedUser));
+        enqueueSnackbar("User profile updated successfully", {
+          variant: "success",
+        });
+      }
     } catch (error) {
       enqueueSnackbar(`${error}`, { variant: "error" });
     } finally {

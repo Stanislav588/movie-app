@@ -5,8 +5,7 @@ import gitHubImg from "../../images/github.svg";
 import googleImg from "../../images/google.png";
 import { useLogin } from "../../hooks/useLogin";
 import { CircularProgress } from "@mui/material";
-import Box from "@mui/material/Box";
-import LinearProgress from "@mui/material/LinearProgress";
+
 import { useLogInInWithGoogle } from "../../hooks/useLogInWithGoogle";
 
 type LoginProps = {

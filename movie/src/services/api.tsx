@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const apiKey = import.meta.env.VITE_MOVIEDB_API_KEY;
+const apiKey = "962543d5afa5214404659415fe51fb0d";
 
 export async function fetchingData(time_window = "week") {
   const response = await axios.get(

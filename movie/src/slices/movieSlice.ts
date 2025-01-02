@@ -1,4 +1,4 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import MoviePropertys from "../components/Movies/MovieInterface";
 
 const initialState = {
@@ -19,8 +19,12 @@ const movieSlice = createSlice({
     updateMovies(state, action) {
       state.movies = action.payload;
     },
+    resetProfile(state) {
+      state.users = null;
+    },
   },
 });
 
 export default movieSlice.reducer;
-export const { updateUserInfo, updateMovies } = movieSlice.actions;
+export const { updateUserInfo, resetProfile, updateMovies } =
+  movieSlice.actions;
