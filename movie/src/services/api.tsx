@@ -2,9 +2,10 @@ import axios from "axios";
 
 const apiKey = "962543d5afa5214404659415fe51fb0d";
 
-export async function fetchingData(time_window = "week") {
+export async function fetchingData(time_window = 21565101) {
   const response = await axios.get(
-    `https://api.themoviedb.org/3/trending/all/${time_window}?api_key=${apiKey}`
+    `
+https://api.themoviedb.org/3/account/${time_window}/rated/movies?api_key=${apiKey}`
   );
   return response.data.results;
 }
