@@ -11,7 +11,7 @@ export interface MovieProps {
 const Movie: FC<MovieProps> = ({ movie, imageBaseURL }) => {
   return (
     <Link to={`/${movie.id}`}>
-      <div className="relative hover:scale-100  transition-all group">
+      <div className="relative  transition-all group">
         {movie.poster_path && (
           <img
             className="rounded-sm"
