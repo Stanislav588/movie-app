@@ -7,6 +7,7 @@ import { useLogin } from "../../hooks/useLogin";
 import { CircularProgress } from "@mui/material";
 
 import { useLogInInWithGoogle } from "../../hooks/useLogInWithGoogle";
+import { useLogInWithGithub } from "../../hooks/useSIgnInWithGithub";
 
 type LoginProps = {
   setIsOpenSignUp: Dispatch<SetStateAction<boolean>>;
@@ -15,6 +16,7 @@ type LoginProps = {
 const Login: FC<LoginProps> = ({ setIsOpenSignUp }) => {
   const { signInWithGoogle, isLoadingGoogle } = useLogInInWithGoogle();
   const { handleLogin, isLoading } = useLogin();
+  const { handleSignInWithGithub } = useLogInWithGithub();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   return (
@@ -64,6 +66,7 @@ const Login: FC<LoginProps> = ({ setIsOpenSignUp }) => {
         />
 
         <img
+          onClick={handleSignInWithGithub}
           src={gitHubImg}
           alt="GitHub"
           className="w-10 h-10 cursor-pointer "

@@ -1,46 +1,30 @@
-import { useState } from "react";
 import { useSignInWithGithub } from "react-firebase-hooks/auth";
 import { auth, firestore } from "../firebase/firebase";
-import { doc, setDoc } from "firebase/firestore";
+import { enqueueSnackbar } from "notistack";
+import { doc, getDoc } from "firebase/firestore";
 import { useDispatch } from "react-redux";
 import { updateUserInfo } from "../slices/movieSlice";
-import { enqueueSnackbar } from "notistack";
-import { useNavigate } from "react-router-dom";
 
-export const useSignInWithGitHub = () => {
+export const useLogInWithGithub = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const [signInWithGitHub] = useSignInWithGithub(auth);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  async function handleSignInWithGitHub() {
-    setIsLoading(true);
-    try {
-      const data = await signInWithGitHub();
-      const userData = data?.user;
+  const [signInWithGitHub, loading] = useSignInWithGithub(auth);
 
-      if (userData) {
-        const newUser = {
-          email: userData.email,
-          username: userData.email?.split("@")[0],
-          fullName: userData.displayName,
-          profilePicture: "",
-          createdAt: Date.now(),
-          uid: userData.uid,
-          favorites: [],
-        };
-        await setDoc(doc(firestore, "users", userData.uid), newUser);
-        localStorage.setItem("users", JSON.stringify(newUser));
-        dispatch(updateUserInfo(newUser));
-        enqueueSnackbar("User logged in successfully!", {
-          variant: "success",
-        });
-        navigate("/");
+  async function handleSignInWithGithub() {
+    const userCredential = await signInWithGitHub();
+    if (userCredential) {
+      const userRef = doc(firestore, "users", userCredential.user.uid);
+      const docSnap = await getDoc(userRef);
+      if (docSnap.exists()) {
+        dispatch(updateUserInfo(docSnap.data()));
+        localStorage.setItem("users", JSON.stringify(docSnap.data()));
+        enqueueSnackbar("You logged in successfully");
       }
+    }
+    try {
     } catch (error) {
       enqueueSnackbar(`${error}`, { variant: "error" });
-    } finally {
-      setIsLoading(false);
     }
   }
-  return { handleSignInWithGitHub, isLoading };
+
+  return { handleSignInWithGithub };
 };

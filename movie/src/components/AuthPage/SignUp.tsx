@@ -6,7 +6,7 @@ import googleImg from "../../images/google.png";
 import { useSignUp } from "../../hooks/useSignUp";
 import { CircularProgress } from "@mui/material";
 
-import { useSignInWithGitHub } from "../../hooks/useSignInWithGitHub";
+import { useSignUpWithGithub } from "../../hooks/useSignUpWithGitHub";
 import { useSignUpWithFacebook } from "../../hooks/useSignUpWithFacebook";
 import { useSignUpWithGoogle } from "../../hooks/useSignUpWithGoogle";
 
@@ -20,7 +20,7 @@ const SignUp: FC<SignUpProps> = ({ setIsOpenSignUp }) => {
   const [password, setPassword] = useState<string>("");
   const { handleSignUp, isLoading } = useSignUp();
   const { handleSignUpWithGoogle, loading } = useSignUpWithGoogle();
-  const { handleSignInWithGitHub } = useSignInWithGitHub();
+  const { handleSignInWithGitHub } = useSignUpWithGithub();
   const { handleSignUpWithFacebook } = useSignUpWithFacebook();
 
   async function handleSigningUp() {

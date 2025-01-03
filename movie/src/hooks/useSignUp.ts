@@ -48,6 +48,7 @@ export const useSignUp = () => {
         password
       );
       const user = userData.user;
+      const userRef = doc(firestore, "users", user.uid);
       if (user) {
         const newUser = {
           email: email,
@@ -58,7 +59,7 @@ export const useSignUp = () => {
           uid: user.uid,
           favorites: [],
         };
-        await setDoc(doc(firestore, "users", user.uid), newUser);
+        await setDoc(userRef, newUser);
         dispatch(updateUserInfo(newUser));
         localStorage.setItem("users", JSON.stringify(newUser));
       }

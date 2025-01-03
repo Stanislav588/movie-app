@@ -2,10 +2,9 @@ import axios from "axios";
 
 const apiKey = "962543d5afa5214404659415fe51fb0d";
 
-export async function fetchingData(time_window = 21565101) {
+export async function fetchingData(time_window = "week") {
   const response = await axios.get(
-    `
-https://api.themoviedb.org/3/account/${time_window}/rated/movies?api_key=${apiKey}`
+    `https://api.themoviedb.org/3/trending/movie/${time_window}?api_key=${apiKey}`
   );
   return response.data.results;
 }
@@ -61,7 +60,12 @@ export async function fetchMovieVideos(video: string | undefined) {
   );
   return response.data.results;
 }
-
+export async function fetchCredits(movieId: any) {
+  const response = await axios.get(
+    `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${apiKey}`
+  );
+  return response.data.cast;
+}
 export async function getReviews(movieId: string | undefined) {
   const response = await axios.get(
     `https://api.themoviedb.org/3/movie/${movieId}/reviews?api_key=${apiKey}`

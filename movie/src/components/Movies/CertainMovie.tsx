@@ -2,6 +2,7 @@ import { FC, useContext, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
 import {
+  fetchCredits,
   fetchMovieVideos,
   getCertainMovie,
   getRecommendations,
@@ -17,7 +18,7 @@ import { useAddMovieToFavorite } from "../../hooks/useAddMovieToFavorite";
 
 import { CircularProgress, Skeleton } from "@mui/material";
 import { MovieContext } from "../../context/MovieContext";
-import { Reviews } from "./MovieInterface";
+import { Credits, Reviews } from "./MovieInterface";
 
 interface recommendedFilms {
   poster_path: string;
@@ -54,6 +55,7 @@ const CertainMovie: FC = () => {
   const [recommendedFilms, setRecommendedFilms] = useState<recommendedFilms[]>(
     []
   );
+  const [creditsData, setCreditsData] = useState([]);
   const [isMovieLoading, setIsMovieLoading] = useState<boolean>(false);
   const { handleAddMoviesToFavorite, isLoading, isAdded } =
     useAddMovieToFavorite();
@@ -91,7 +93,6 @@ const CertainMovie: FC = () => {
       try {
         const res = await fetchMovieVideos(id);
         setMovieVideosData(res);
-        console.log("Videos : ", res);
       } catch (error) {
         enqueueSnackbar("Videos fetching error", { variant: "error" });
       }
@@ -120,16 +121,29 @@ const CertainMovie: FC = () => {
 
         const transformedData = res.map((movie: any) => ({
           ...movie,
-          content: movie.content.slice(0, 100) + "...", // Add a shortened description
+          content: movie.content.slice(0, 100) + "...",
         }));
 
         setReviews(transformedData);
-        console.log("Reviews : ", res);
       } catch (error) {
         enqueueSnackbar("Reviews error", { variant: "error" });
       }
     }
     handleFetchReviews();
+  }, [id]);
+
+  useEffect(() => {
+    async function handleFetchCredits() {
+      try {
+        const res = await fetchCredits(id);
+
+        setCreditsData(res);
+        console.log("Credits : ", res);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    handleFetchCredits();
   }, [id]);
 
   const officialTrailer = movieVideosData.filter(
@@ -209,6 +223,20 @@ const CertainMovie: FC = () => {
                   </h1>
                 )}
               </button>
+
+              <div className="flex overflow-x-auto max-w-[700px] gap-2 ">
+                {creditsData.slice(0, 7).map((credit: Credits) => {
+                  return (
+                    <div className="flex-shrink-0" key={credit.id}>
+                      <img
+                        alt={credit.name}
+                        className="w-[150px] h-[150px] object-cover rounded-md"
+                        src={`${imageBaseURL}${credit.profile_path}`}
+                      />
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           </div>
         </div>
@@ -264,8 +292,8 @@ const CertainMovie: FC = () => {
                   }}
                 >
                   <iframe
-                    width="100%"
-                    height="100%"
+                    width="80%"
+                    height="80%"
                     src={`https://www.youtube.com/embed/${video.key}`}
                     allowFullScreen
                     style={{ position: "absolute", top: 0, left: 0 }}

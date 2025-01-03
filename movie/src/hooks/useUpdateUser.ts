@@ -34,7 +34,7 @@ export const useUpdateUser = () => {
           username: username || authUser.username,
           fullName: firstName || authUser.fullName,
           email: email || authUser.email,
-          profilePicture: URL,
+          profilePicture: URL || authUser.profilePicture,
         };
         dispatch(updateUserInfo(newUser));
         localStorage.setItem("users", JSON.stringify(newUser));
@@ -48,7 +48,7 @@ export const useUpdateUser = () => {
           username: username || authUser.username,
           fullName: firstName || authUser.fullName,
           email: email || authUser.email,
-          profilePicture: URL,
+          profilePicture: URL || authUser.profilePicture,
         };
         await updateDoc(userRef, updatedUser);
 

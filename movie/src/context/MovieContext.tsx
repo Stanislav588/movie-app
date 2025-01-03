@@ -72,7 +72,7 @@ export const MovieProvider: FC<{ children: React.ReactNode }> = ({
   const [isOpenCategory, setIsOpenCategory] = useState<boolean>(false);
   const [genres, setGenres] = useState<number>(18);
   const [movieVideosData, setMovieVideosData] = useState<Videos[]>([]);
-  const [genresLabel, setGenresLabel] = useState<string>("Action");
+  const [genresLabel, setGenresLabel] = useState<string>("Genres");
   const [sortedMovies, setSortedMovies] = useState<string>("Sorted By");
   const [sortedMoviesLabel, setSortedMoviesLabel] =
     useState<string>("Popularity");
@@ -103,9 +103,10 @@ export const MovieProvider: FC<{ children: React.ReactNode }> = ({
     const fetchMovies = async () => {
       setIsLoading(true);
       try {
-        const res = await fetchingData("week");
+        const res = await fetchingData();
         setMovies(res);
         localStorage.setItem("movies", JSON.stringify(res));
+        console.log("Rated movies : ", res);
       } catch (error) {
         console.error("Error fetching movies:", error);
       } finally {
