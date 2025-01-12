@@ -24,6 +24,10 @@ export const useLogInInWithGoogle = () => {
             variant: "success",
           });
           navigate("/");
+        } else {
+          enqueueSnackbar("User doesn't exist, try again", {
+            variant: "error",
+          });
         }
       }
     } catch (error) {

@@ -39,9 +39,6 @@ export const useUpdateUser = () => {
           username: username || authUser.username,
           fullName: firstName || authUser.fullName,
           profilePicture: URL || authUser.profilePicture,
-          createdAt: Date.now(),
-          uid: userRef.id,
-          favorites: [],
         };
         dispatch(updateUserInfo(newUser));
         localStorage.setItem("users", JSON.stringify(newUser));
