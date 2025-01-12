@@ -1,7 +1,6 @@
 import { FC, Dispatch, SetStateAction, useState } from "react";
 
 import facebookImg from "../../images/facebook.svg";
-import gitHubImg from "../../images/github.svg";
 import googleImg from "../../images/google.png";
 import { useLogin } from "../../hooks/useLogin";
 import { CircularProgress } from "@mui/material";
@@ -15,7 +14,7 @@ type LoginProps = {
 };
 
 const Login: FC<LoginProps> = ({ setIsOpenSignUp }) => {
-  const { signInWithGoogle } = useLogInInWithGoogle();
+  const { handleSignInWithGoogle } = useLogInInWithGoogle();
   const { handleLogInWithFacebook } = useLogInInWithFacebook();
   const { handleLogin, loading } = useLogin();
 
@@ -71,7 +70,7 @@ const Login: FC<LoginProps> = ({ setIsOpenSignUp }) => {
         />
 
         <img
-          onClick={signInWithGoogle}
+          onClick={handleSignInWithGoogle}
           src={googleImg}
           alt="Google"
           className="w-10 h-10 cursor-pointer"

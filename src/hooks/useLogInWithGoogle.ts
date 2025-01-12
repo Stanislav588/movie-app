@@ -6,12 +6,12 @@ import { updateUserInfo } from "../slices/movieSlice";
 import { useNavigate } from "react-router-dom";
 import { enqueueSnackbar } from "notistack";
 export const useLogInInWithGoogle = () => {
-  const [SignInWithGoogle, loading] = useSignInWithGoogle(auth);
+  const [signInWithGoogle, loading] = useSignInWithGoogle(auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  async function signInWithGoogle() {
+  async function handleSignInWithGoogle() {
     try {
-      const user = await SignInWithGoogle();
+      const user = await signInWithGoogle();
       const userData = user?.user;
       if (userData) {
         const userRef = doc(firestore, "users", userData.uid);
@@ -38,7 +38,7 @@ export const useLogInInWithGoogle = () => {
   }
 
   return {
-    signInWithGoogle,
+    handleSignInWithGoogle,
     loading,
   };
 };
