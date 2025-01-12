@@ -19,31 +19,31 @@ const Movies: FC = () => {
   }
   return (
     <>
-      <div className="grid relative mt-12 px-2 grid-cols-2 lg:grid-cols-6  sm:grid-cols-2 md:grid-cols-3 gap-4">
-        {isLoading ? (
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              marginTop: "200px",
-            }}
-          >
-            <CircularProgress size="100px" />
-          </Box>
-        ) : (
-          isMovies &&
-          movies.slice(0, showMoreMovies).map((movie: MoviePropertys) => (
-            <motion.div
-              key={movie.id}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5 }}
-            >
-              <Movie imageBaseURL={imageBaseURL} movie={movie} />
-            </motion.div>
-          ))
-        )}
-      </div>
+      {isLoading ? (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            marginTop: "200px",
+          }}
+        >
+          <CircularProgress size="100px" />
+        </Box>
+      ) : (
+        <div className="grid relative mt-12 px-2 grid-cols-2 lg:grid-cols-6  sm:grid-cols-2 md:grid-cols-3 gap-4">
+          {isMovies &&
+            movies.slice(0, showMoreMovies).map((movie: MoviePropertys) => (
+              <motion.div
+                key={movie.id}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5 }}
+              >
+                <Movie imageBaseURL={imageBaseURL} movie={movie} />
+              </motion.div>
+            ))}
+        </div>
+      )}
 
       {isShowMoreBtn && (
         <motion.button
