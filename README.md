@@ -5,7 +5,7 @@ and add them to watchlist to watch later 😁
 
 This project is deployed on Vercel :
 
-[Live Demo](https:movie-app-fawn-nine.vercel.app)
+[Live Demo](https://movie-app-fawn-nine.vercel.app/)
 
 ## Features
 
