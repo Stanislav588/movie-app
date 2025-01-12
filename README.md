@@ -1,50 +1,57 @@
-# React + TypeScript + Vite
+# Movie App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Movie app allows you to find your favorite movies, view detailed information about them
+and add them to watchlist to watch later 😁
 
-Currently, two official plugins are available:
+This project is deployed on Vercel :
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+[Live Demo](https://movie-app-4xq1.vercel.app/)
 
-## Expanding the ESLint configuration
+## Features
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- User authentification (Google, Facebook ) using Firebase.
 
-- Configure the top-level `parserOptions` property like this:
+- State managment with Redux Toolkit.
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+- The Movie TMDB API integration for real-time movie data.
+
+- Dynamic movie catalog with filtering and sorting options.
+
+- Adding favorite movie to watch list.
+
+- Changing user information (user name, image, name) using Firebase.
+
+## Technologies Used
+
+- React
+- Vite (development server)
+- Redux Toolkit
+- Typescript
+- TMDB API
+- Tailwind CSS
+- Mui Components library
+- Motion (for animations)
+- Vercel (for deployment)
+
+# Getting started
+
+To run this project localy:
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/Stanislav588/movie-app.git
+
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+2.Install dependencies
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+```
+npm install
+```
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+3.Start the project
+
+```
+npm run dev
 ```
