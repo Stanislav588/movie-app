@@ -44,7 +44,7 @@ const Favorites: FC = () => {
             <CircularProgress size="50px" />
           </Box>
         ) : (
-          <div className="grid relative mt-14 px-2 grid-cols-3 lg:grid-cols-5 sm:grid-cols-3 md:grid-cols-3 gap-6">
+          <div className="grid relative mt-14 px-2 grid-cols-3 lg:grid-cols-7 sm:grid-cols-3 md:grid-cols-3 gap-6">
             {favMovies.map((movie: MoviePropertys) => (
               <Movie key={movie.id} imageBaseURL={imageBaseURL} movie={movie} />
             ))}
