@@ -23,7 +23,7 @@ const SignUp: FC<SignUpProps> = ({ setIsOpenSignUp }) => {
   const { handleSignUpWithFacebook } = useSignUpWithFacebook();
 
   async function handleSigningUp() {
-    await handleSignUpWithGoogle(email, fullName, username);
+    await handleSignUpWithGoogle();
   }
   return (
     <>

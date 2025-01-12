@@ -10,19 +10,15 @@ export const useSignUpWithGoogle = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [signInWithGoogle, loading] = useSignInWithGoogle(auth);
-  async function handleSignUpWithGoogle(
-    email: any,
-    firstName: any,
-    username: any
-  ) {
+  async function handleSignUpWithGoogle() {
     try {
       const data = await signInWithGoogle();
       const user = data?.user;
       if (user) {
         const newUser = {
-          email: email,
-          fullName: firstName,
-          username: username,
+          email: user.email,
+          fullName: user.displayName,
+          username: user?.email?.split("@")[0],
           profilePicture: "",
           createdAt: Date.now(),
           uid: user.uid,
