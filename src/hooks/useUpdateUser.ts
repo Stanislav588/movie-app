@@ -31,37 +31,19 @@ export const useUpdateUser = () => {
         await uploadString(storageRef, file, "data_url");
         URL = await getDownloadURL(storageRef);
       }
-      const docSnap = await getDoc(userRef);
 
-      // If document doesn't exist, i just create a new one
-      if (!docSnap.exists()) {
-        const newUser = {
-          username: username || authUser.username,
-          fullName: firstName || authUser.fullName,
-          profilePicture: URL || authUser.profilePicture,
-        };
-        dispatch(updateUserInfo(newUser));
-        localStorage.setItem("users", JSON.stringify(newUser));
-        enqueueSnackbar("User profile updated successfully", {
-          variant: "success",
-        });
-        await setDoc(userRef, newUser);
-        // ===================
-      } else {
-        // If document exists, i just update it
-        const updatedUser = {
-          ...authUser,
-          username: username || authUser.username,
-          fullName: firstName || authUser.fullName,
-          profilePicture: URL || authUser.profilePicture,
-        };
-        await updateDoc(userRef, updatedUser);
-        dispatch(updateUserInfo(updatedUser));
-        localStorage.setItem("users", JSON.stringify(updatedUser));
-        enqueueSnackbar("User profile updated successfully", {
-          variant: "success",
-        });
-      }
+      const updatedUser = {
+        ...authUser,
+        username: username || authUser.username,
+        fullName: firstName || authUser.fullName,
+        profilePicture: URL || authUser.profilePicture,
+      };
+      await updateDoc(userRef, updatedUser);
+      dispatch(updateUserInfo(updatedUser));
+      localStorage.setItem("users", JSON.stringify(updatedUser));
+      enqueueSnackbar("User profile updated successfully", {
+        variant: "success",
+      });
     } catch (error) {
       enqueueSnackbar(`Failed to updating user: ${error}`, {
         variant: "error",
