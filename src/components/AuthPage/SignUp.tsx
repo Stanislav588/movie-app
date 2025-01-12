@@ -22,9 +22,6 @@ const SignUp: FC<SignUpProps> = ({ setIsOpenSignUp }) => {
 
   const { handleSignUpWithFacebook } = useSignUpWithFacebook();
 
-  async function handleSigningUp() {
-    await handleSignUpWithGoogle();
-  }
   return (
     <>
       <motion.div
@@ -106,7 +103,7 @@ const SignUp: FC<SignUpProps> = ({ setIsOpenSignUp }) => {
           />
 
           <img
-            onClick={handleSigningUp}
+            onClick={handleSignUpWithGoogle}
             src={googleImg}
             alt="Google"
             className="w-10 h-10 cursor-pointer"
