@@ -1,7 +1,7 @@
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
 import { firestore, storage } from "../firebase/firebase";
 import { useDispatch, useSelector } from "react-redux";
-import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
+import { doc, updateDoc } from "firebase/firestore";
 import { enqueueSnackbar } from "notistack";
 import { updateUserInfo } from "../slices/movieSlice";
 import { useState } from "react";
