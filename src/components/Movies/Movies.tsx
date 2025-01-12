@@ -7,7 +7,7 @@ import MoviePropertys, { RootState } from "./MovieInterface";
 import { motion } from "framer-motion";
 const Movies: FC = () => {
   const movies = useSelector((state: RootState) => state.movie.movies);
-  const [showMoreMovies, setShowMoreMovies] = useState<number>(6);
+  const [showMoreMovies, setShowMoreMovies] = useState<number>(8);
   const [isShowMoreBtn, setIsShowMoreBtn] = useState<boolean>(true);
   const { isLoading } = useContext(MovieContext);
   const imageBaseURL = "https://image.tmdb.org/t/p/w500";
@@ -30,7 +30,7 @@ const Movies: FC = () => {
           <CircularProgress size="100px" />
         </Box>
       ) : (
-        <div className="grid relative mt-12 px-2 grid-cols-2 lg:grid-cols-6  sm:grid-cols-2 md:grid-cols-3 gap-4">
+        <div className="grid relative mt-12 px-2 grid-cols-2 lg:grid-cols-8  sm:grid-cols-3 md:grid-cols-4 gap-4">
           {isMovies &&
             movies.slice(0, showMoreMovies).map((movie: MoviePropertys) => (
               <motion.div

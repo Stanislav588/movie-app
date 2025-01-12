@@ -428,7 +428,7 @@ const CertainMovie: FC = () => {
             You may also like
           </h1>
 
-          <div className="grid sm:grid-cols-3 grid-cols-3 justify-center md:grid-cols-3 lg:grid-cols-5 gap-6">
+          <div className="grid sm:grid-cols-3 grid-cols-3 justify-center md:grid-cols-5 lg:grid-cols-7 gap-4">
             {recommendedFilms.map((film) => {
               return (
                 <div
