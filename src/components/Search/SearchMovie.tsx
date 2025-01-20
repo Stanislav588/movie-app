@@ -32,7 +32,7 @@ const SearchMovie: FC<SearchMovieProps> = ({ setIsShowInput }) => {
   }, []);
 
   return (
-    <div className="absolute top-0 px-8 py-4  left-0 right-0 z-50 overflow-y-auto  bg-black min-h-screen w-[100%]">
+    <div className="absolute top-0 px-5 py-4  left-0 right-0 z-50 overflow-y-auto  bg-black min-h-screen w-[100%]">
       <div className="flex justify-end">
         <IoClose
           onClick={handleCloseSearch}
@@ -44,7 +44,7 @@ const SearchMovie: FC<SearchMovieProps> = ({ setIsShowInput }) => {
           value={searchMovie}
           onChange={(e) => setSearchMovie(e.target.value)}
           placeholder="Search for movies..."
-          className="border-b mt-5 block mx-auto text-slate-100 text-2xl border-b-slate-500  w-[80%] px-4 py-3 bg-transparent outline-none"
+          className="border-b mt-5 block mx-auto text-slate-100 text-2xl border-b-slate-500  w-[100%] px-4 py-3 bg-transparent outline-none"
         />
       </form>
 
