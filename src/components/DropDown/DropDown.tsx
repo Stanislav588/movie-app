@@ -45,6 +45,11 @@ const DropDown: FC<DropDownProps> = ({ setIsOpen }) => {
               Favorites
             </li>
           </Link>
+          <Link to="/series">
+            <li className="cursor-pointer hover:border-l-2 transition-all hover:pl-3">
+              Series
+            </li>
+          </Link>
           <Link to="/profile">
             <li className="cursor-pointer hover:border-l-2 transition-all hover:pl-3">
               Profile

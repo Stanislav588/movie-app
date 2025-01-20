@@ -1,17 +1,23 @@
 import { FC, useContext, useState } from "react";
 import Movie from "./Movie";
 import { MovieContext } from "../../context/MovieContext";
-import { Box, CircularProgress } from "@mui/material";
-import { useSelector } from "react-redux";
-import MoviePropertys, { RootState } from "./MovieInterface";
+
+import { MovieInfo, RootState } from "./MovieInterface";
 import { motion } from "framer-motion";
+import { useSelector } from "react-redux";
+import { useMovies } from "../../hooks/useMovies";
+import { Box, CircularProgress } from "@mui/material";
+
 const Movies: FC = () => {
   const movies = useSelector((state: RootState) => state.movie.movies);
   const [showMoreMovies, setShowMoreMovies] = useState<number>(8);
   const [isShowMoreBtn, setIsShowMoreBtn] = useState<boolean>(true);
   const { isLoading } = useContext(MovieContext);
+  const { localState } = useMovies();
   const imageBaseURL = "https://image.tmdb.org/t/p/w500";
-  const isMovies = movies && movies.length > 0;
+  const isMovies = movies && movies.length > 0 && localState.length > 0;
+
+  const moviesToFetch = movies.length > 0 ? movies : localState;
 
   function handleShowMoreMovies() {
     setShowMoreMovies(showMoreMovies + 30);
@@ -32,7 +38,7 @@ const Movies: FC = () => {
       ) : (
         <div className="grid relative mt-12 px-2 grid-cols-2 lg:grid-cols-8  sm:grid-cols-3 md:grid-cols-4 gap-4">
           {isMovies &&
-            movies.slice(0, showMoreMovies).map((movie: MoviePropertys) => (
+            moviesToFetch?.slice(0, showMoreMovies).map((movie: MovieInfo) => (
               <motion.div
                 key={movie.id}
                 initial={{ opacity: 0 }}
@@ -50,7 +56,7 @@ const Movies: FC = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           onClick={handleShowMoreMovies}
-          className="block text-2xl rounded-full py-1 mt-3 transition-all  hover:bg-yellow-600 border border-yellow-600 px-8 mx-auto text-white"
+          className="block text-2xl rounded-full py-1 mt-3 mb-10 transition-all  hover:bg-yellow-600 border border-yellow-600 px-8 mx-auto text-white"
         >
           Show more
         </motion.button>

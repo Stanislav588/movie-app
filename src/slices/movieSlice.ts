@@ -1,25 +1,39 @@
 // movieSlice.ts
 
-import { createSlice } from "@reduxjs/toolkit";
-import MoviePropertys, {
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import {
+  Actors,
+  MovieInfo,
   UsersPropertys,
 } from "../components/Movies/MovieInterface";
+import { SeriesInfo } from "../components/Series/Series";
+import { GeneralState } from "./SeriesState";
 
-const initialState = {
+const initialState: GeneralState = {
   favorites: [],
-  movies: JSON.parse(
-    localStorage.getItem("movies") || "[]"
-  ) as MoviePropertys[],
+  movies: JSON.parse(localStorage.getItem("movies") || "[]") as MovieInfo[],
   users: JSON.parse(localStorage.getItem("users") || "{}") as
     | UsersPropertys[]
     | null,
   movieDetails: null,
+  series: JSON.parse(localStorage.getItem("series") || "[]") as SeriesInfo[],
+  actors: [],
+  allActorsDetails: [],
+  reviews: null,
+  recommendations: null,
+  popularSeries: null,
+  topRatedSeries: null,
+  onTheAirSeries: null,
 };
 
 const movieSlice = createSlice({
   name: "movies",
   initialState,
   reducers: {
+    updateSeries(state, action) {
+      state.series = action.payload;
+      localStorage.setItem("series", JSON.stringify(action.payload));
+    },
     updateChoosedMovie(state, action) {
       state.movieDetails = action.payload;
       localStorage.setItem("movie-details", JSON.stringify(action.payload));
@@ -40,6 +54,34 @@ const movieSlice = createSlice({
       state.favorites = action.payload;
       localStorage.setItem("favorites", JSON.stringify(action.payload));
     },
+    updateActorsDetails(state, action) {
+      state.allActorsDetails = action.payload;
+      localStorage.setItem("actorsDetails", JSON.stringify(action.payload));
+    },
+    updateActors(state, action) {
+      state.actors = action.payload;
+      localStorage.setItem("actors", JSON.stringify(action.payload));
+    },
+    updateReviews(state, action) {
+      state.reviews = action.payload;
+      localStorage.setItem("reviews", JSON.stringify(action.payload));
+    },
+    updateRecommendations(state, action) {
+      state.recommendations = action.payload;
+      localStorage.setItem("recommendations", JSON.stringify(action.payload));
+    },
+    updatePopularSeries(state, action: PayloadAction<SeriesInfo[]>) {
+      state.popularSeries = action.payload;
+      localStorage.setItem("popularSeries", JSON.stringify(action.payload));
+    },
+    updateTopRatedSeries(state, action: PayloadAction<SeriesInfo[]>) {
+      state.topRatedSeries = action.payload;
+      localStorage.setItem("topRatedSeries", JSON.stringify(action.payload));
+    },
+    updateOnTheAirSeries(state, action: PayloadAction<SeriesInfo[]>) {
+      state.onTheAirSeries = action.payload;
+      localStorage.setItem("onTheAirSeries", JSON.stringify(action.payload));
+    },
   },
 });
 
@@ -48,6 +90,14 @@ export const {
   updateChoosedMovie,
   resetProfile,
   updateMovies,
+  updateActors,
+  updateRecommendations,
+  updateReviews,
+  updateActorsDetails,
+  updateTopRatedSeries,
+  updateSeries,
+  updatePopularSeries,
+  updateOnTheAirSeries,
   updateFavorites,
 } = movieSlice.actions;
 export default movieSlice.reducer;

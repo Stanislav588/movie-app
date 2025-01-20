@@ -4,9 +4,14 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import {
   fetchCredits,
   fetchMovieVideos,
-  getCertainMovie,
+  getContentDetails,
   getRecommendations,
   getReviews,
+  getSeriesCredits,
+  getSeriesDetails,
+  getSeriesRecomendations,
+  getSeriesReviews,
+  getSeriesTrailer,
 } from "../../services/api";
 import Header from "../Header/Header";
 import { FaStar } from "react-icons/fa";
@@ -19,34 +24,48 @@ import { Box, CircularProgress } from "@mui/material";
 import { MovieContext } from "../../context/MovieContext";
 import { motion } from "framer-motion";
 
-import MoviePropertys, {
+import {
   Actors,
+  MovieInfo,
   Reviews,
   RootState,
   recommendedFilms,
 } from "./MovieInterface";
 import ActorPage from "./ActorPage";
-import { updateChoosedMovie } from "../../slices/movieSlice";
+import {
+  updateActors,
+  updateChoosedMovie,
+  updateRecommendations,
+  updateReviews,
+  updateSeries,
+} from "../../slices/movieSlice";
+import { MovieOrSeries } from "../Series/Series";
 
-const CertainMovie: FC = () => {
+interface ContentProps {
+  isMovie: boolean;
+}
+const ContentDetails: FC<ContentProps> = ({ isMovie }) => {
   const navigate = useNavigate();
-  const { setMovieVideosData, movieVideosData, setReviews, reviews } =
-    useContext(MovieContext);
+  const { setMovieVideosData, movieVideosData } = useContext(MovieContext);
 
   const authUser = useSelector((state: RootState) => state.movie.users);
   const movie = useSelector((state: RootState) => state.movie.movieDetails);
+  const series = useSelector((state: RootState) => state.movie.series);
+  const actors = useSelector((state: RootState) => state.movie.actors);
+  const reviews = useSelector((state: RootState) => state.movie.reviews);
+  const recommendations = useSelector(
+    (state: RootState) => state.movie.recommendations
+  );
   const imageBaseURL = "https://image.tmdb.org/t/p/w500";
 
-  const [recommendedFilms, setRecommendedFilms] = useState<recommendedFilms[]>(
-    []
-  );
-  const [actors, setActors] = useState([]);
+  // const [actors, setActors] = useState([]);
   const dispatch = useDispatch();
   const [isMovieLoading, setIsMovieLoading] = useState<boolean>(false);
   const [isOpenActorsPage, setIsOpenActorsPage] = useState<boolean>(false);
   const { handleAddMoviesToFavorite, isLoading } = useAddMovieToFavorite();
   const { id } = useParams<{ id: string }>();
 
+  const checkContent: MovieOrSeries = isMovie ? movie : series;
   const handleToAddToFavorite = async () => {
     if (!movie || !movie.id) {
       enqueueSnackbar("Movie information is missing.", { variant: "error" });
@@ -63,11 +82,16 @@ const CertainMovie: FC = () => {
     }
   };
 
-  const handleCertainMovie = async () => {
+  const handleFetchContent = async () => {
     setIsMovieLoading(true);
     try {
-      const response = await getCertainMovie(id);
+      const response = isMovie
+        ? await getContentDetails(id)
+        : await getSeriesDetails(id);
+
       dispatch(updateChoosedMovie(response));
+      dispatch(updateSeries(response));
+      console.log(response);
     } catch (error) {
       enqueueSnackbar(`Failed to load movie: ${error}`, {
         variant: "error",
@@ -79,9 +103,10 @@ const CertainMovie: FC = () => {
 
   const fetchVideos = async () => {
     try {
-      const res = await fetchMovieVideos(id);
+      const res = isMovie
+        ? await fetchMovieVideos(id)
+        : await getSeriesTrailer(id);
       setMovieVideosData(res);
-      console.log(res);
     } catch (error) {
       enqueueSnackbar(` Failed to load trailer: ${error}`, {
         variant: "error",
@@ -91,9 +116,12 @@ const CertainMovie: FC = () => {
 
   const handleRecommendations = async () => {
     try {
-      const response = await getRecommendations(id);
+      const response = isMovie
+        ? await getRecommendations(id)
+        : await getSeriesRecomendations(id);
       if (response) {
-        setRecommendedFilms(response);
+        dispatch(updateRecommendations(response));
+        console.log("Reccomand: ", response);
         window.scrollTo(0, 0);
       }
     } catch (error) {
@@ -103,14 +131,23 @@ const CertainMovie: FC = () => {
 
   const handleFetchReviews = async () => {
     try {
-      const res = await getReviews(id);
-      console.log(res);
-      const transformedData = res.map((movie: Reviews) => ({
-        ...movie,
-        content: movie.content.slice(0, 100) + "...",
-      }));
+      if (isMovie) {
+        const res = await getReviews(id);
+        const transformedMovieData = res.map((movie: Reviews) => ({
+          ...movie,
+          content: movie.content.slice(0, 100) + "...",
+        }));
 
-      setReviews(transformedData);
+        dispatch(updateReviews(transformedMovieData));
+      } else {
+        const res = await getSeriesReviews(id);
+        const transformedSeriesData = res.map((movie: Reviews) => ({
+          ...movie,
+          content: movie.content.slice(0, 100) + "...",
+        }));
+        dispatch(updateReviews(transformedSeriesData));
+        console.log("Series reviews: ", res);
+      }
     } catch (error) {
       enqueueSnackbar(`Fail to load reviews: ${error}`, { variant: "error" });
     }
@@ -118,8 +155,13 @@ const CertainMovie: FC = () => {
 
   const handleFetchCredits = async () => {
     try {
-      const res = await fetchCredits(id);
-      setActors(res.cast);
+      if (isMovie) {
+        const res = await fetchCredits(id);
+        dispatch(updateActors(res.cast));
+      } else {
+        const res = await getSeriesCredits(id);
+        dispatch(updateActors(res.cast));
+      }
     } catch (error) {
       console.log(error);
     }
@@ -128,7 +170,7 @@ const CertainMovie: FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       await Promise.all([
-        handleCertainMovie(),
+        handleFetchContent(),
         fetchVideos(),
         handleRecommendations(),
         handleFetchReviews(),
@@ -137,10 +179,10 @@ const CertainMovie: FC = () => {
     };
 
     fetchData();
-  }, [id]);
-  const officialTrailer = movieVideosData.filter(
-    (video) => video.type === "Trailer"
-  );
+  }, [id, isMovie]);
+  // const officialTrailer = movieVideosData.filter(
+  //   (video) => video.type === "Trailer"
+  // );
   if (!movie) {
     <div>
       <Box
@@ -173,11 +215,11 @@ const CertainMovie: FC = () => {
         </div>
 
         <div className="mt-8 text-white flex  flex-col sm:flex-row md:flex-row gap-10">
-          {movie?.poster_path && (
+          {checkContent?.poster_path && (
             <div className="lg:min-w-[300px]  lg:max-w-[400px] md:min-w-[300px] md:max-w-[400px] sm:min-w-[300px] sm:max-w-[400px]">
               <img
                 className="w-full h-auto rounded-md"
-                src={`${imageBaseURL}${movie.poster_path}`}
+                src={`${imageBaseURL}${checkContent?.poster_path}`}
                 alt="Movie Poster"
               />
             </div>
@@ -186,27 +228,50 @@ const CertainMovie: FC = () => {
           <div className="flex flex-col gap-10 justify-between">
             <div className="flex flex-col gap-4 ">
               <div className="flex gap-4 flex-col md:flex-row  flex-wrap">
-                <h1 className="text-3xl">{movie?.title}</h1>
+                <h1 className="text-3xl">
+                  {checkContent?.title ||
+                    checkContent?.name ||
+                    "Title not available"}
+                </h1>
               </div>
               <div className="flex gap-4 flex-wrap lg:gap-7">
-                {movie?.spoken_languages?.map((item, id) => (
-                  <p key={id}>{item.name}</p>
-                ))}
+                {isMovie ? (
+                  checkContent?.spoken_languages?.map((item, id) => (
+                    <p key={id}>{item.name}</p>
+                  ))
+                ) : (
+                  <>
+                    <div className="flex gap-1">
+                      <p>Seasons:</p>
+                      <p className="text-yellow-600 font-semibold">
+                        {checkContent?.number_of_seasons}
+                      </p>
+                    </div>
+                    <div className="flex gap-1">
+                      <p>Episodes:</p>
+                      <p className="text-yellow-600 font-semibold">
+                        {checkContent?.number_of_episodes}
+                      </p>
+                    </div>
+                  </>
+                )}
 
                 <p>
-                  {movie?.runtime &&
+                  {checkContent?.runtime &&
                     `
-                ${Math.floor(movie.runtime / 60)} hours ${movie.runtime % 60} m
+                ${Math.floor(checkContent.runtime / 60)} hours ${
+                      checkContent.runtime % 60
+                    } 
                 `}
                 </p>
 
-                {movie?.origin_country}
+                {checkContent?.origin_country}
               </div>
               <div className="flex items-center gap-2">
                 <FaStar className="text-3xl text-yellow-400" />
                 <p className="text-2xl">
-                  {movie?.vote_average
-                    ? parseFloat(movie.vote_average).toFixed(1)
+                  {checkContent?.vote_average
+                    ? parseFloat(checkContent.vote_average).toFixed(1)
                     : "N/A"}
                 </p>
               </div>
@@ -224,8 +289,8 @@ const CertainMovie: FC = () => {
                 ) : (
                   <h1>
                     {authUser?.favorites?.some(
-                      (certainMovie: MoviePropertys) =>
-                        certainMovie.id === movie?.id
+                      (certainMovie: MovieInfo) =>
+                        certainMovie.id === checkContent?.id
                     )
                       ? "Remove from wishlist"
                       : "Add to wishlist"}
@@ -234,12 +299,12 @@ const CertainMovie: FC = () => {
               </button>
 
               <div className="overflow-x-auto mt-4 w-[350px] md:w-full lg:w-full hidden md:flex text-center gap-4 ">
-                {actors.length === 0 ? (
+                {actors?.length === 0 ? (
                   <h1 className="text-2xl text-center text-yellow-600">
                     No actors to this movie
                   </h1>
                 ) : (
-                  actors.slice(0, 7).map((credit: Actors) => {
+                  actors?.slice(0, 7).map((credit: Actors) => {
                     return (
                       <div className="flex-shrink-0" key={credit.id}>
                         {credit.profile_path ? (
@@ -264,8 +329,8 @@ const CertainMovie: FC = () => {
                 {isOpenActorsPage && <ActorPage />}
               </div>
 
-              {actors.length > 0 && (
-                <Link to={`/actors/${id}`}>
+              {actors?.length > 0 && (
+                <Link to={`/actors/${id}`} state={{ isMovie }}>
                   <button
                     className="text-yellow-500 hover:text-white transition-all hidden md:block "
                     onClick={() => setIsOpenActorsPage(true)}
@@ -278,23 +343,23 @@ const CertainMovie: FC = () => {
           </div>
         </div>
         <p className="w-[100%] mt-6 sm:block block md:hidden  text-slate-300 lg:w-[80%]">
-          {movie?.overview}
+          {checkContent?.overview}
         </p>
         <div className="flex flex-col mt-5 text-white gap-2">
           <h1 className="text-3xl mb-5 text-yellow-500">Description</h1>
           <div className="flex gap-1 items-center">
             <h2 className="font-semibold">Released:</h2>
-            <p className="text-slate-100">{movie?.release_date}</p>
+            <p className="text-slate-100">{checkContent?.release_date}</p>
           </div>
           <div className="flex gap-1 flex-wrap items-center">
             <h2 className="font-semibold">Genre: </h2>
             <div className="flex items-center flex-wrap">
-              {movie?.genres &&
-                movie?.genres?.map((genre, index) => (
+              {checkContent?.genres &&
+                checkContent?.genres?.map((genre, index) => (
                   <p className="text-slate-100" key={genre.id}>
                     {" "}
                     {genre.name}
-                    {index < movie.genres?.length - 1 ? ", " : " "}
+                    {index < movie?.genres?.length - 1 ? ", " : " "}
                   </p>
                 ))}
             </div>
@@ -303,17 +368,19 @@ const CertainMovie: FC = () => {
           <div className="flex items-center flex-wrap gap-1">
             <h2 className="font-semibold">Production: </h2>
             <div className="flex flex-wrap ">
-              {movie?.production_companies?.map((company, index) => (
+              {checkContent?.production_companies?.map((company, index) => (
                 <p className="text-slate-100" key={company.id}>
                   {company.name}
-                  {index < movie?.production_companies.length - 1 ? " ," : " "}
+                  {index < checkContent?.production_companies.length - 1
+                    ? " ,"
+                    : " "}
                 </p>
               ))}
             </div>
           </div>
           <div className="flex items-center gap-1">
             <h2 className="font-semibold ">Duration: </h2>
-            <p className="text-slate-100">{movie?.runtime} min</p>
+            <p className="text-slate-100">{checkContent?.runtime} min</p>
           </div>
         </div>
         <div>
@@ -321,7 +388,7 @@ const CertainMovie: FC = () => {
             Actors
           </h1>
           <div className=" overflow-x-auto mt-4 flex md:hidden text-center gap-4 ">
-            {actors.slice(0, 7).map((credit: Actors) => {
+            {actors?.slice(0, 7).map((credit: Actors) => {
               return (
                 <div className="flex-shrink-0" key={credit.id}>
                   {credit.profile_path ? (
@@ -342,7 +409,7 @@ const CertainMovie: FC = () => {
               );
             })}
             <div className="flex items-center">
-              <Link to={`/actors/${id}`}>
+              <Link to={`/actors/${id}`} state={{ isMovie }}>
                 <button
                   className="border-2 w-32 text-white py-1 rounded-lg  border-yellow-600"
                   onClick={() => setIsOpenActorsPage(true)}
@@ -355,8 +422,8 @@ const CertainMovie: FC = () => {
             {isOpenActorsPage && <ActorPage />}
           </div>
           <h1 className="text-3xl text-white mt-16 mb-5">Trailer</h1>
-          {officialTrailer.length > 0 ? (
-            officialTrailer.slice(0, 1).map((video) => {
+          {movieVideosData.length > 0 ? (
+            movieVideosData.slice(0, 1).map((video) => {
               return (
                 <div
                   key={video.id}
@@ -387,7 +454,7 @@ const CertainMovie: FC = () => {
         <div>
           <h1 className="text-3xl text-white mt-16 mb-5">Reviews</h1>
 
-          {reviews.length === 0 ? (
+          {reviews?.length === 0 ? (
             <h1 className="text-2xl text-center mt-4 text-white">
               No comments to this movie
             </h1>
@@ -402,7 +469,7 @@ const CertainMovie: FC = () => {
             scrollbar-track-gray-800
             "
             >
-              {reviews.map((detail: Reviews) => {
+              {reviews?.map((detail: Reviews) => {
                 return (
                   <div key={detail.id}>
                     <Link to={`${detail.url}`}>
@@ -429,18 +496,22 @@ const CertainMovie: FC = () => {
           </h1>
 
           <div className="grid sm:grid-cols-3 grid-cols-3 justify-center md:grid-cols-5 lg:grid-cols-7 gap-4">
-            {recommendedFilms.map((film) => {
+            {recommendations?.map((content: MovieInfo) => {
               return (
                 <div
-                  key={film.id}
+                  key={content.id}
                   className="cursor-pointer transition-all relative group"
                 >
-                  <Link to={`/${film.id}`}>
+                  <Link
+                    to={
+                      isMovie ? `/movie/${content.id}` : `/series/${content.id}`
+                    }
+                  >
                     <div>
-                      {film.poster_path ? (
+                      {content.poster_path ? (
                         <img
                           className="rounded-sm"
-                          src={`${imageBaseURL}${film.poster_path}`}
+                          src={`${imageBaseURL}${content.poster_path}`}
                         />
                       ) : (
                         <img
@@ -451,7 +522,7 @@ const CertainMovie: FC = () => {
                     </div>
                     <div className="absolute inset-0 bg-black bg-opacity-55 opacity-0 group-hover:opacity-100 transition-opacity rounded-sm flex items-center justify-center">
                       <div className="text-center text-white">
-                        <h3 className="text-lg font-bold">{film.title}</h3>
+                        <h3 className="text-lg font-bold">{content.title}</h3>
                       </div>
                     </div>
                   </Link>
@@ -465,4 +536,4 @@ const CertainMovie: FC = () => {
   );
 };
 
-export default CertainMovie;
+export default ContentDetails;

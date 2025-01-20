@@ -20,6 +20,11 @@ export interface Genres {
   id: number;
   name: string;
 }
+export interface SeriesGenres {
+  id: number;
+  name: string;
+  icon: string;
+}
 export interface Countries {
   iso_3166_1: string;
   name: string;

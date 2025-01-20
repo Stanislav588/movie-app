@@ -2,6 +2,7 @@ import {
   Countries,
   Genres,
   Header,
+  SeriesGenres,
   SortOption,
 } from "../components/FilterMenu/FilterMovies";
 
@@ -23,10 +24,46 @@ export const genresList: Genres[] = [
   { id: 10402, name: "Musical" },
   { id: 99, name: "Documentary" },
   { id: 10751, name: "Family" },
-  { id: 10402, name: "Music" },
-  { id: 21, name: "Sport" },
 ];
-
+export const listOfSeriesGenres: SeriesGenres[] = [
+  { id: 28, name: "Action", icon: "" },
+  { id: 12, name: "Adventure", icon: "" },
+  {
+    id: 16,
+    name: "Animation",
+    icon: "",
+  },
+  {
+    id: 35,
+    name: "Comedy",
+    icon: "fa-solid fa-face-laugh",
+  },
+  {
+    id: 80,
+    name: "Crime",
+    icon: "fa-solid fa-handcuffs",
+  },
+  {
+    id: 18,
+    name: "Drama",
+    icon: "fa-solid fa-face-sad-tear",
+  },
+  {
+    id: 14,
+    name: "Fantasy",
+    icon: "fa-solid fa-face-laugh",
+  },
+  { id: 36, name: "Historical", icon: "fa-solid fa-tower-observation" },
+  { id: 27, name: "Horror", icon: "" },
+  { id: 9648, name: "Mystery", icon: "fa-brands fa-suse" },
+  { id: 10749, name: "Romance", icon: "fa-solid fa-heart-pulse" },
+  { id: 53, name: "Thriller", icon: "" },
+  { id: 10752, name: "War", icon: "" },
+  { id: 37, name: "Western", icon: "fa-solid fa-hat-cowboy" },
+  { id: 10402, name: "Musical", icon: "" },
+  { id: 99, name: "Documentary", icon: "fa-solid fa-book" },
+  { id: 10751, name: "Family", icon: "fa-solid fa-people-group" },
+];
 export const countryList: Countries[] = [
   { iso_3166_1: "ES", name: "Spain" },
   { iso_3166_1: "GB", name: "United Kingdom" },
@@ -52,6 +89,11 @@ export const headerComponents: Header[] = [
     name: "Home",
     id: 1,
     link: "/",
+  },
+  {
+    name: "Series",
+    id: 4,
+    link: "/series",
   },
   {
     name: "WatchList",

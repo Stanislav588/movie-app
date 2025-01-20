@@ -1,12 +1,12 @@
 import { FC, useEffect, useState } from "react";
 import { fetchMoviesByGenre } from "../../services/api";
-import MoviePropertys from "../Movies/MovieInterface";
+import { MovieInfo } from "../Movies/MovieInterface";
 import { enqueueSnackbar } from "notistack";
 import SingleMovie from "./SingleMovie";
 import { motion } from "framer-motion";
 
 const Comedy: FC = () => {
-  const [comedy, setComedy] = useState<MoviePropertys[]>([]);
+  const [comedy, setComedy] = useState<MovieInfo[]>([]);
   const imageBaseURL = "https://image.tmdb.org/t/p/w500";
   useEffect(() => {
     const handleFetchComedy = async () => {
@@ -28,7 +28,7 @@ const Comedy: FC = () => {
           Comedy
         </h1>
         <div className="flex gap-2 overflow-x-auto scrollbar-hidden">
-          {comedy.map((movie: MoviePropertys) => {
+          {comedy.map((movie: MovieInfo) => {
             return (
               <SingleMovie
                 key={movie.id}

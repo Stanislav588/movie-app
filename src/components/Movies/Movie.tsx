@@ -1,16 +1,17 @@
 import { FC } from "react";
-import MoviePropertys from "./MovieInterface";
+
 import { Link } from "react-router-dom";
 import { FaStar } from "react-icons/fa";
+import { MovieInfo } from "./MovieInterface";
 
 export interface MovieProps {
-  movie: MoviePropertys;
+  movie: MovieInfo;
   imageBaseURL: string;
 }
 
 const Movie: FC<MovieProps> = ({ movie, imageBaseURL }) => {
   return (
-    <Link to={`/${movie.id}`}>
+    <Link to={`/movie/${movie.id}`}>
       <div className="relative transition-all group">
         {movie.poster_path && (
           <img
@@ -25,7 +26,7 @@ const Movie: FC<MovieProps> = ({ movie, imageBaseURL }) => {
           <div className="flex items-center gap-1 mt-2">
             <FaStar className="text-xl" />
             <p className="text-2xl font-medium">
-              {parseFloat(movie.vote_average).toFixed(1)}
+              {parseFloat(movie.vote_average).toFixed(1) || "0.0"}
             </p>
           </div>
         </div>

@@ -1,21 +1,31 @@
-import { FC, useEffect, useState } from "react";
-import { Actors } from "./MovieInterface";
-import { fetchCredits } from "../../services/api";
-import { Link, useParams } from "react-router-dom";
+import { FC, useEffect } from "react";
+import { Actors, RootState } from "./MovieInterface";
+import { fetchCredits, getSeriesCredits } from "../../services/api";
+import { Link, useLocation, useParams } from "react-router-dom";
 import Header from "../Header/Header";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { enqueueSnackbar } from "notistack";
 import { motion } from "framer-motion";
+import { useDispatch, useSelector } from "react-redux";
+import { updateActorsDetails } from "../../slices/movieSlice";
 const ActorPage: FC = () => {
-  const imageBaseURL = "https://image.tmdb.org/t/p/w500";
+  const allActors = useSelector(
+    (state: RootState) => state.movie.allActorsDetails
+  );
 
-  const [allActorsData, setAllActorsData] = useState([]);
+  const imageBaseURL = "https://image.tmdb.org/t/p/w500";
+  const dispatch = useDispatch();
   const { id } = useParams();
+  const location = useLocation();
+  const { isMovie } = location?.state;
   useEffect(() => {
     async function handleFetchActors() {
       try {
-        const res = await fetchCredits(id);
-        setAllActorsData(res.cast);
+        const res = isMovie
+          ? await fetchCredits(id)
+          : await getSeriesCredits(id);
+        dispatch(updateActorsDetails(res.cast));
+        console.log("Fetching actors...", res);
       } catch (error) {
         enqueueSnackbar(`Failed to fetch actors ${error}`, {
           variant: "error",
@@ -23,7 +33,7 @@ const ActorPage: FC = () => {
       }
     }
     handleFetchActors();
-  }, [id]);
+  }, [id, isMovie]);
 
   return (
     <>
@@ -33,14 +43,14 @@ const ActorPage: FC = () => {
         animate={{ opacity: 1 }}
         className="px-8"
       >
-        <Link to={`/${id}`}>
+        <Link to={`${isMovie ? "/movie/" : "/series/"}${id}`}>
           <div className="flex gap-3  hover:scale-105 transition-all text-white items-center">
             <FaArrowLeftLong className="text-3xl" />
             <button className="text-2xl">Back to main page</button>
           </div>
         </Link>
         <div className="grid mt-10 text-center grid-cols-3 sm:grid-cols-4 lg:grid-cols-5 gap-4 ">
-          {allActorsData?.map((item: Actors) => {
+          {allActors?.map((item: Actors) => {
             return (
               <div key={item.id}>
                 {item.profile_path ? (

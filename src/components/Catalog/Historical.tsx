@@ -1,12 +1,12 @@
 import { FC, useEffect, useState } from "react";
 import { fetchMoviesByGenre } from "../../services/api";
-import MoviePropertys from "../Movies/MovieInterface";
+import { MovieInfo } from "../Movies/MovieInterface";
 import { enqueueSnackbar } from "notistack";
 import SingleMovie from "./SingleMovie";
 import { motion } from "framer-motion";
 
 const Historical: FC = () => {
-  const [history, setHistory] = useState<MoviePropertys[]>([]);
+  const [history, setHistory] = useState<MovieInfo[]>([]);
   const imageBaseURL = "https://image.tmdb.org/t/p/w500";
   useEffect(() => {
     const handleFetchHistories = async () => {
@@ -28,7 +28,7 @@ const Historical: FC = () => {
           Historical
         </h1>
         <div className="flex gap-2 overflow-x-auto scrollbar-hidden">
-          {history.map((movie: MoviePropertys) => {
+          {history.map((movie: MovieInfo) => {
             return (
               <SingleMovie
                 key={movie.id}

@@ -3,23 +3,17 @@ import {
   createContext,
   Dispatch,
   SetStateAction,
-  useEffect,
   useState,
+  useEffect,
 } from "react";
-import FilterMovies, {
-  SortOption,
-  Videos,
-} from "../components/FilterMenu/FilterMovies";
-import fetchingData, {
-  fetchMoviesBy,
-  fetchMoviesByGenre,
-  searchMovieByName,
-} from "../services/api";
+import { SortOption, Videos } from "../components/FilterMenu/FilterMovies";
+
 import { genresList } from "../utils/constants";
 import { sortedBy } from "../utils/constants";
-import { Reviews } from "../components/Movies/MovieInterface";
+import { MovieInfo, Reviews } from "../components/Movies/MovieInterface";
 import { useDispatch } from "react-redux";
 import { updateMovies } from "../slices/movieSlice";
+import { fetchMoviesBy, fetchMoviesByGenre } from "../services/api";
 
 export interface MovieContextType {
   isOpenCategory: boolean;
@@ -32,21 +26,31 @@ export interface MovieContextType {
   sortedBy: SortOption[];
   genresList: { id: number; name: string }[];
   isOpenGenres: boolean;
-  isSearchByNameLoading: boolean;
   genresLabel: string;
   setGenresLabel: (label: string) => void;
   setIsOpenGenres: React.Dispatch<React.SetStateAction<boolean>>;
   genres: number;
   searchMovie: string;
+  localState: MovieInfo[];
+  setLocalState: Dispatch<SetStateAction<MovieInfo[]>>;
   setSearchMovie: (select: string) => void;
   handleGenres: (selected: number, label: string) => void;
   setGenres: (value: number) => void;
-  searchedMovieByNameData: FilterMovies[];
+  movieDataByName: MovieInfo[];
+  setMovieDataByName: Dispatch<SetStateAction<MovieInfo[]>>;
   isLoading: boolean;
+  setIsLoading: (value: boolean) => void;
+  isLoadingGenres: boolean;
+  setIsLoadingGenres: (value: boolean) => void;
   movieVideosData: Videos[];
   setMovieVideosData: Dispatch<SetStateAction<Videos[]>>;
   reviews: Reviews[];
+  isLoadingSearchMovieName: boolean;
+  setIsLoadingSearchMovieName: (value: boolean) => void;
   setReviews: Dispatch<SetStateAction<Reviews[]>>;
+  seriesGenres: number;
+  handleSeriesGenres: (selected: number) => void;
+  setSeriesGenres: (selected: number) => void;
 }
 export const MovieContext = createContext<MovieContextType>(
   {} as MovieContextType
@@ -56,15 +60,15 @@ export const MovieProvider: FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   // Loading states
-  const [isSearchByNameLoading, setIsSearchByNameIsLoading] =
+  const dispatch = useDispatch();
+  const [seriesGenres, setSeriesGenres] = useState<number>(0);
+  const [localState, setLocalState] = useState<MovieInfo[]>([]);
+  const [isLoadingSearchMovieName, setIsLoadingSearchMovieName] =
     useState<boolean>(false);
+  const [movieDataByName, setMovieDataByName] = useState<MovieInfo[]>([]);
   const [isLoadingGenres, setIsLoadingGenres] = useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   // ============
-
-  const [searchedMovieByNameData, setSearchedMovieByNameData] = useState<[]>(
-    []
-  );
 
   const [searchMovie, setSearchMovie] = useState<string>("");
   const [isOpenGenres, setIsOpenGenres] = useState<boolean>(false);
@@ -76,94 +80,28 @@ export const MovieProvider: FC<{ children: React.ReactNode }> = ({
   const [sortedMoviesLabel, setSortedMoviesLabel] =
     useState<string>("Popularity");
   const [reviews, setReviews] = useState<Reviews[]>([]);
-  const dispatch = useDispatch();
 
-  // Fetching Movies By Genre
-  useEffect(() => {
-    let isCancelled = false;
-    const fetchingMoviesByGenre = async () => {
-      setIsLoadingGenres(true);
-      try {
-        const res = await fetchMoviesByGenre(genres);
-        if (!isCancelled) {
-          dispatch(updateMovies(res));
-        }
-      } catch (error) {
-        if (!isCancelled) {
-          console.log("Error fetching by genre :", error);
-        }
-      } finally {
-        if (!isCancelled) {
-          setIsLoadingGenres(false);
-        }
-      }
-    };
-    fetchingMoviesByGenre();
-    return () => {
-      isCancelled = true;
-    };
-  }, [genres]);
+  function handleGenres(selected: number, label: string) {
+    setGenres(selected);
+    setGenresLabel(label);
+    localStorage.setItem(
+      "genres",
+      JSON.stringify({ id: selected, name: label })
+    );
+  }
+  function handleSeriesGenres(selected: number) {
+    setSeriesGenres(selected);
+    localStorage.setItem("series-genres", JSON.stringify({ id: selected }));
+  }
+  function handleSortedMoviesBy(selected: string, label: string) {
+    setSortedMovies(selected);
+    setSortedMoviesLabel(label);
+    localStorage.setItem(
+      "category",
+      JSON.stringify({ id: selected, name: label })
+    );
+  }
 
-  // ========================
-
-  // Fetching default Movies
-  useEffect(() => {
-    let isCancelled = false;
-    const fetchMovies = async () => {
-      setIsLoading(true);
-      try {
-        const res = await fetchingData();
-        if (!isCancelled) {
-          dispatch(updateMovies(res));
-        }
-      } catch (error) {
-        if (!isCancelled) {
-          console.error("Error fetching movies:", error);
-        }
-      } finally {
-        if (!isCancelled) {
-          setIsLoading(false);
-        }
-      }
-    };
-
-    fetchMovies();
-    return () => {
-      isCancelled = true;
-    };
-  }, []);
-
-  // ==================
-
-  // Fetching movies by Name
-  useEffect(() => {
-    let isCancelled = false;
-    const searchByName = async () => {
-      setIsSearchByNameIsLoading(true);
-      try {
-        const res = await searchMovieByName(searchMovie);
-        if (!isCancelled) {
-          setSearchedMovieByNameData(res);
-        }
-      } catch (error) {
-        if (!isCancelled) {
-          console.error("Error fetching movie:", error);
-        }
-      } finally {
-        if (!isCancelled) {
-          setIsSearchByNameIsLoading(false);
-        }
-      }
-    };
-
-    searchByName();
-    return () => {
-      isCancelled = true;
-    };
-  }, [searchMovie]);
-  // ===================
-
-  // Fetching Sorted Movies
   useEffect(() => {
     let isCancelled = false;
     const fetchingMovies = async () => {
@@ -183,22 +121,30 @@ export const MovieProvider: FC<{ children: React.ReactNode }> = ({
       isCancelled = true;
     };
   }, [sortedMovies]);
-
-  // ===================
-
-  function handleGenres(selected: number, label: string) {
-    setGenres(selected);
-    setGenresLabel(label);
-    localStorage.setItem(
-      "genres",
-      JSON.stringify({ id: selected, name: label })
-    );
-  }
-  function handleSortedMoviesBy(selected: string, label: string) {
-    setSortedMovies(selected);
-    setSortedMoviesLabel(label);
-  }
-
+  useEffect(() => {
+    let isCancelled = false;
+    const handleFetchingMoviesByGenre = async () => {
+      setIsLoadingGenres(true);
+      try {
+        const res = await fetchMoviesByGenre(genres);
+        if (!isCancelled) {
+          dispatch(updateMovies(res));
+        }
+      } catch (error) {
+        if (!isCancelled) {
+          console.log("Error fetching by genre :", error);
+        }
+      } finally {
+        if (!isCancelled) {
+          setIsLoadingGenres(false);
+        }
+      }
+    };
+    handleFetchingMoviesByGenre();
+    return () => {
+      isCancelled = true;
+    };
+  }, [genres]);
   return (
     <MovieContext.Provider
       value={{
@@ -208,18 +154,27 @@ export const MovieProvider: FC<{ children: React.ReactNode }> = ({
         setIsOpenCategory,
         sortedMovies,
         setSortedMovies,
+        seriesGenres,
+        handleSeriesGenres,
         sortedMoviesLabel,
-        isSearchByNameLoading,
+        isLoadingSearchMovieName,
+        setIsLoadingSearchMovieName,
         setSortedMoviesLabel,
-        searchedMovieByNameData,
+        movieDataByName,
+        setMovieDataByName,
         sortedBy,
         setSearchMovie,
+        localState,
+        setLocalState,
         handleSortedMoviesBy,
         searchMovie,
+        setIsLoading,
         genresList,
         isOpenGenres,
         setIsOpenGenres,
         genres,
+        isLoadingGenres,
+        setIsLoadingGenres,
         isLoading,
         setGenres,
         setReviews,

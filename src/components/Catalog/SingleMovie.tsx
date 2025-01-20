@@ -1,15 +1,15 @@
 import { FC } from "react";
-import MoviePropertys from "../Movies/MovieInterface";
+import { MovieInfo } from "../Movies/MovieInterface";
 import { Link } from "react-router-dom";
 
 export interface MovieProps {
-  movie: MoviePropertys;
+  movie: MovieInfo;
   imageBaseURL: string;
 }
 const SingleMovie: FC<MovieProps> = ({ movie, imageBaseURL }) => {
   return (
-    <div className="min-w-48 relative group">
-      <Link to={`/${movie.id}`}>
+    <div className="min-w-[200px] relative group">
+      <Link to={`/catalog/movie/${movie.id}`}>
         <img
           className="rounded-lg"
           src={`${imageBaseURL}${movie.poster_path}`}

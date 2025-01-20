@@ -3,20 +3,21 @@ import { MovieContext } from "../../context/MovieContext";
 import { IoClose } from "react-icons/io5";
 import Movie from "../Movies/Movie";
 
-import MoviePropertys from "../Movies/MovieInterface";
+import { MovieInfo } from "../Movies/MovieInterface";
 import { Box, CircularProgress } from "@mui/material";
+import { useMoviesByName } from "../../hooks/useMoviesByName";
 
 interface SearchMovieProps {
   setIsShowInput: (query: boolean) => void;
 }
-
 const SearchMovie: FC<SearchMovieProps> = ({ setIsShowInput }) => {
   const {
     searchMovie,
     setSearchMovie,
-    isSearchByNameLoading,
-    searchedMovieByNameData,
+
+    isLoadingSearchMovieName,
   } = useContext(MovieContext);
+  const { movieDataByName } = useMoviesByName();
 
   const imageBaseURL = "https://image.tmdb.org/t/p/w500";
   function handleCloseSearch() {
@@ -47,7 +48,7 @@ const SearchMovie: FC<SearchMovieProps> = ({ setIsShowInput }) => {
         />
       </form>
 
-      {isSearchByNameLoading ? (
+      {isLoadingSearchMovieName ? (
         <Box
           sx={{
             justifyContent: "center",
@@ -60,7 +61,7 @@ const SearchMovie: FC<SearchMovieProps> = ({ setIsShowInput }) => {
         </Box>
       ) : (
         <div className="mt-14 gap-6 grid-cols-2 md:grid-cols-4 lg:grid-cols-5 grid overflow-y-auto max-h-[80vh]">
-          {searchedMovieByNameData.map((movie: MoviePropertys) => {
+          {movieDataByName.map((movie: MovieInfo) => {
             return (
               <Movie imageBaseURL={imageBaseURL} movie={movie} key={movie.id} />
             );

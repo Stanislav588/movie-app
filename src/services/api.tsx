@@ -8,7 +8,7 @@ export async function fetchingData(time_window = "week") {
   );
   return response.data.results;
 }
-export async function getCertainMovie(movieId: string | undefined) {
+export async function getContentDetails(movieId: string | undefined) {
   const response = await axios.get(
     `https://api.themoviedb.org/3/movie/${movieId}?api_key=${apiKey}`
   );
@@ -59,6 +59,12 @@ export async function fetchCredits(movieId: any) {
   );
   return response.data;
 }
+export async function getSeriesCredits(seriesId: string | undefined) {
+  const response = await axios.get(
+    `https://api.themoviedb.org/3/tv/${seriesId}/season/1/credits?api_key=${apiKey}`
+  );
+  return response.data;
+}
 export async function getReviews(movieId: string | undefined) {
   const response = await axios.get(
     `https://api.themoviedb.org/3/movie/${movieId}/reviews?api_key=${apiKey}`
@@ -66,16 +72,57 @@ export async function getReviews(movieId: string | undefined) {
   return response.data.results;
 }
 
-export async function getSeries() {
-  const response = await axios.get(
-    `https://api.themoviedb.org/3/tv/latest?api_key=${apiKey}`
-  );
+export async function getPopularSeries() {
+  const response = await axios.get(`
+https://api.themoviedb.org/3/tv/popular?api_key=${apiKey}`);
   return response.data.results;
 }
 
 export async function fetchNowPlayingMovies() {
   const response = await axios.get(
     `https://api.themoviedb.org/3/movie/now_playing?api_key=${apiKey}`
+  );
+  return response.data.results;
+}
+export async function getSeriesDetails(seriesId: string | undefined) {
+  const response = await axios.get(
+    `https://api.themoviedb.org/3/tv/${seriesId}?api_key=${apiKey}`
+  );
+  return response.data;
+}
+
+export async function getSeriesTrailer(seriesId: string | undefined) {
+  const response = await axios.get(
+    `https://api.themoviedb.org/3/tv/${seriesId}/videos?api_key=${apiKey}`
+  );
+  return response.data;
+}
+
+export async function getSeriesReviews(seriesId: string | undefined) {
+  const response = await axios.get(
+    `https://api.themoviedb.org/3/tv/${seriesId}/reviews?api_key=${apiKey}`
+  );
+  return response.data.results;
+}
+
+export async function getSeriesRecomendations(seriesId: string | undefined) {
+  const response = await axios.get(
+    `https://api.themoviedb.org/3/tv/${seriesId}/recommendations?api_key=${apiKey}`
+  );
+  return response.data.results;
+}
+export async function getTopRatedSeries() {
+  const response = await axios.get(
+    `https://api.themoviedb.org/3/tv/top_rated?api_key=${apiKey}`
+  );
+  return response.data.results;
+}
+
+export async function getSeriesGenres(genreId: number | undefined) {
+  const response = await axios.get(
+    `https://api.themoviedb.org/3/discover/tv?api_key=${apiKey}&with_genres=${genreId}&language=en-US
+
+`
   );
   return response.data.results;
 }
