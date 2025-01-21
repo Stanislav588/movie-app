@@ -95,7 +95,7 @@ export async function getSeriesTrailer(seriesId: string | undefined) {
   const response = await axios.get(
     `https://api.themoviedb.org/3/tv/${seriesId}/videos?api_key=${apiKey}`
   );
-  return response.data;
+  return response.data.results;
 }
 
 export async function getSeriesReviews(seriesId: string | undefined) {

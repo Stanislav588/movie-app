@@ -92,7 +92,7 @@ const ContentDetails: FC<ContentProps> = ({ isMovie }) => {
 
       dispatch(updateChoosedMovie(response));
       dispatch(updateSeries(response));
-      console.log(response);
+      console.log("Response:", response);
     } catch (error) {
       enqueueSnackbar(`Failed to load movie: ${error}`, {
         variant: "error",
@@ -108,6 +108,7 @@ const ContentDetails: FC<ContentProps> = ({ isMovie }) => {
         ? await fetchMovieVideos(id)
         : await getSeriesTrailer(id);
       setMovieVideosData(res);
+      console.log("Trailer: ", res);
     } catch (error) {
       enqueueSnackbar(`Failed to load trailer: ${error}`, {
         variant: "error",
@@ -122,7 +123,6 @@ const ContentDetails: FC<ContentProps> = ({ isMovie }) => {
         : await getSeriesRecomendations(id);
       if (response) {
         dispatch(updateRecommendations(response));
-        console.log("Reccomand: ", response);
         window.scrollTo(0, 0);
       }
     } catch (error) {
@@ -138,8 +138,8 @@ const ContentDetails: FC<ContentProps> = ({ isMovie }) => {
           ...movie,
           content: movie.content.slice(0, 100) + "...",
         }));
-
         dispatch(updateReviews(transformedMovieData));
+        console.log(transformedMovieData);
       } else {
         const res = await getSeriesReviews(id);
         const transformedSeriesData = res.map((movie: Reviews) => ({
@@ -147,7 +147,6 @@ const ContentDetails: FC<ContentProps> = ({ isMovie }) => {
           content: movie.content.slice(0, 100) + "...",
         }));
         dispatch(updateReviews(transformedSeriesData));
-        console.log("Series reviews: ", res);
       }
     } catch (error) {
       enqueueSnackbar(`Failed to load reviews: ${error}`, { variant: "error" });
@@ -350,7 +349,9 @@ const ContentDetails: FC<ContentProps> = ({ isMovie }) => {
           <h1 className="text-3xl mb-5 text-yellow-500">Description</h1>
           <div className="flex gap-1 items-center">
             <h2 className="font-semibold">Released:</h2>
-            <p className="text-slate-100">{checkContent?.release_date}</p>
+            <p className="text-slate-100">
+              {checkContent?.release_date || checkContent?.first_air_date}
+            </p>
           </div>
           <div className="flex gap-1 flex-wrap items-center">
             <h2 className="font-semibold">Genre: </h2>
@@ -379,8 +380,12 @@ const ContentDetails: FC<ContentProps> = ({ isMovie }) => {
             </div>
           </div>
           <div className="flex items-center gap-1">
-            <h2 className="font-semibold ">Duration: </h2>
-            <p className="text-slate-100">{checkContent?.runtime} min</p>
+            <h2 className="font-semibold ">
+              {isMovie ? "Duration:" : "Duration of episode:"}
+            </h2>
+            <p className="text-slate-100">
+              {checkContent?.runtime || checkContent?.episode_run_time} min
+            </p>
           </div>
         </div>
         <div>
@@ -447,7 +452,9 @@ const ContentDetails: FC<ContentProps> = ({ isMovie }) => {
               );
             })
           ) : (
-            <h1 className="text-white">No trailer</h1>
+            <h1 className="text-white text-2xl text-center">
+              Trailer is not available
+            </h1>
           )}
         </div>
 
@@ -516,7 +523,7 @@ const ContentDetails: FC<ContentProps> = ({ isMovie }) => {
                       ) : (
                         <img
                           className="h-[400%] w-full object-cover"
-                          src={ImageNotAvailable}
+                          src="https://picsum.photos/id/1015/212/318/?text=Image+Not+Available"
                         />
                       )}
                     </div>
