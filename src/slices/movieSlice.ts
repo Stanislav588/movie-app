@@ -1,11 +1,7 @@
 // movieSlice.ts
 
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import {
-  Actors,
-  MovieInfo,
-  UsersPropertys,
-} from "../components/Movies/MovieInterface";
+import { MovieInfo, UsersPropertys } from "../components/Movies/MovieInterface";
 import { SeriesInfo } from "../components/Series/Series";
 import { GeneralState } from "./SeriesState";
 

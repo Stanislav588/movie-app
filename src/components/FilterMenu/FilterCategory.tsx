@@ -2,6 +2,7 @@ import { FC, useContext } from "react";
 import { MovieContext } from "../../context/MovieContext";
 import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
 import { motion } from "framer-motion";
+import { SortOption } from "./FilterMovies";
 
 const FilterCategory: FC = () => {
   const {
@@ -33,7 +34,7 @@ const FilterCategory: FC = () => {
             animate={{ opacity: 1 }}
             className="absolute text-neutral-300 w-[250px] z-40 text- top-16 left-8 flex flex-col items-center bg-neutral-800 rounded-lg shadow-lg"
           >
-            {sortedBy.map((item) => {
+            {sortedBy.map((item: SortOption) => {
               return (
                 <li
                   onClick={() => handleSortedMoviesBy(item.value, item.label)}

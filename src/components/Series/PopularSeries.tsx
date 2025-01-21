@@ -8,7 +8,6 @@ import { RootState } from "../Movies/MovieInterface";
 import { SeriesInfo } from "./Series";
 import SingleSeries from "./SingleSeries";
 import { motion } from "framer-motion";
-import { FaArrowLeft } from "react-icons/fa";
 
 const PopularSeries: FC = () => {
   const imageBaseURL = "https://image.tmdb.org/t/p/w500";

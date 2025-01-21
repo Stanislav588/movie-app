@@ -61,11 +61,16 @@ const SearchMovie: FC<SearchMovieProps> = ({ setIsShowInput }) => {
         </Box>
       ) : (
         <div className="mt-14 gap-6 grid-cols-2 md:grid-cols-4 lg:grid-cols-5 grid overflow-y-auto max-h-[80vh]">
-          {movieDataByName.map((movie: MovieInfo) => {
-            return (
-              <Movie imageBaseURL={imageBaseURL} movie={movie} key={movie.id} />
-            );
-          })}
+          {movieDataByName &&
+            movieDataByName.map((movie: MovieInfo) => {
+              return (
+                <Movie
+                  imageBaseURL={imageBaseURL}
+                  movie={movie}
+                  key={movie.id}
+                />
+              );
+            })}
         </div>
       )}
     </div>

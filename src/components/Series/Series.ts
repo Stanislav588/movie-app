@@ -15,5 +15,6 @@ export interface SpokenLanguages {
 export interface SeriesInfo extends ContentInfo {
   name: string;
   first_air_date: string;
+  number_of_seasons: number;
 }
 export type MovieOrSeries = MovieDetails | SeriesInfo;

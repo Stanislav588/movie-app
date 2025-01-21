@@ -15,15 +15,17 @@ const FetchGenres: FC = () => {
     <>
       <Header />
       <div className="grid relative mt-12 px-2 grid-cols-2 lg:grid-cols-8  sm:grid-cols-3 md:grid-cols-4 gap-4">
-        {series?.map((seriesItem: SeriesInfo) => {
-          return (
-            <RenderSeriesItem
-              seriesItem={seriesItem}
-              imageURL={imageBaseURL}
-              key={seriesItem.id}
-            />
-          );
-        })}
+        {series &&
+          series.length > 0 &&
+          series?.map((seriesItem: SeriesInfo) => {
+            return (
+              <RenderSeriesItem
+                seriesItem={seriesItem}
+                imageURL={imageBaseURL}
+                key={seriesItem.id}
+              />
+            );
+          })}
       </div>
     </>
   );

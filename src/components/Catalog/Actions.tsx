@@ -27,15 +27,17 @@ const Actions: FC = () => {
           Actions
         </h1>
         <div className="flex overflow-x-auto gap-2 ">
-          {actions.map((movie: MovieInfo) => {
-            return (
-              <SingleMovie
-                key={movie.id}
-                imageBaseURL={imageBaseURL}
-                movie={movie}
-              />
-            );
-          })}
+          {actions &&
+            actions.length > 0 &&
+            actions.map((movie: MovieInfo) => {
+              return (
+                <SingleMovie
+                  key={movie.id}
+                  imageBaseURL={imageBaseURL}
+                  movie={movie}
+                />
+              );
+            })}
         </div>
       </motion.div>
     </>

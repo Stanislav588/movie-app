@@ -1,4 +1,4 @@
-interface FilterMovies {
+export interface FilterMovies {
   name: string;
   title: string;
   media_type: string;
@@ -16,6 +16,7 @@ export interface SortOption {
   label: string;
   value: string;
 }
+
 export interface Genres {
   id: number;
   name: string;
@@ -35,7 +36,6 @@ export interface Header {
   id: number;
   link: string;
 }
-export default FilterMovies;
 
 export interface Videos {
   id: string;

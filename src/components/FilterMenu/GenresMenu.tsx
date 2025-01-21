@@ -1,6 +1,7 @@
 import { FC, useContext, useEffect, Dispatch, SetStateAction } from "react";
 import { MovieContext } from "../../context/MovieContext";
 import { motion } from "framer-motion";
+import { Genres } from "../Movies/MovieInterface";
 
 interface GenresProps {
   setIsOpenGenres: Dispatch<SetStateAction<boolean>>;
@@ -26,7 +27,7 @@ const GenresMenu: FC<GenresProps> = ({ setIsOpenGenres }) => {
           animate={{ y: 50, opacity: 1 }}
           className="bg-neutral-800 py-4 overflow-y-auto px-6 max-h-[700px] flex-col   text-center"
         >
-          {genresList.map((item) => {
+          {genresList.map((item: Genres) => {
             return (
               <li
                 onClick={() => handleGenres(item.id, item.name)}

@@ -3,6 +3,7 @@ import { Avatar, Menu, MenuItem, Divider } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useLogOut } from "../../hooks/useLogOut";
 import { useSelector } from "react-redux";
+import { RootState } from "../Movies/MovieInterface";
 const ProfileSettings: FC = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -10,7 +11,7 @@ const ProfileSettings: FC = () => {
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
-  const authUser = useSelector((state: any) => state.movie.users);
+  const authUser = useSelector((state: RootState) => state.movie.users);
   const handleClose = () => {
     setAnchorEl(null);
   };

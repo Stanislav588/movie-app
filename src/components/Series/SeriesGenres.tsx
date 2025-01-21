@@ -7,7 +7,8 @@ import { useDispatch } from "react-redux";
 import { updateSeries } from "../../slices/movieSlice";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+
+import { Genres } from "../Movies/MovieInterface";
 
 const SeriesGenres: FC = () => {
   const { handleSeriesGenres, seriesGenres } = useContext(MovieContext);
@@ -26,7 +27,7 @@ const SeriesGenres: FC = () => {
   }, [seriesGenres]);
 
   const filteredGenresList = listOfSeriesGenres.filter(
-    (item) =>
+    (item: Genres) =>
       item.name !== "Action" &&
       item.name !== "Adventure" &&
       item.name !== "Fantasy" &&
@@ -43,7 +44,7 @@ const SeriesGenres: FC = () => {
         animate={{ opacity: 1 }}
         className="text-white mt-9 gap-3 relative overflow-x-auto flex"
       >
-        {filteredGenresList.map((item) => {
+        {filteredGenresList.map((item: Genres) => {
           return (
             <Link className="relative group" key={item.id} to={`/${item.name}`}>
               <>

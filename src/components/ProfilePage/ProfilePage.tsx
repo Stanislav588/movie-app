@@ -29,7 +29,7 @@ export const ProfilePage: FC = () => {
   }
   return (
     <>
-      <div className="">
+      <div>
         <Link to="/">
           <button className="text-white bg-slate-400 rounded-lg px-9 py-1 mt-10 ml-4">
             Back

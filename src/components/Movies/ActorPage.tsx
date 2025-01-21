@@ -25,7 +25,6 @@ const ActorPage: FC = () => {
           ? await fetchCredits(id)
           : await getSeriesCredits(id);
         dispatch(updateActorsDetails(res.cast));
-        console.log("Fetching actors...", res);
       } catch (error) {
         enqueueSnackbar(`Failed to fetch actors ${error}`, {
           variant: "error",
@@ -65,7 +64,7 @@ const ActorPage: FC = () => {
                   <div className="gap-2 text-white">
                     <img
                       className="w-[100%] mb-2"
-                      // src="https://picsum.photos/id/1015/212/318/?text=Image+Not+Available"
+                      src="https://picsum.photos/id/1015/212/318/?text=Image+Not+Available"
                       alt={item.name}
                     />
                     <p className=" text-md font-medium">{item.name}</p>

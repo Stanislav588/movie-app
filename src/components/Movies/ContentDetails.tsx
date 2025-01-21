@@ -29,6 +29,7 @@ import {
   MovieInfo,
   Reviews,
   RootState,
+  SeriesActors,
   recommendedFilms,
 } from "./MovieInterface";
 import ActorPage from "./ActorPage";
@@ -60,7 +61,7 @@ const ContentDetails: FC<ContentProps> = ({ isMovie }) => {
 
   // const [actors, setActors] = useState([]);
   const dispatch = useDispatch();
-  const [isMovieLoading, setIsMovieLoading] = useState<boolean>(false);
+  const [isContentLoading, setIsContentLoading] = useState<boolean>(false);
   const [isOpenActorsPage, setIsOpenActorsPage] = useState<boolean>(false);
   const { handleAddMoviesToFavorite, isLoading } = useAddMovieToFavorite();
   const { id } = useParams<{ id: string }>();
@@ -83,7 +84,7 @@ const ContentDetails: FC<ContentProps> = ({ isMovie }) => {
   };
 
   const handleFetchContent = async () => {
-    setIsMovieLoading(true);
+    setIsContentLoading(true);
     try {
       const response = isMovie
         ? await getContentDetails(id)
@@ -97,7 +98,7 @@ const ContentDetails: FC<ContentProps> = ({ isMovie }) => {
         variant: "error",
       });
     } finally {
-      setIsMovieLoading(false);
+      setIsContentLoading(false);
     }
   };
 
@@ -108,7 +109,7 @@ const ContentDetails: FC<ContentProps> = ({ isMovie }) => {
         : await getSeriesTrailer(id);
       setMovieVideosData(res);
     } catch (error) {
-      enqueueSnackbar(` Failed to load trailer: ${error}`, {
+      enqueueSnackbar(`Failed to load trailer: ${error}`, {
         variant: "error",
       });
     }
@@ -149,7 +150,7 @@ const ContentDetails: FC<ContentProps> = ({ isMovie }) => {
         console.log("Series reviews: ", res);
       }
     } catch (error) {
-      enqueueSnackbar(`Fail to load reviews: ${error}`, { variant: "error" });
+      enqueueSnackbar(`Failed to load reviews: ${error}`, { variant: "error" });
     }
   };
 
@@ -163,7 +164,7 @@ const ContentDetails: FC<ContentProps> = ({ isMovie }) => {
         dispatch(updateActors(res.cast));
       }
     } catch (error) {
-      console.log(error);
+      enqueueSnackbar(`Failed to fetch actors: ${error}`, { variant: "error" });
     }
   };
 
@@ -304,7 +305,7 @@ const ContentDetails: FC<ContentProps> = ({ isMovie }) => {
                     No actors to this movie
                   </h1>
                 ) : (
-                  actors?.slice(0, 7).map((credit: Actors) => {
+                  actors?.slice(0, 7).map((credit: SeriesActors) => {
                     return (
                       <div className="flex-shrink-0" key={credit.id}>
                         {credit.profile_path ? (
@@ -357,7 +358,6 @@ const ContentDetails: FC<ContentProps> = ({ isMovie }) => {
               {checkContent?.genres &&
                 checkContent?.genres?.map((genre, index) => (
                   <p className="text-slate-100" key={genre.id}>
-                    {" "}
                     {genre.name}
                     {index < movie?.genres?.length - 1 ? ", " : " "}
                   </p>
@@ -388,7 +388,7 @@ const ContentDetails: FC<ContentProps> = ({ isMovie }) => {
             Actors
           </h1>
           <div className=" overflow-x-auto mt-4 flex md:hidden text-center gap-4 ">
-            {actors?.slice(0, 7).map((credit: Actors) => {
+            {actors?.slice(0, 7).map((credit: SeriesActors) => {
               return (
                 <div className="flex-shrink-0" key={credit.id}>
                   {credit.profile_path ? (

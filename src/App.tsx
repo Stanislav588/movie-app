@@ -29,8 +29,6 @@ const App: FC = () => {
         />
 
         <Route path="/:name" element={<FetchGenres />} />
-        {/* <Route path="/movie/:id" element={<Movie isMovie={true} />} />
-        <Route path="/series/:id" element={<Movie isMovie={false} />} /> */}
         <Route path="/favorites" element={<Favorites />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/actors/:id" element={<ActorPage />} />

@@ -10,7 +10,11 @@ import { SortOption, Videos } from "../components/FilterMenu/FilterMovies";
 
 import { genresList } from "../utils/constants";
 import { sortedBy } from "../utils/constants";
-import { MovieInfo, Reviews } from "../components/Movies/MovieInterface";
+import {
+  Genres,
+  MovieInfo,
+  Reviews,
+} from "../components/Movies/MovieInterface";
 import { useDispatch } from "react-redux";
 import { updateMovies } from "../slices/movieSlice";
 import { fetchMoviesBy, fetchMoviesByGenre } from "../services/api";
@@ -24,7 +28,7 @@ export interface MovieContextType {
   handleSortedMoviesBy: (selected: string, label: string) => void;
   setSortedMoviesLabel: (value: string) => void;
   sortedBy: SortOption[];
-  genresList: { id: number; name: string }[];
+  genresList: Genres[];
   isOpenGenres: boolean;
   genresLabel: string;
   setGenresLabel: (label: string) => void;

@@ -23,6 +23,7 @@ export interface MovieInfo {
 export interface Genres {
   name: string;
   id: number;
+  icon: string;
 }
 export interface User {
   createdAt: number;
@@ -69,7 +70,7 @@ export interface ContentInfo {
   vote_average: string;
   vote_count: number;
 }
-interface SeriesActors {
+export interface SeriesActors {
   adult: boolean;
   character: string;
   credit_id: string;
@@ -86,15 +87,16 @@ export interface MovieDetails extends ContentInfo {
   title: string;
   runtime: number;
   release_date: string;
+  number_of_seasons: number;
 }
 
 export interface MovieState {
   movieDetails: MovieDetails;
   users: User;
-  movies: MovieInfo;
-  series: SeriesInfo;
-  actors: SeriesActors;
-  reviews: Reviews;
+  movies: MovieInfo[];
+  series: SeriesInfo[];
+  actors: SeriesActors[];
+  reviews: Reviews[];
   searchedMovies: MovieInfo[];
   popularSeries: SeriesInfo[];
   allActorsDetails: Actors[];
