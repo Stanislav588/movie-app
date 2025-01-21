@@ -17,7 +17,6 @@ export interface GeneralState {
   movieDetails: MovieDetails[] | null;
   reviews: Reviews[] | null;
   recommendations: MovieInfo[] | null;
-  favorites: [] | null;
   actors: Actors[] | null;
   users: UsersPropertys[] | null;
 }

@@ -1,12 +1,17 @@
 // movieSlice.ts
 
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { MovieInfo, UsersPropertys } from "../components/Movies/MovieInterface";
+import {
+  Actors,
+  MovieDetails,
+  MovieInfo,
+  Reviews,
+  UsersPropertys,
+} from "../components/Movies/MovieInterface";
 import { SeriesInfo } from "../components/Series/Series";
 import { GeneralState } from "./SeriesState";
 
 const initialState: GeneralState = {
-  favorites: [],
   movies: JSON.parse(localStorage.getItem("movies") || "[]") as MovieInfo[],
   users: JSON.parse(localStorage.getItem("users") || "{}") as
     | UsersPropertys[]
@@ -26,19 +31,19 @@ const movieSlice = createSlice({
   name: "movies",
   initialState,
   reducers: {
-    updateSeries(state, action) {
+    updateSeries(state, action: PayloadAction<SeriesInfo[] | null>) {
       state.series = action.payload;
       localStorage.setItem("series", JSON.stringify(action.payload));
     },
-    updateChoosedMovie(state, action) {
+    updateChoosedMovie(state, action: PayloadAction<MovieDetails[] | null>) {
       state.movieDetails = action.payload;
       localStorage.setItem("movie-details", JSON.stringify(action.payload));
     },
-    updateUserInfo(state, action) {
+    updateUserInfo(state, action: PayloadAction<UsersPropertys[] | null>) {
       state.users = action.payload;
       localStorage.setItem("users", JSON.stringify(action.payload));
     },
-    updateMovies(state, action) {
+    updateMovies(state, action: PayloadAction<MovieInfo[] | null>) {
       state.movies = action.payload;
       localStorage.setItem("movies", JSON.stringify(action.payload));
     },
@@ -46,23 +51,19 @@ const movieSlice = createSlice({
       state.users = null;
       localStorage.removeItem("users");
     },
-    updateFavorites(state, action) {
-      state.favorites = action.payload;
-      localStorage.setItem("favorites", JSON.stringify(action.payload));
-    },
-    updateActorsDetails(state, action) {
+    updateActorsDetails(state, action: PayloadAction<Actors[]>) {
       state.allActorsDetails = action.payload;
       localStorage.setItem("actorsDetails", JSON.stringify(action.payload));
     },
-    updateActors(state, action) {
+    updateActors(state, action: PayloadAction<Actors[]>) {
       state.actors = action.payload;
       localStorage.setItem("actors", JSON.stringify(action.payload));
     },
-    updateReviews(state, action) {
+    updateReviews(state, action: PayloadAction<Reviews[]>) {
       state.reviews = action.payload;
       localStorage.setItem("reviews", JSON.stringify(action.payload));
     },
-    updateRecommendations(state, action) {
+    updateRecommendations(state, action: PayloadAction<MovieInfo[]>) {
       state.recommendations = action.payload;
       localStorage.setItem("recommendations", JSON.stringify(action.payload));
     },
@@ -94,6 +95,5 @@ export const {
   updateSeries,
   updatePopularSeries,
   updateOnTheAirSeries,
-  updateFavorites,
 } = movieSlice.actions;
 export default movieSlice.reducer;
