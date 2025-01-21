@@ -18,7 +18,7 @@ const Header: FC = () => {
           <h1 className="text-3xl text-white font-medium">Movie.com</h1>
         </Link>
 
-        <ul className="hidden lg:flex md:flex items-center text-xl gap-7 ">
+        <ul className="hidden lg:flex md:hidden items-center text-xl gap-7 ">
           {headerComponents.map((item) => (
             <NavLink
               key={item.id}
@@ -38,7 +38,7 @@ const Header: FC = () => {
       <div className="flex items-center lg:gap-7 md:gap-7 gap-3">
         <RxHamburgerMenu
           onClick={() => setIsOpenDropDown(true)}
-          className="w-10 md:hidden cursor-pointer transition-all text-3xl font-medium hover:text-white"
+          className="w-10 lg:hidden cursor-pointer transition-all text-3xl font-medium hover:text-white"
         />
         <IoMdSearch
           onClick={() => setIsShowInput(true)}
@@ -46,7 +46,7 @@ const Header: FC = () => {
         />
         {isShowInput && <SearchMovie setIsShowInput={setIsShowInput} />}
         <Link to="/auth">
-          <button className="px-5 py-2 text-white hidden sm:hidden md:block rounded-md bg-yellow-600 max-w-full ">
+          <button className="px-5 py-2 text-white hidden sm:hidden min-w-[100px] md:block rounded-md bg-yellow-600 ">
             Sign In
           </button>
         </Link>
