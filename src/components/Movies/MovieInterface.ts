@@ -83,11 +83,31 @@ export interface SeriesActors {
   popularity: number;
   profile_path: string;
 }
-export interface MovieDetails extends ContentInfo {
+export interface MovieDetails {
+  first_air_date: string;
+  number_of_seasons: number;
+  episode_run_time: number;
+
+  id: string;
+  media_type: string;
+  original_language: string;
+  original_title: string;
+  overview: string;
+  origin_country: string;
+  popularity: number;
   title: string;
   runtime: number;
+  backdrop_path: string;
+  poster_path: string;
   release_date: string;
-  number_of_seasons: number;
+  number_of_episodes: number;
+  name: string;
+  genres: Genres[];
+  spoken_languages: SpokenLanguages[];
+  video: boolean;
+  production_companies: ProductCompanies[];
+  vote_average: string;
+  vote_count: number;
 }
 
 export interface MovieState {

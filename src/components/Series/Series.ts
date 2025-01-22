@@ -1,4 +1,4 @@
-import { ContentInfo, MovieDetails } from "../Movies/MovieInterface";
+import { Genres } from "../Movies/MovieInterface";
 
 export interface ProductCompanies {
   id: number;
@@ -12,9 +12,29 @@ export interface SpokenLanguages {
   name: string;
 }
 
-export interface SeriesInfo extends ContentInfo {
-  name: string;
+export interface SeriesInfo {
   first_air_date: string;
   number_of_seasons: number;
+  episode_run_time: number;
+
+  id: string;
+  media_type: string;
+  original_language: string;
+  original_title: string;
+  overview: string;
+  origin_country: string;
+  popularity: number;
+  title: string;
+  runtime: number;
+  backdrop_path: string;
+  poster_path: string;
+  release_date: string;
+  number_of_episodes: number;
+  name: string;
+  genres: Genres[];
+  spoken_languages: SpokenLanguages[];
+  video: boolean;
+  production_companies: ProductCompanies[];
+  vote_average: string;
+  vote_count: number;
 }
-export type MovieOrSeries = MovieDetails | SeriesInfo;

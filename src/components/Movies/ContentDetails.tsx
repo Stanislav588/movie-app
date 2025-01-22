@@ -25,12 +25,11 @@ import { MovieContext } from "../../context/MovieContext";
 import { motion } from "framer-motion";
 
 import {
-  Actors,
+  MovieDetails,
   MovieInfo,
   Reviews,
   RootState,
   SeriesActors,
-  recommendedFilms,
 } from "./MovieInterface";
 import ActorPage from "./ActorPage";
 import {
@@ -40,7 +39,7 @@ import {
   updateReviews,
   updateSeries,
 } from "../../slices/movieSlice";
-import { MovieOrSeries } from "../Series/Series";
+import { SeriesInfo } from "../Series/Series";
 
 interface ContentProps {
   isMovie: boolean;
@@ -66,7 +65,7 @@ const ContentDetails: FC<ContentProps> = ({ isMovie }) => {
   const { handleAddMoviesToFavorite, isLoading } = useAddMovieToFavorite();
   const { id } = useParams<{ id: string }>();
 
-  const checkContent: MovieOrSeries = isMovie ? movie : series;
+  const checkContent: SeriesInfo | MovieDetails = isMovie ? movie : series;
   const handleToAddToFavorite = async () => {
     if (!movie || !movie.id) {
       enqueueSnackbar("Movie information is missing.", { variant: "error" });
@@ -301,7 +300,7 @@ const ContentDetails: FC<ContentProps> = ({ isMovie }) => {
               <div className="overflow-x-auto mt-4 w-[350px] md:w-full lg:w-full hidden md:flex text-center gap-4 ">
                 {actors?.length === 0 ? (
                   <h1 className="text-2xl text-center text-yellow-600">
-                    No actors to this movie
+                    Actors are not available now
                   </h1>
                 ) : (
                   actors?.slice(0, 7).map((credit: SeriesActors) => {
@@ -521,10 +520,7 @@ const ContentDetails: FC<ContentProps> = ({ isMovie }) => {
                           src={`${imageBaseURL}${content.poster_path}`}
                         />
                       ) : (
-                        <img
-                          className="h-[400%] w-full object-cover"
-                          src="https://picsum.photos/id/1015/212/318/?text=Image+Not+Available"
-                        />
+                        <img className="h-[400%] w-full object-cover" src="" />
                       )}
                     </div>
                     <div className="absolute inset-0 bg-black bg-opacity-55 opacity-0 group-hover:opacity-100 transition-opacity rounded-sm flex items-center justify-center">
