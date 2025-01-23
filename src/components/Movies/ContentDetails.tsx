@@ -33,6 +33,7 @@ import {
 } from "./MovieInterface";
 import ActorPage from "./ActorPage";
 import {
+  fetchContent,
   updateActors,
   updateChoosedMovie,
   updateRecommendations,
@@ -58,7 +59,6 @@ const ContentDetails: FC<ContentProps> = ({ isMovie }) => {
   );
   const imageBaseURL = "https://image.tmdb.org/t/p/w500";
 
-  // const [actors, setActors] = useState([]);
   const dispatch = useDispatch();
   const [isContentLoading, setIsContentLoading] = useState<boolean>(false);
   const [isOpenActorsPage, setIsOpenActorsPage] = useState<boolean>(false);
@@ -85,13 +85,13 @@ const ContentDetails: FC<ContentProps> = ({ isMovie }) => {
   const handleFetchContent = async () => {
     setIsContentLoading(true);
     try {
-      const response = isMovie
-        ? await getContentDetails(id)
-        : await getSeriesDetails(id);
-
-      dispatch(updateChoosedMovie(response));
-      dispatch(updateSeries(response));
-      console.log("Response:", response);
+      const result = await dispatch(fetchContent({ isMovie, id }));
+      if (fetchContent.fulfilled.match(result)) {
+        console.log("Content fetched successfully.");
+      } else if (fetchContent.rejected.match(result)) {
+        const error = result.payload;
+        throw error;
+      }
     } catch (error) {
       enqueueSnackbar(`Failed to load movie: ${error}`, {
         variant: "error",
@@ -107,7 +107,6 @@ const ContentDetails: FC<ContentProps> = ({ isMovie }) => {
         ? await fetchMovieVideos(id)
         : await getSeriesTrailer(id);
       setMovieVideosData(res);
-      console.log("Trailer: ", res);
     } catch (error) {
       enqueueSnackbar(`Failed to load trailer: ${error}`, {
         variant: "error",
@@ -138,7 +137,6 @@ const ContentDetails: FC<ContentProps> = ({ isMovie }) => {
           content: movie.content.slice(0, 100) + "...",
         }));
         dispatch(updateReviews(transformedMovieData));
-        console.log(transformedMovieData);
       } else {
         const res = await getSeriesReviews(id);
         const transformedSeriesData = res.map((movie: Reviews) => ({

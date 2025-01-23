@@ -1,6 +1,6 @@
 // movieSlice.ts
 
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import {
   Actors,
   MovieDetails,
@@ -10,6 +10,10 @@ import {
 } from "../components/Movies/MovieInterface";
 import { SeriesInfo } from "../components/Series/Series";
 import { GeneralState } from "./SeriesState";
+import fetchingData, {
+  getContentDetails,
+  getSeriesDetails,
+} from "../services/api";
 
 const initialState: GeneralState = {
   movies: JSON.parse(localStorage.getItem("movies") || "[]") as MovieInfo[],
@@ -26,6 +30,24 @@ const initialState: GeneralState = {
   topRatedSeries: null,
   onTheAirSeries: null,
 };
+
+export const fetchContent = createAsyncThunk(
+  "series/fetchSeries",
+  async (
+    { isMovie, id }: { isMovie: boolean; id: string },
+    { rejectWithValue }
+  ) => {
+    try {
+      const response = isMovie
+        ? await getContentDetails(id)
+        : await getSeriesDetails(id);
+
+      return { response, isMovie };
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
 
 const movieSlice = createSlice({
   name: "movies",
@@ -79,6 +101,27 @@ const movieSlice = createSlice({
       state.onTheAirSeries = action.payload;
       localStorage.setItem("onTheAirSeries", JSON.stringify(action.payload));
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchContent.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(fetchContent.fulfilled, (state, action) => {
+        const { response, isMovie } = action.payload;
+        if (isMovie) {
+          state.movieDetails = response;
+          localStorage.setItem("movie-details", JSON.stringify(response));
+        } else {
+          state.series = response;
+          localStorage.setItem("series", JSON.stringify(response));
+        }
+        state.status = "succeeded";
+      })
+      .addCase(fetchContent.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload;
+      });
   },
 });
 

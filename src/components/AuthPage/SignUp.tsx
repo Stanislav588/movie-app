@@ -80,6 +80,7 @@ const SignUp: FC<SignUpProps> = ({ setIsOpenSignUp }) => {
         </div>
         <div className="flex  mt-6  justify-center">
           <button
+            disabled={isLoading}
             onClick={() => handleSignUp(email, username, fullName, password)}
             className="px-20 py-2 bg-slate-200 hover:text-white border gap-2 rounded-lg  hover:bg-yellow-500  hover:shadow-xl transition duration-300"
           >
