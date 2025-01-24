@@ -4,11 +4,9 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import {
   fetchCredits,
   fetchMovieVideos,
-  getContentDetails,
   getRecommendations,
   getReviews,
   getSeriesCredits,
-  getSeriesDetails,
   getSeriesRecomendations,
   getSeriesReviews,
   getSeriesTrailer,
@@ -33,14 +31,14 @@ import {
 } from "./MovieInterface";
 import ActorPage from "./ActorPage";
 import {
-  fetchContent,
   updateActors,
-  updateChoosedMovie,
   updateRecommendations,
   updateReviews,
-  updateSeries,
 } from "../../slices/movieSlice";
 import { SeriesInfo } from "../Series/Series";
+import { useApiCalls } from "../../hooks/useApiCalls";
+import { fetchContent } from "../../features/contentThunk";
+import { fetchTrailer } from "../../features/TrailerThunk";
 
 interface ContentProps {
   isMovie: boolean;
@@ -48,7 +46,7 @@ interface ContentProps {
 const ContentDetails: FC<ContentProps> = ({ isMovie }) => {
   const navigate = useNavigate();
   const { setMovieVideosData, movieVideosData } = useContext(MovieContext);
-
+  const { handleApiCalls } = useApiCalls();
   const authUser = useSelector((state: RootState) => state.movie.users);
   const movie = useSelector((state: RootState) => state.movie.movieDetails);
   const series = useSelector((state: RootState) => state.movie.series);
@@ -60,7 +58,7 @@ const ContentDetails: FC<ContentProps> = ({ isMovie }) => {
   const imageBaseURL = "https://image.tmdb.org/t/p/w500";
 
   const dispatch = useDispatch();
-  const [isContentLoading, setIsContentLoading] = useState<boolean>(false);
+
   const [isOpenActorsPage, setIsOpenActorsPage] = useState<boolean>(false);
   const { handleAddMoviesToFavorite, isLoading } = useAddMovieToFavorite();
   const { id } = useParams<{ id: string }>();
@@ -83,30 +81,17 @@ const ContentDetails: FC<ContentProps> = ({ isMovie }) => {
   };
 
   const handleFetchContent = async () => {
-    setIsContentLoading(true);
     try {
-      const result = await dispatch(fetchContent({ isMovie, id }));
-      if (fetchContent.fulfilled.match(result)) {
-        console.log("Content fetched successfully.");
-      } else if (fetchContent.rejected.match(result)) {
-        const error = result.payload;
-        throw error;
-      }
+      const data = await handleApiCalls(fetchContent({ id, isMovie }));
     } catch (error) {
-      enqueueSnackbar(`Failed to load movie: ${error}`, {
-        variant: "error",
-      });
-    } finally {
-      setIsContentLoading(false);
+      console.log("Fetched data error");
     }
   };
 
   const fetchVideos = async () => {
     try {
-      const res = isMovie
-        ? await fetchMovieVideos(id)
-        : await getSeriesTrailer(id);
-      setMovieVideosData(res);
+      const data = await handleApiCalls(fetchTrailer({ id, isMovie }));
+      setMovieVideosData(data.response);
     } catch (error) {
       enqueueSnackbar(`Failed to load trailer: ${error}`, {
         variant: "error",

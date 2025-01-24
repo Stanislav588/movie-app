@@ -1,6 +1,6 @@
 // movieSlice.ts
 
-import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import {
   Actors,
   MovieDetails,
@@ -10,10 +10,8 @@ import {
 } from "../components/Movies/MovieInterface";
 import { SeriesInfo } from "../components/Series/Series";
 import { GeneralState } from "./SeriesState";
-import fetchingData, {
-  getContentDetails,
-  getSeriesDetails,
-} from "../services/api";
+import { fetchContent } from "../features/contentThunk";
+import { fetchTrailer } from "../features/TrailerThunk";
 
 const initialState: GeneralState = {
   movies: JSON.parse(localStorage.getItem("movies") || "[]") as MovieInfo[],
@@ -21,6 +19,7 @@ const initialState: GeneralState = {
     | UsersPropertys[]
     | null,
   movieDetails: null,
+
   series: JSON.parse(localStorage.getItem("series") || "[]") as SeriesInfo[],
   actors: [],
   allActorsDetails: [],
@@ -29,25 +28,12 @@ const initialState: GeneralState = {
   popularSeries: null,
   topRatedSeries: null,
   onTheAirSeries: null,
+  trailer: null,
+  trailerStatus: "idle",
+  trailerError: null,
+  status: "idle",
+  error: null,
 };
-
-export const fetchContent = createAsyncThunk(
-  "series/fetchSeries",
-  async (
-    { isMovie, id }: { isMovie: boolean; id: string },
-    { rejectWithValue }
-  ) => {
-    try {
-      const response = isMovie
-        ? await getContentDetails(id)
-        : await getSeriesDetails(id);
-
-      return { response, isMovie };
-    } catch (error) {
-      return rejectWithValue(error);
-    }
-  }
-);
 
 const movieSlice = createSlice({
   name: "movies",
@@ -121,6 +107,18 @@ const movieSlice = createSlice({
       .addCase(fetchContent.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload;
+      })
+      .addCase(fetchTrailer.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(fetchTrailer.fulfilled, (state, action) => {
+        const { response } = action.payload;
+        state.trailer = response;
+        localStorage.setItem("trailer", JSON.stringify(response));
+      })
+      .addCase(fetchTrailer.rejected, (state, action) => {
+        state.trailerStatus = "failed";
+        state.trailerError = action.payload;
       });
   },
 });
