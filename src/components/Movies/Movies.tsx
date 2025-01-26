@@ -1,12 +1,11 @@
 import { FC, useContext, useState } from "react";
 import Movie from "./Movie";
 import { MovieContext } from "../../context/MovieContext";
-
 import { MovieInfo, RootState } from "./MovieInterface";
 import { motion } from "framer-motion";
 import { useSelector } from "react-redux";
 import { useMovies } from "../../hooks/useMovies";
-import { Box, CircularProgress } from "@mui/material";
+import { Skeleton } from "@mui/material";
 
 const Movies: FC = () => {
   const movies = useSelector((state: RootState) => state.movie.movies);
@@ -23,18 +22,24 @@ const Movies: FC = () => {
     setShowMoreMovies(showMoreMovies + 30);
     setIsShowMoreBtn(false);
   }
+  const renderSkeletons = () => (
+    <div className="grid relative mt-12 px-2 grid-cols-2 lg:grid-cols-8 sm:grid-cols-3 md:grid-cols-4 gap-4">
+      {Array.from({ length: showMoreMovies }).map((_, index) => (
+        <Skeleton
+          key={index}
+          variant="rectangular"
+          width="100%"
+          height={250}
+          animation="wave"
+          style={{ borderRadius: "8px" }}
+        />
+      ))}
+    </div>
+  );
   return (
     <>
       {isLoading ? (
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            marginTop: "200px",
-          }}
-        >
-          <CircularProgress size="100px" />
-        </Box>
+        renderSkeletons()
       ) : (
         <div className="grid relative mt-12 px-2 grid-cols-2 lg:grid-cols-8  sm:grid-cols-3 md:grid-cols-4 gap-4">
           {isMovies &&

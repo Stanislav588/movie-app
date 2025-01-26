@@ -8,11 +8,11 @@ import { MovieDetails, RootState } from "../components/Movies/MovieInterface";
 
 export const useAddMovieToFavorite = () => {
   const dispatch = useDispatch();
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isAddToFavLoading, setIsAddToFavLoading] = useState<boolean>(false);
   const authUser = useSelector((state: RootState) => state.movie.users);
 
   async function handleAddMoviesToFavorite(movie: MovieDetails) {
-    setIsLoading(true);
+    setIsAddToFavLoading(true);
     try {
       if (!authUser || !authUser.uid) {
         enqueueSnackbar("User not authenticated. Please log in.", {
@@ -56,12 +56,12 @@ export const useAddMovieToFavorite = () => {
         variant: "error",
       });
     } finally {
-      setIsLoading(false);
+      setIsAddToFavLoading(false);
     }
   }
 
   return {
     handleAddMoviesToFavorite,
-    isLoading,
+    isAddToFavLoading,
   };
 };

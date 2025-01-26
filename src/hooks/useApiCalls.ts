@@ -9,14 +9,13 @@ export const useApiCalls = () => {
     setIsLoading(true);
     try {
       const result = await dispatch(action);
-      console.log(result);
+
       if (result.meta.requestStatus === "fulfilled") {
         return result.payload;
       } else {
         throw result.payload;
       }
     } catch (error) {
-      console.log(error);
       throw error;
     } finally {
       setIsLoading(false);
