@@ -1,16 +1,19 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { getContentDetails, getSeriesDetails } from "../services/api";
+import { getRecommendations, getSeriesRecomendations } from "../services/api";
 
-export const fetchContent = createAsyncThunk(
-  "content/fetchContent",
+export const fetchRecommendContent = createAsyncThunk(
+  "recommendContent/fetchContent",
   async (
     { id, isMovie }: { isMovie: boolean; id: string | undefined },
     { rejectWithValue }
   ) => {
     try {
       const response = isMovie
-        ? await getContentDetails(id)
-        : await getSeriesDetails(id);
+        ? await getRecommendations(id)
+        : await getSeriesRecomendations(id);
+      if (response) {
+        window.scrollTo(0, 0);
+      }
 
       return { response, isMovie };
     } catch (error) {

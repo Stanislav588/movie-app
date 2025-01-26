@@ -4,11 +4,12 @@ import { enqueueSnackbar } from "notistack";
 import { MovieContext } from "../../context/MovieContext";
 import { listOfSeriesGenres } from "../../utils/constants";
 import { useDispatch } from "react-redux";
-import { updateSeries } from "../../slices/movieSlice";
+
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 
 import { Genres } from "../Movies/MovieInterface";
+import { updateSeries } from "../../slices/movieSlice";
 
 const SeriesGenres: FC = () => {
   const { handleSeriesGenres, seriesGenres } = useContext(MovieContext);

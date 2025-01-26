@@ -2,9 +2,10 @@ import { useSignInWithGoogle } from "react-firebase-hooks/auth";
 import { auth, firestore } from "../firebase/firebase";
 import { enqueueSnackbar } from "notistack";
 import { useDispatch } from "react-redux";
-import { updateUserInfo } from "../slices/movieSlice";
+
 import { useNavigate } from "react-router-dom";
 import { doc, setDoc } from "firebase/firestore";
+import { updateUserInfo } from "../slices/movieSlice";
 
 export const useSignUpWithGoogle = () => {
   const navigate = useNavigate();

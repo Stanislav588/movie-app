@@ -4,11 +4,15 @@ import { firestore } from "../firebase/firebase";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 
-import { MovieDetails, RootState } from "../components/Movies/MovieInterface";
+import {
+  MovieDetails,
+  MovieInfo,
+  RootState,
+} from "../components/Movies/MovieInterface";
 
 export const useFetchFavMovies = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [favMovies, setFavMovies] = useState([]);
+  const [favMovies, setFavMovies] = useState<MovieInfo[]>([]);
   const authUser = useSelector((state: RootState) => state.movie.users);
 
   useEffect(() => {
@@ -22,12 +26,12 @@ export const useFetchFavMovies = () => {
 
       try {
         const querySnap = await getDocs(q);
-        const favoriteMoviesArr = authUser.favorites.filter(
+        const favoriteMoviesArr: MovieInfo[] = authUser.favorites.filter(
           (movie: MovieDetails) => movie.id
         );
 
         querySnap.forEach((doc) => {
-          favoriteMoviesArr.push({ ...doc.data(), id: doc.id });
+          favoriteMoviesArr.push({ ...doc.data(), id: doc.id } as MovieInfo);
         });
 
         setFavMovies(favoriteMoviesArr);

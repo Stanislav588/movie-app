@@ -16,12 +16,12 @@ export const useApiCalls = () => {
         throw result.payload;
       }
     } catch (error) {
-      console.log(error?.message);
+      console.log(error);
       throw error;
     } finally {
       setIsLoading(false);
     }
   };
 
-  return { handleApiCalls };
+  return { handleApiCalls, isLoading };
 };

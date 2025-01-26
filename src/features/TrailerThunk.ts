@@ -4,7 +4,7 @@ import { fetchMovieVideos, getSeriesTrailer } from "../services/api";
 export const fetchTrailer = createAsyncThunk(
   "trailer/fetchContent",
   async (
-    { id, isMovie }: { isMovie: boolean; id: string },
+    { id, isMovie }: { isMovie: boolean; id: string | undefined },
     { rejectWithValue }
   ) => {
     try {

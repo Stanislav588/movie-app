@@ -1,16 +1,5 @@
 import { FC, useContext, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-
-import {
-  fetchCredits,
-  fetchMovieVideos,
-  getRecommendations,
-  getReviews,
-  getSeriesCredits,
-  getSeriesRecomendations,
-  getSeriesReviews,
-  getSeriesTrailer,
-} from "../../services/api";
 import Header from "../Header/Header";
 import { FaStar } from "react-icons/fa";
 import ImageNotAvailable from "../../images/not-available.webp";
@@ -30,15 +19,13 @@ import {
   SeriesActors,
 } from "./MovieInterface";
 import ActorPage from "./ActorPage";
-import {
-  updateActors,
-  updateRecommendations,
-  updateReviews,
-} from "../../slices/movieSlice";
 import { SeriesInfo } from "../Series/Series";
 import { useApiCalls } from "../../hooks/useApiCalls";
+import { fetchRecommendContent } from "../../features/RecommendContentThunk";
+import { fetchReviews } from "../../features/ReviewsThunk";
 import { fetchContent } from "../../features/contentThunk";
 import { fetchTrailer } from "../../features/TrailerThunk";
+import { fetchActors } from "../../features/ActorsThunk";
 
 interface ContentProps {
   isMovie: boolean;
@@ -56,8 +43,6 @@ const ContentDetails: FC<ContentProps> = ({ isMovie }) => {
     (state: RootState) => state.movie.recommendations
   );
   const imageBaseURL = "https://image.tmdb.org/t/p/w500";
-
-  const dispatch = useDispatch();
 
   const [isOpenActorsPage, setIsOpenActorsPage] = useState<boolean>(false);
   const { handleAddMoviesToFavorite, isLoading } = useAddMovieToFavorite();
@@ -84,7 +69,7 @@ const ContentDetails: FC<ContentProps> = ({ isMovie }) => {
     try {
       const data = await handleApiCalls(fetchContent({ id, isMovie }));
     } catch (error) {
-      console.log("Fetched data error");
+      console.log(`Failed to load content : ${error}`);
     }
   };
 
@@ -101,13 +86,7 @@ const ContentDetails: FC<ContentProps> = ({ isMovie }) => {
 
   const handleRecommendations = async () => {
     try {
-      const response = isMovie
-        ? await getRecommendations(id)
-        : await getSeriesRecomendations(id);
-      if (response) {
-        dispatch(updateRecommendations(response));
-        window.scrollTo(0, 0);
-      }
+      const data = await handleApiCalls(fetchRecommendContent({ id, isMovie }));
     } catch (error) {
       enqueueSnackbar(`Fail to load Movies: ${error}`, { variant: "error" });
     }
@@ -115,21 +94,7 @@ const ContentDetails: FC<ContentProps> = ({ isMovie }) => {
 
   const handleFetchReviews = async () => {
     try {
-      if (isMovie) {
-        const res = await getReviews(id);
-        const transformedMovieData = res.map((movie: Reviews) => ({
-          ...movie,
-          content: movie.content.slice(0, 100) + "...",
-        }));
-        dispatch(updateReviews(transformedMovieData));
-      } else {
-        const res = await getSeriesReviews(id);
-        const transformedSeriesData = res.map((movie: Reviews) => ({
-          ...movie,
-          content: movie.content.slice(0, 100) + "...",
-        }));
-        dispatch(updateReviews(transformedSeriesData));
-      }
+      const data = await handleApiCalls(fetchReviews({ isMovie, id }));
     } catch (error) {
       enqueueSnackbar(`Failed to load reviews: ${error}`, { variant: "error" });
     }
@@ -137,13 +102,7 @@ const ContentDetails: FC<ContentProps> = ({ isMovie }) => {
 
   const handleFetchCredits = async () => {
     try {
-      if (isMovie) {
-        const res = await fetchCredits(id);
-        dispatch(updateActors(res.cast));
-      } else {
-        const res = await getSeriesCredits(id);
-        dispatch(updateActors(res.cast));
-      }
+      const data = await handleApiCalls(fetchActors({ isMovie, id }));
     } catch (error) {
       enqueueSnackbar(`Failed to fetch actors: ${error}`, { variant: "error" });
     }
@@ -162,9 +121,7 @@ const ContentDetails: FC<ContentProps> = ({ isMovie }) => {
 
     fetchData();
   }, [id, isMovie]);
-  // const officialTrailer = movieVideosData.filter(
-  //   (video) => video.type === "Trailer"
-  // );
+
   if (!movie) {
     <div>
       <Box

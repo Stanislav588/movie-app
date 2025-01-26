@@ -17,8 +17,15 @@ export interface GeneralState {
   trailerStatus: string | null;
   trailerError: any;
   status: string | null;
+  actorsStatus: string | null;
+  actorsError: any | null;
   series: SeriesInfo[] | null;
   error: any | null;
+  recommendContentStatus: string;
+  recommendContentError: any | null;
+  reviewsError: any | null;
+
+  reviewsStatus: string;
   allActorsDetails: Actors[] | null;
   movieDetails: MovieDetails[] | null;
   reviews: Reviews[] | null;

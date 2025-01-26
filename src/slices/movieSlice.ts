@@ -5,13 +5,16 @@ import {
   Actors,
   MovieDetails,
   MovieInfo,
-  Reviews,
   UsersPropertys,
 } from "../components/Movies/MovieInterface";
 import { SeriesInfo } from "../components/Series/Series";
 import { GeneralState } from "./SeriesState";
 import { fetchContent } from "../features/contentThunk";
 import { fetchTrailer } from "../features/TrailerThunk";
+import { fetchRecommendContent } from "../features/RecommendContentThunk";
+
+import { fetchReviews } from "../features/ReviewsThunk";
+import { fetchActors } from "../features/ActorsThunk";
 
 const initialState: GeneralState = {
   movies: JSON.parse(localStorage.getItem("movies") || "[]") as MovieInfo[],
@@ -19,7 +22,6 @@ const initialState: GeneralState = {
     | UsersPropertys[]
     | null,
   movieDetails: null,
-
   series: JSON.parse(localStorage.getItem("series") || "[]") as SeriesInfo[],
   actors: [],
   allActorsDetails: [],
@@ -32,6 +34,12 @@ const initialState: GeneralState = {
   trailerStatus: "idle",
   trailerError: null,
   status: "idle",
+  recommendContentStatus: "idle",
+  recommendContentError: null,
+  reviewsError: null,
+  reviewsStatus: "idle",
+  actorsStatus: "idle",
+  actorsError: null,
   error: null,
 };
 
@@ -63,18 +71,7 @@ const movieSlice = createSlice({
       state.allActorsDetails = action.payload;
       localStorage.setItem("actorsDetails", JSON.stringify(action.payload));
     },
-    updateActors(state, action: PayloadAction<Actors[]>) {
-      state.actors = action.payload;
-      localStorage.setItem("actors", JSON.stringify(action.payload));
-    },
-    updateReviews(state, action: PayloadAction<Reviews[]>) {
-      state.reviews = action.payload;
-      localStorage.setItem("reviews", JSON.stringify(action.payload));
-    },
-    updateRecommendations(state, action: PayloadAction<MovieInfo[]>) {
-      state.recommendations = action.payload;
-      localStorage.setItem("recommendations", JSON.stringify(action.payload));
-    },
+
     updatePopularSeries(state, action: PayloadAction<SeriesInfo[]>) {
       state.popularSeries = action.payload;
       localStorage.setItem("popularSeries", JSON.stringify(action.payload));
@@ -114,11 +111,49 @@ const movieSlice = createSlice({
       .addCase(fetchTrailer.fulfilled, (state, action) => {
         const { response } = action.payload;
         state.trailer = response;
+        state.trailerStatus = "succeeded";
         localStorage.setItem("trailer", JSON.stringify(response));
       })
       .addCase(fetchTrailer.rejected, (state, action) => {
         state.trailerStatus = "failed";
         state.trailerError = action.payload;
+      })
+      .addCase(fetchRecommendContent.pending, (state) => {
+        state.recommendContentStatus = "loading";
+      })
+      .addCase(fetchRecommendContent.fulfilled, (state, action) => {
+        const { response } = action.payload;
+        state.recommendations = response;
+        localStorage.setItem("recommendations", JSON.stringify(response));
+      })
+      .addCase(fetchRecommendContent.rejected, (state, action) => {
+        state.recommendContentStatus = "failed";
+        state.recommendContentError = action.payload;
+      })
+      .addCase(fetchReviews.pending, (state) => {
+        state.reviewsStatus = "loading";
+      })
+      .addCase(fetchReviews.fulfilled, (state, action) => {
+        const { data } = action.payload;
+        state.reviews = data;
+        localStorage.setItem("reviews", JSON.stringify(data));
+        state.reviewsStatus = "succeeded";
+      })
+      .addCase(fetchReviews.rejected, (state, action) => {
+        state.reviewsError = action.payload;
+        state.reviewsStatus = "failed";
+      })
+      .addCase(fetchActors.pending, (state, action) => {
+        state.actorsStatus = "loading";
+      })
+      .addCase(fetchActors.fulfilled, (state, action) => {
+        const { data } = action.payload;
+        state.actors = data;
+        state.actorsStatus = "succeeded";
+      })
+      .addCase(fetchActors.rejected, (state, action) => {
+        state.actorsStatus = "failed";
+        state.actorsError = action.payload;
       });
   },
 });
@@ -128,9 +163,6 @@ export const {
   updateChoosedMovie,
   resetProfile,
   updateMovies,
-  updateActors,
-  updateRecommendations,
-  updateReviews,
   updateActorsDetails,
   updateTopRatedSeries,
   updateSeries,
