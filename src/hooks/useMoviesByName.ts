@@ -20,7 +20,6 @@ export const useMoviesByName = () => {
         const res = await searchMovieByName(searchMovie);
         if (!isCancelled) {
           setMovieDataByName(res);
-          console.log(res);
         }
       } catch (error) {
         if (!isCancelled) {

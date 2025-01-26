@@ -1,8 +1,9 @@
 import { useContext, useEffect } from "react";
 import fetchingData from "../services/api";
-import { updateMovies } from "../slices/movieSlice";
+
 import { useDispatch } from "react-redux";
 import { MovieContext } from "../context/MovieContext";
+import { updateMovies } from "../slices/movieSlice";
 
 export const useMovies = () => {
   const { setIsLoading, setLocalState, localState } = useContext(MovieContext);

@@ -2,9 +2,11 @@ import { auth, firestore } from "../firebase/firebase";
 import { useSignInWithGoogle } from "react-firebase-hooks/auth";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { useDispatch } from "react-redux";
-import { updateUserInfo } from "../slices/movieSlice";
+
 import { useNavigate } from "react-router-dom";
 import { enqueueSnackbar } from "notistack";
+import { updateUserInfo } from "../slices/movieSlice";
+import { UsersPropertys } from "../components/Movies/MovieInterface";
 export const useLogInInWithGoogle = () => {
   const [signInWithGoogle, loading] = useSignInWithGoogle(auth);
   const dispatch = useDispatch();
@@ -19,7 +21,7 @@ export const useLogInInWithGoogle = () => {
         if (docSnap.exists()) {
           await setDoc(doc(firestore, "users", userData.uid), docSnap.data());
           localStorage.setItem("users", JSON.stringify(docSnap.data()));
-          dispatch(updateUserInfo(docSnap.data()));
+          dispatch(updateUserInfo(docSnap.data() as UsersPropertys[]));
           enqueueSnackbar("User logged in successfully!", {
             variant: "success",
           });

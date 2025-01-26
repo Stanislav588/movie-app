@@ -2,8 +2,9 @@ import { useSignOut } from "react-firebase-hooks/auth";
 import { auth } from "../firebase/firebase";
 import { enqueueSnackbar } from "notistack";
 import { useDispatch } from "react-redux";
-import { resetProfile } from "../slices/movieSlice";
+
 import { useNavigate } from "react-router-dom";
+import { resetProfile } from "../slices/movieSlice";
 
 export const useLogOut = () => {
   const [signOut] = useSignOut(auth);

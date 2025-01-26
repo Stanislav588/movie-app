@@ -11,9 +11,11 @@ import {
   where,
 } from "firebase/firestore";
 import { useDispatch } from "react-redux";
-import { updateUserInfo } from "../slices/movieSlice";
+
 import { useNavigate } from "react-router-dom";
 import { enqueueSnackbar } from "notistack";
+import { updateUserInfo } from "../slices/movieSlice";
+import { UsersPropertys } from "../components/Movies/MovieInterface";
 
 export const useSignUp = () => {
   const navigate = useNavigate();

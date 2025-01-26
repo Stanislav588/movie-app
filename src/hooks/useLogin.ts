@@ -2,10 +2,12 @@ import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { auth, firestore } from "../firebase/firebase";
 import { doc, getDoc } from "firebase/firestore";
 import { useDispatch } from "react-redux";
-import { updateUserInfo } from "../slices/movieSlice";
+
 import { useNavigate } from "react-router-dom";
 
 import { enqueueSnackbar } from "notistack";
+import { updateUserInfo } from "../slices/movieSlice";
+import { UsersPropertys } from "../components/Movies/MovieInterface";
 
 export const useLogin = () => {
   const [signInWithEmailAndPassword, loading] =
@@ -28,7 +30,7 @@ export const useLogin = () => {
 
         if (docSnap.exists()) {
           localStorage.setItem("users", JSON.stringify(docSnap.data()));
-          dispatch(updateUserInfo(docSnap.data()));
+          dispatch(updateUserInfo(docSnap.data() as UsersPropertys[]));
           navigate("/");
           enqueueSnackbar("User logged in successfully!", {
             variant: "success",

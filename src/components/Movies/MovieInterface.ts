@@ -38,7 +38,7 @@ export interface User {
 export interface UsersPropertys {
   createdAt: number;
   email: string;
-  favorites: [];
+  favorites: any;
   fullName: string;
   profilePicture: string;
   uid: string;

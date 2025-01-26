@@ -4,7 +4,7 @@ import Header from "../Header/Header";
 import { FaStar } from "react-icons/fa";
 import ImageNotAvailable from "../../images/not-available.webp";
 import defaultImage from "../../images/default-avatar.jpg";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { enqueueSnackbar } from "notistack";
 import { useAddMovieToFavorite } from "../../hooks/useAddMovieToFavorite";
 import { Box, CircularProgress } from "@mui/material";
@@ -109,6 +109,7 @@ const ContentDetails: FC<ContentProps> = ({ isMovie }) => {
   };
 
   useEffect(() => {
+    const controller = new AbortController();
     const fetchData = async () => {
       await Promise.all([
         handleFetchContent(),
@@ -120,6 +121,9 @@ const ContentDetails: FC<ContentProps> = ({ isMovie }) => {
     };
 
     fetchData();
+    return () => {
+      controller.abort();
+    };
   }, [id, isMovie]);
 
   if (!movie) {

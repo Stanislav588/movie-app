@@ -3,8 +3,10 @@ import { auth, firestore } from "../firebase/firebase";
 import { enqueueSnackbar } from "notistack";
 import { doc, getDoc } from "firebase/firestore";
 import { useDispatch } from "react-redux";
-import { updateUserInfo } from "../slices/movieSlice";
+
 import { useNavigate } from "react-router-dom";
+import { updateUserInfo } from "../slices/movieSlice";
+import { UsersPropertys } from "../components/Movies/MovieInterface";
 
 export const useLogInInWithFacebook = () => {
   const [signInWithFacebook, loading] = useSignInWithFacebook(auth);
@@ -19,7 +21,7 @@ export const useLogInInWithFacebook = () => {
         const userInfo = await getDoc(userDoc);
         if (userInfo.exists()) {
           localStorage.setItem("users", JSON.stringify(userInfo.data()));
-          dispatch(updateUserInfo(userInfo.data()));
+          dispatch(updateUserInfo(userInfo.data() as UsersPropertys[]));
           enqueueSnackbar("User logged in successfully", {
             variant: "success",
           });

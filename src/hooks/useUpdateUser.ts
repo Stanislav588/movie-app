@@ -3,9 +3,10 @@ import { firestore, storage } from "../firebase/firebase";
 import { useDispatch, useSelector } from "react-redux";
 import { doc, updateDoc } from "firebase/firestore";
 import { enqueueSnackbar } from "notistack";
-import { updateUserInfo } from "../slices/movieSlice";
+
 import { useState } from "react";
 import { RootState } from "../components/Movies/MovieInterface";
+import { updateUserInfo } from "../slices/movieSlice";
 
 export const useUpdateUser = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
