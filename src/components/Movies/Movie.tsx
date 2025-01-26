@@ -20,7 +20,7 @@ const Movie: FC<MovieProps> = ({ movie, imageBaseURL }) => {
               src={`${imageBaseURL}${movie.poster_path}`}
               alt={movie.title}
             />
-            <img />
+
             <div className="absolute inset-0 text-white bg-black bg-opacity-55 opacity-0  group-hover:opacity-100  transition-all duration-300 rounded-sm flex flex-col justify-center items-center">
               <h3 className="text-lg font-bold text-center">{movie.title}</h3>
               <div className="flex items-center gap-1 mt-2">
