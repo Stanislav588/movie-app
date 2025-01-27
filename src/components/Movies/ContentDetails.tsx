@@ -10,7 +10,7 @@ import { useAddMovieToFavorite } from "../../hooks/useAddMovieToFavorite";
 import { Box, CircularProgress, Skeleton } from "@mui/material";
 import { MovieContext } from "../../context/MovieContext";
 import { motion } from "framer-motion";
-
+type ContentData = MovieDetails | SeriesInfo;
 import {
   MovieDetails,
   MovieInfo,
@@ -35,7 +35,9 @@ const ContentDetails: FC<ContentProps> = ({ isMovie }) => {
   const { setMovieVideosData, movieVideosData } = useContext(MovieContext);
   const { handleApiCalls, isLoading } = useApiCalls();
   const authUser = useSelector((state: RootState) => state.movie.users);
-  const movie = useSelector((state: RootState) => state.movie.movieDetails);
+  const movie = useSelector(
+    (state: RootState) => state.movie.movieDetails
+  ) as MovieDetails;
   const series = useSelector((state: RootState) => state.movie.series);
   const actors = useSelector((state: RootState) => state.movie.actors);
   const reviews = useSelector((state: RootState) => state.movie.reviews);
@@ -43,13 +45,12 @@ const ContentDetails: FC<ContentProps> = ({ isMovie }) => {
     (state: RootState) => state.movie.recommendations
   );
   const imageBaseURL = "https://image.tmdb.org/t/p/w500";
-
+  const checkContent: ContentData | null = isMovie ? movie : series;
   const [isOpenActorsPage, setIsOpenActorsPage] = useState<boolean>(false);
   const { handleAddMoviesToFavorite, isAddToFavLoading } =
     useAddMovieToFavorite();
   const { id } = useParams<{ id: string }>();
 
-  const checkContent: SeriesInfo | MovieDetails = isMovie ? movie : series;
   const handleToAddToFavorite = async () => {
     if (!movie || !movie.id) {
       enqueueSnackbar("Movie information is missing.", { variant: "error" });
@@ -57,7 +58,7 @@ const ContentDetails: FC<ContentProps> = ({ isMovie }) => {
     }
 
     if (authUser?.uid) {
-      await handleAddMoviesToFavorite(movie);
+      await handleAddMoviesToFavorite(isMovie ? movie : series);
     } else {
       enqueueSnackbar("Please log in or register first", {
         variant: "error",

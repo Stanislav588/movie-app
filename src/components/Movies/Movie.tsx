@@ -2,16 +2,19 @@ import { FC } from "react";
 
 import { Link } from "react-router-dom";
 import { FaStar } from "react-icons/fa";
-import { MovieInfo } from "./MovieInterface";
+import { SeriesInfo } from "../Series/Series";
 
 export interface MovieProps {
-  movie: MovieInfo;
+  movie: SeriesInfo;
   imageBaseURL: string;
 }
 
 const Movie: FC<MovieProps> = ({ movie, imageBaseURL }) => {
+  const linkPath = movie?.seasons
+    ? `/series/${movie.id}`
+    : `/movie/${movie.id}`;
   return (
-    <Link to={`/movie/${movie.id}`}>
+    <Link to={linkPath}>
       <div className="relative transition-all group">
         {movie.poster_path ? (
           <>

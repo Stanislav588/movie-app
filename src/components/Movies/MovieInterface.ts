@@ -16,7 +16,6 @@ export interface MovieInfo {
   poster_path: string;
   runtime: number;
   id: string;
-
   vote_average: string;
   vote_count: number;
 }

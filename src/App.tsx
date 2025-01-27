@@ -30,6 +30,7 @@ const App: FC = () => {
 
         <Route path="/:name" element={<FetchGenres />} />
         <Route path="/favorites" element={<Favorites />} />
+
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/actors/:id" element={<ActorPage />} />
         <Route path="/catalog" element={<Catalog />} />

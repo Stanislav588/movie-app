@@ -15,12 +15,12 @@ const Favorites: FC = () => {
 
   const imageBaseURL = "https://image.tmdb.org/t/p/w400";
   useEffect(() => {
-    if (!authUser.uid) {
+    if (!authUser?.uid) {
       enqueueSnackbar("You have to register into your account", {
         variant: "warning",
       });
     }
-  }, [authUser.uid]);
+  }, [authUser?.uid]);
 
   return (
     <>

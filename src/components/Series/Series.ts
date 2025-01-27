@@ -16,7 +16,7 @@ export interface SeriesInfo {
   first_air_date: string;
   number_of_seasons: number;
   episode_run_time: number;
-
+  seasons: number;
   id: string;
   media_type: string;
   original_language: string;
