@@ -12,11 +12,13 @@ import { MovieContext } from "../../context/MovieContext";
 import { motion } from "framer-motion";
 type ContentData = MovieDetails | SeriesInfo;
 import {
+  Actors,
   MovieDetails,
   MovieInfo,
   Reviews,
   RootState,
   SeriesActors,
+  recommendedFilms,
 } from "./MovieInterface";
 import ActorPage from "./ActorPage";
 import { SeriesInfo } from "../Series/Series";
@@ -38,14 +40,20 @@ const ContentDetails: FC<ContentProps> = ({ isMovie }) => {
   const movie = useSelector(
     (state: RootState) => state.movie.movieDetails
   ) as MovieDetails;
-  const series = useSelector((state: RootState) => state.movie.series);
-  const actors = useSelector((state: RootState) => state.movie.actors);
-  const reviews = useSelector((state: RootState) => state.movie.reviews);
+  const series = useSelector(
+    (state: RootState) => state.movie.series as SeriesInfo[]
+  );
+  const actors = useSelector(
+    (state: RootState) => state.movie.actors as Actors[]
+  );
+  const reviews = useSelector(
+    (state: RootState) => state.movie.reviews as Reviews[]
+  );
   const recommendations = useSelector(
-    (state: RootState) => state.movie.recommendations
+    (state: RootState) => state.movie.recommendations as MovieInfo[]
   );
   const imageBaseURL = "https://image.tmdb.org/t/p/w500";
-  const checkContent: ContentData | null = isMovie ? movie : series;
+  const checkContent: ContentData = isMovie ? movie : series;
   const [isOpenActorsPage, setIsOpenActorsPage] = useState<boolean>(false);
   const { handleAddMoviesToFavorite, isAddToFavLoading } =
     useAddMovieToFavorite();
@@ -67,58 +75,17 @@ const ContentDetails: FC<ContentProps> = ({ isMovie }) => {
     }
   };
 
-  const handleFetchContent = async () => {
-    try {
-      const data = await handleApiCalls(fetchContent({ id, isMovie }));
-    } catch (error) {
-      console.log(`Failed to load content : ${error}`);
-    }
-  };
-
-  const fetchVideos = async () => {
-    try {
-      const data = await handleApiCalls(fetchTrailer({ id, isMovie }));
-      setMovieVideosData(data.response);
-    } catch (error) {
-      enqueueSnackbar(`Failed to load trailer: ${error}`, {
-        variant: "error",
-      });
-    }
-  };
-
-  const handleRecommendations = async () => {
-    try {
-      const data = await handleApiCalls(fetchRecommendContent({ id, isMovie }));
-    } catch (error) {
-      enqueueSnackbar(`Fail to load Movies: ${error}`, { variant: "error" });
-    }
-  };
-
-  const handleFetchReviews = async () => {
-    try {
-      const data = await handleApiCalls(fetchReviews({ isMovie, id }));
-    } catch (error) {
-      enqueueSnackbar(`Failed to load reviews: ${error}`, { variant: "error" });
-    }
-  };
-
-  const handleFetchCredits = async () => {
-    try {
-      const data = await handleApiCalls(fetchActors({ isMovie, id }));
-    } catch (error) {
-      enqueueSnackbar(`Failed to fetch actors: ${error}`, { variant: "error" });
-    }
-  };
-
   useEffect(() => {
     const controller = new AbortController();
     const fetchData = async () => {
       await Promise.all([
-        handleFetchContent(),
-        fetchVideos(),
-        handleRecommendations(),
-        handleFetchReviews(),
-        handleFetchCredits(),
+        handleApiCalls(fetchContent({ id, isMovie })),
+        handleApiCalls(fetchTrailer({ id, isMovie })).then((data) =>
+          setMovieVideosData(data.response)
+        ),
+        handleApiCalls(fetchRecommendContent({ id, isMovie })),
+        handleApiCalls(fetchReviews({ id, isMovie })),
+        handleApiCalls(fetchActors({ id, isMovie })),
       ]);
     };
 
