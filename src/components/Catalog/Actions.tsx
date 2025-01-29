@@ -26,7 +26,7 @@ const Actions: FC = () => {
         <h1 className="text-white text-3xl mb-2  bg-gradient-to-l from-slate-400 from-50%">
           Actions
         </h1>
-        <div className="flex overflow-x-auto gap-2 ">
+        <div className="flex overflow-x-auto scrollbar-hide gap-2 ">
           {actions &&
             actions.length > 0 &&
             actions.map((movie: MovieInfo) => {
