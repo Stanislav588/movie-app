@@ -34,7 +34,7 @@ const PopularSeries: FC = () => {
           Popular Series
         </h1>
 
-        <div className="flex gap-2 overflow-x-auto">
+        <div className="flex gap-2 scrollbar-hide overflow-x-auto">
           {popularSeries?.length > 0 &&
             popularSeries?.map((item: SeriesInfo) => {
               return (

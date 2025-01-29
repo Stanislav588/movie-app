@@ -36,7 +36,7 @@ const RatedSeries: FC = () => {
         <h1 className="text-white text-3xl mb-2   bg-gradient-to-l from-yellow-600 from-50%">
           Rated Series
         </h1>
-        <div className="flex gap-2 overflow-x-auto">
+        <div className="flex scrollbar-hide gap-2 overflow-x-auto">
           {topRatedSeries?.length > 0 &&
             topRatedSeries?.map((item: SeriesInfo) => {
               return (

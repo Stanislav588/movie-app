@@ -27,7 +27,7 @@ const Historical: FC = () => {
         <h1 className="text-white mb-2 bg-gradient-to-l from-slate-400 from-50%  text-3xl">
           Historical
         </h1>
-        <div className="flex gap-2 overflow-x-auto scrollbar-hidden">
+        <div className="flex gap-2 overflow-x-auto scrollbar-hide">
           {history.map((movie: MovieInfo) => {
             return (
               <SingleMovie
