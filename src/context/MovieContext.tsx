@@ -1,10 +1,13 @@
-import {
+import React, {
   FC,
   createContext,
   Dispatch,
   SetStateAction,
   useState,
   useEffect,
+  useRef,
+  RefObject,
+  MouseEventHandler,
 } from "react";
 import { SortOption, Videos } from "../components/FilterMenu/FilterMovies";
 
@@ -55,6 +58,11 @@ export interface MovieContextType {
   seriesGenres: number;
   handleSeriesGenres: (selected: number) => void;
   setSeriesGenres: (selected: number) => void;
+  scrollLeft: (index: string) => void;
+  scrollRight: (index: string) => void;
+  scrollContainer: React.MutableRefObject<
+    Record<string, HTMLDivElement | null>
+  >;
 }
 export const MovieContext = createContext<MovieContextType>(
   {} as MovieContextType
@@ -84,6 +92,18 @@ export const MovieProvider: FC<{ children: React.ReactNode }> = ({
   const [sortedMoviesLabel, setSortedMoviesLabel] =
     useState<string>("Popularity");
   const [reviews, setReviews] = useState<Reviews[]>([]);
+  const scrollContainer = useRef<Record<string, HTMLDivElement>>({});
+
+  const scrollLeft = (index: string) => {
+    if (scrollContainer.current[index]) {
+      scrollContainer.current[index].scrollLeft -= 600;
+    }
+  };
+  const scrollRight = (index: string) => {
+    if (scrollContainer.current[index]) {
+      scrollContainer.current[index].scrollLeft += 600;
+    }
+  };
 
   function handleGenres(selected: number, label: string) {
     setGenres(selected);
@@ -186,6 +206,9 @@ export const MovieProvider: FC<{ children: React.ReactNode }> = ({
         genresLabel,
         setGenresLabel,
         reviews,
+        scrollLeft,
+        scrollRight,
+        scrollContainer,
       }}
     >
       {children}

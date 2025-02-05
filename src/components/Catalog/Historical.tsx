@@ -1,11 +1,14 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useContext, useEffect, useState } from "react";
 import { fetchMoviesByGenre } from "../../services/api";
 import { MovieInfo } from "../Movies/MovieInterface";
 import { enqueueSnackbar } from "notistack";
 import SingleMovie from "./SingleMovie";
 import { motion } from "framer-motion";
+import { MovieContext } from "../../context/MovieContext";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 const Historical: FC = () => {
+  const { scrollContainer, scrollLeft, scrollRight } = useContext(MovieContext);
   const [history, setHistory] = useState<MovieInfo[]>([]);
   const imageBaseURL = "https://image.tmdb.org/t/p/w500";
   useEffect(() => {
@@ -23,11 +26,24 @@ const Historical: FC = () => {
   }, []);
   return (
     <>
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+      <motion.div
+        className="relative"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+      >
         <h1 className="text-white mb-2 bg-gradient-to-l from-slate-400 from-50%  text-3xl">
           Historical
         </h1>
-        <div className="flex gap-2 overflow-x-auto scrollbar-hide">
+        <button
+          onClick={() => scrollLeft("historical")}
+          className="absolute top-1/2 left-0 bg-black bg-opacity-50 p-2 rounded-full text-white hover:bg-opacity-75 transition z-10"
+        >
+          <FaChevronLeft size={40} />
+        </button>
+        <div
+          ref={(el) => (scrollContainer.current["historical"] = el)}
+          className="flex gap-2 scroll-smooth overflow-x-auto scrollbar-hide"
+        >
           {history.map((movie: MovieInfo) => {
             return (
               <SingleMovie
@@ -38,6 +54,12 @@ const Historical: FC = () => {
             );
           })}
         </div>
+        <button
+          onClick={() => scrollRight("historical")}
+          className="absolute top-1/2 right-0 bg-black bg-opacity-50 p-2 rounded-full text-white hover:bg-opacity-75 transition z-10"
+        >
+          <FaChevronRight size={40} />
+        </button>
       </motion.div>
     </>
   );

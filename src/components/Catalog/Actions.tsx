@@ -1,12 +1,15 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useContext, useEffect, useState } from "react";
 import { fetchMoviesByGenre } from "../../services/api";
 import { enqueueSnackbar } from "notistack";
 import { motion } from "framer-motion";
 import { MovieInfo } from "../Movies/MovieInterface";
 import SingleMovie from "./SingleMovie";
+import { MovieContext } from "../../context/MovieContext";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 const Actions: FC = () => {
   const [actions, setActions] = useState<MovieInfo[]>([]);
   const imageBaseURL = "https://image.tmdb.org/t/p/w500";
+  const { scrollLeft, scrollContainer, scrollRight } = useContext(MovieContext);
   useEffect(() => {
     const handleFetchActions = async () => {
       try {
@@ -22,11 +25,24 @@ const Actions: FC = () => {
   }, []);
   return (
     <>
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+      <motion.div
+        className="relative"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+      >
         <h1 className="text-white text-3xl mb-2  bg-gradient-to-l from-slate-400 from-50%">
           Actions
         </h1>
-        <div className="flex overflow-x-auto scrollbar-hide gap-2 ">
+        <button
+          onClick={() => scrollLeft("actions")}
+          className="absolute top-1/2  bg-black bg-opacity-50 p-2 rounded-full text-white hover:bg-opacity-75 transition z-10"
+        >
+          <FaChevronLeft size={40} />
+        </button>
+        <div
+          ref={(el) => (scrollContainer.current["actions"] = el)}
+          className="flex overflow-x-auto scroll-smooth scrollbar-hide gap-2 "
+        >
           {actions &&
             actions.length > 0 &&
             actions.map((movie: MovieInfo) => {
@@ -39,6 +55,12 @@ const Actions: FC = () => {
               );
             })}
         </div>
+        <button
+          onClick={() => scrollRight("actions")}
+          className="absolute right-0 top-1/2  bg-black bg-opacity-50 p-2 rounded-full text-white hover:bg-opacity-75 transition z-10"
+        >
+          <FaChevronRight size={40} />
+        </button>
       </motion.div>
     </>
   );

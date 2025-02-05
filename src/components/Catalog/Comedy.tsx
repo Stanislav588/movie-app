@@ -1,11 +1,14 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useContext, useEffect, useState } from "react";
 import { fetchMoviesByGenre } from "../../services/api";
 import { MovieInfo } from "../Movies/MovieInterface";
 import { enqueueSnackbar } from "notistack";
 import SingleMovie from "./SingleMovie";
 import { motion } from "framer-motion";
+import { MovieContext } from "../../context/MovieContext";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 const Comedy: FC = () => {
+  const { scrollLeft, scrollRight, scrollContainer } = useContext(MovieContext);
   const [comedy, setComedy] = useState<MovieInfo[]>([]);
   const imageBaseURL = "https://image.tmdb.org/t/p/w500";
   useEffect(() => {
@@ -23,11 +26,30 @@ const Comedy: FC = () => {
   }, []);
   return (
     <>
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+      <motion.div
+        className="relative"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+      >
         <h1 className="text-white mb-2 bg-gradient-to-l from-slate-400 from-50%  text-3xl">
           Comedy
         </h1>
-        <div className="flex gap-2 overflow-x-auto scrollbar-hide">
+        <div
+          ref={(el) => (scrollContainer.current["comedy"] = el)}
+          className="flex gap-2 overflow-x-auto scroll-smooth scrollbar-hide"
+        >
+          <button
+            onClick={() => scrollLeft("comedy")}
+            className="absolute top-1/2 bg-black bg-opacity-50 p-2 rounded-full text-white hover:bg-opacity-75 transition z-10"
+          >
+            <FaChevronLeft size={40} />
+          </button>
+          <button
+            onClick={() => scrollRight("comedy")}
+            className="absolute right-0 top-1/2 bg-black bg-opacity-50 p-2 rounded-full text-white hover:bg-opacity-75 transition z-10"
+          >
+            <FaChevronRight size={40} />
+          </button>
           {comedy.map((movie: MovieInfo) => {
             return (
               <SingleMovie

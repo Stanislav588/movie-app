@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import { FC, useContext, useEffect } from "react";
 import { getTopRatedSeries } from "../../services/api";
 import { useDispatch, useSelector } from "react-redux";
 import { updateTopRatedSeries } from "../../slices/movieSlice";
@@ -8,8 +8,11 @@ import { motion } from "framer-motion";
 import { RootState } from "../Movies/MovieInterface";
 import SingleSeries from "./SingleSeries";
 import { SeriesInfo } from "./Series";
+import { MovieContext } from "../../context/MovieContext";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 const RatedSeries: FC = () => {
+  const { scrollLeft, scrollRight, scrollContainer } = useContext(MovieContext);
   const imageBaseURL = "https://image.tmdb.org/t/p/w500";
 
   const dispatch = useDispatch();
@@ -32,11 +35,24 @@ const RatedSeries: FC = () => {
   }, []);
   return (
     <>
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+      <motion.div
+        className="relative"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+      >
         <h1 className="text-white text-3xl mb-2   bg-gradient-to-l from-yellow-600 from-50%">
           Rated Series
         </h1>
-        <div className="flex scrollbar-hide gap-2 overflow-x-auto">
+        <button
+          onClick={() => scrollLeft("rated-series")}
+          className="absolute left-0 top-1/2  bg-black bg-opacity-50 p-2 rounded-full text-white hover:bg-opacity-75 transition z-10"
+        >
+          <FaChevronLeft size={40} />
+        </button>
+        <div
+          ref={(el) => (scrollContainer.current["rated-series"] = el)}
+          className="flex scrollbar-hide gap-2 scroll-smooth overflow-x-auto"
+        >
           {topRatedSeries?.length > 0 &&
             topRatedSeries?.map((item: SeriesInfo) => {
               return (
@@ -48,6 +64,12 @@ const RatedSeries: FC = () => {
               );
             })}
         </div>
+        <button
+          onClick={() => scrollRight("rated-series")}
+          className="absolute right-0 top-1/2  bg-black bg-opacity-50 p-2 rounded-full text-white hover:bg-opacity-75 transition z-10"
+        >
+          <FaChevronRight size={40} />
+        </button>
       </motion.div>
     </>
   );
