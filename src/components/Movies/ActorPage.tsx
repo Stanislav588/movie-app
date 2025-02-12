@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import { useEffect } from "react";
 import { Actors, RootState } from "./MovieInterface";
 import { fetchCredits, getSeriesCredits } from "../../services/api";
 import { Link, useLocation, useParams } from "react-router-dom";
@@ -8,7 +8,7 @@ import { enqueueSnackbar } from "notistack";
 import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { updateActorsDetails } from "../../slices/movieSlice";
-const ActorPage: FC = () => {
+const ActorPage = () => {
   const allActors = useSelector(
     (state: RootState) => state.movie.allActorsDetails
   );

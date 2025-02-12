@@ -1,10 +1,10 @@
-import React, { FC } from "react";
+import React from "react";
 import { Avatar, Menu, MenuItem, Divider } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useLogOut } from "../../hooks/useLogOut";
 import { useSelector } from "react-redux";
 import { RootState } from "../Movies/MovieInterface";
-const ProfileSettings: FC = () => {
+const ProfileSettings = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const { logOut } = useLogOut();

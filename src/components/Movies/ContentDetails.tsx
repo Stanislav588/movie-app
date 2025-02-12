@@ -6,6 +6,7 @@ import ImageNotAvailable from "../../images/not-available.webp";
 import defaultImage from "../../images/default-avatar.jpg";
 import { useSelector } from "react-redux";
 import { enqueueSnackbar } from "notistack";
+import "./Reviews.css";
 import { useAddMovieToFavorite } from "../../hooks/useAddMovieToFavorite";
 import { Box, CircularProgress, Skeleton } from "@mui/material";
 import { MovieContext } from "../../context/MovieContext";
@@ -18,7 +19,6 @@ import {
   Reviews,
   RootState,
   SeriesActors,
-  recommendedFilms,
 } from "./MovieInterface";
 import ActorPage from "./ActorPage";
 import { SeriesInfo } from "../Series/Series";
@@ -151,7 +151,7 @@ const ContentDetails: FC<ContentProps> = ({ isMovie }) => {
       >
         <div>
           <Link to={"/"}>
-            <button className="bg-slate-600 px-7 py-1 text-gray-400 hover:text-white transition-all rounded-lg text-lg">
+            <button className="content-btn px-7 py-1 text-gray-400 hover:text-white transition-all rounded-lg text-lg">
               Back
             </button>
           </Link>
@@ -227,7 +227,7 @@ const ContentDetails: FC<ContentProps> = ({ isMovie }) => {
               <button
                 onClick={handleToAddToFavorite}
                 type="button"
-                className="text-white leading-normal   border border-yellow-600 hover:bg-yellow-600 focus:ring-4 focus:outline-none w-44  font-medium rounded-lg text-sm px-3  py-2.5 text-center me-2 mb-2  "
+                className="add-content-btn text-white leading-normal   border focus:ring-4 focus:outline-none w-44  font-medium rounded-lg text-sm px-3  py-2.5 text-center me-2 mb-2  "
               >
                 {isAddToFavLoading ? (
                   <CircularProgress size={10} style={{ margin: "0 auto" }} />
@@ -429,9 +429,9 @@ const ContentDetails: FC<ContentProps> = ({ isMovie }) => {
                 return (
                   <div key={detail.id}>
                     <Link to={`${detail.url}`}>
-                      <div className="bg-neutral-800 hover:bg-neutral-700 transition-all cursor-pointer text-white p-5 rounded-lg w-[50%] min-h-[200px] min-w-[400px] max-w-[400px]">
+                      <div className="reviews-container transition-all cursor-pointer text-white p-5 rounded-lg w-[350px]">
                         <div className="flex mb-7 flex-col">
-                          <h1 className="text-2xl font-medium">
+                          <h1 className="author-text text-2xl font-medium">
                             {detail.author}
                           </h1>
                           <p>2 days ago</p>
@@ -452,10 +452,10 @@ const ContentDetails: FC<ContentProps> = ({ isMovie }) => {
           </h1>
 
           <div className="grid sm:grid-cols-3 grid-cols-3 justify-center md:grid-cols-5 lg:grid-cols-7 gap-4">
-            {recommendations?.map((content: MovieInfo) => {
+            {recommendations?.map((content: MovieInfo, index) => {
               return (
                 <div
-                  key={content.id}
+                  key={index}
                   className="cursor-pointer transition-all relative group"
                 >
                   <Link

@@ -1,11 +1,10 @@
-import { FC } from "react";
 import Header from "../Header/Header";
 import Actions from "./Actions";
 import Comedy from "./Comedy";
 import Historical from "./Historical";
 import Documentary from "./Documentary";
 
-const Catalog: FC = () => {
+const Catalog = () => {
   return (
     <>
       <Header />

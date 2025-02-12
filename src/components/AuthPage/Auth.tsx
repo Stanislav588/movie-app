@@ -1,9 +1,9 @@
-import { FC, useState } from "react";
+import { useState } from "react";
 import Header from "../Header/Header";
 import Login from "./Login";
 import SignUp from "./SignUp";
 
-const Auth: FC = () => {
+const Auth = () => {
   const [isOpenSignUp, setIsOpenSignUp] = useState<boolean>(false);
   return (
     <>

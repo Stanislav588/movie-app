@@ -1,4 +1,4 @@
-import { FC, useContext, useState } from "react";
+import { useContext, useState } from "react";
 import Movie from "./Movie";
 import { MovieContext } from "../../context/MovieContext";
 import { MovieInfo, RootState } from "./MovieInterface";
@@ -6,8 +6,8 @@ import { motion } from "framer-motion";
 import { useSelector } from "react-redux";
 import { useMovies } from "../../hooks/useMovies";
 import { Skeleton } from "@mui/material";
-
-const Movies: FC = () => {
+import "./Button.css";
+const Movies = () => {
   const movies = useSelector((state: RootState) => state.movie.movies);
   const [showMoreMovies, setShowMoreMovies] = useState<number>(8);
   const [isShowMoreBtn, setIsShowMoreBtn] = useState<boolean>(true);
@@ -61,7 +61,7 @@ const Movies: FC = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           onClick={handleShowMoreMovies}
-          className="block text-2xl rounded-full py-1 mt-3 mb-10 transition-all  hover:bg-yellow-600 border border-yellow-600 px-8 mx-auto text-white"
+          className="show-more-btn block text-2xl rounded-full py-1 mt-3 mb-10 transition-all  hover:bg-yellow-600 border border-yellow-600 px-8 mx-auto text-white"
         >
           Show more
         </motion.button>

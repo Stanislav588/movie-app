@@ -1,6 +1,7 @@
 import { FC, Dispatch, SetStateAction, useEffect, useState } from "react";
 import { IoClose } from "react-icons/io5";
 import { Link } from "react-router-dom";
+import "./DropDown.css";
 type DropDownProps = {
   setIsOpen: Dispatch<SetStateAction<boolean>>;
 };
@@ -23,7 +24,7 @@ const DropDown: FC<DropDownProps> = ({ setIsOpen }) => {
   }
   return (
     <div
-      className={`fixed inset-0 z-50 bg-gray-800 transition-transform duration-300 ease-in-out ${
+      className={`drop-down-menu fixed inset-0 z-50 transition-transform duration-300 ease-in-out ${
         isVisible ? "translate-x-0 opacity-100" : "translate-x-full opacity-0"
       }`}
     >
@@ -42,7 +43,7 @@ const DropDown: FC<DropDownProps> = ({ setIsOpen }) => {
           </Link>
           <Link to="/favorites">
             <li className="cursor-pointer hover:border-l-2 transition-all hover:pl-3">
-              Favorites
+              WatchList
             </li>
           </Link>
           <Link to="/series">

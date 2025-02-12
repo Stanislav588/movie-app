@@ -6,17 +6,13 @@ import Movie from "../Movies/Movie";
 import { MovieInfo } from "../Movies/MovieInterface";
 import { Box, CircularProgress } from "@mui/material";
 import { useMoviesByName } from "../../hooks/useMoviesByName";
-
+import "./SearchMovie.css";
 interface SearchMovieProps {
   setIsShowInput: (query: boolean) => void;
 }
 const SearchMovie: FC<SearchMovieProps> = ({ setIsShowInput }) => {
-  const {
-    searchMovie,
-    setSearchMovie,
-
-    isLoadingSearchMovieName,
-  } = useContext(MovieContext);
+  const { searchMovie, setSearchMovie, isLoadingSearchMovieName } =
+    useContext(MovieContext);
   const { movieDataByName } = useMoviesByName();
 
   const imageBaseURL = "https://image.tmdb.org/t/p/w500";
@@ -32,7 +28,7 @@ const SearchMovie: FC<SearchMovieProps> = ({ setIsShowInput }) => {
   }, []);
 
   return (
-    <div className="absolute top-0 px-5 py-4  left-0 right-0 z-50 overflow-y-auto  bg-black min-h-screen w-[100%]">
+    <div className="search-container absolute top-0 px-5 py-4  left-0 right-0 z-50 overflow-y-auto min-h-screen w-[100%]">
       <div className="flex justify-end">
         <IoClose
           onClick={handleCloseSearch}

@@ -1,13 +1,14 @@
-import { FC } from "react";
+import FilterAge from "./FilterAge";
 import FilterCategory from "./FilterCategory";
 import FilterGenres from "./FilterGenres";
-
-const FilterMenu: FC = () => {
+import "./FilterMenu.css";
+const FilterMenu = () => {
   return (
-    <div className="select-none rounded-xl mt-8 px-8 relative block mx-auto ">
-      <div className="flex gap-5 ">
+    <div className="filter-box">
+      <div className="flex flex-wrap justify-center md:justify-start  gap-5 ">
         <FilterCategory />
         <FilterGenres />
+        <FilterAge />
       </div>
     </div>
   );

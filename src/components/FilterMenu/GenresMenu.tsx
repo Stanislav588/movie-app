@@ -7,12 +7,12 @@ interface GenresProps {
   setIsOpenGenres: Dispatch<SetStateAction<boolean>>;
 }
 const GenresMenu: FC<GenresProps> = ({ setIsOpenGenres }) => {
-  useEffect(() => {
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = "auto";
-    };
-  }, []);
+  // useEffect(() => {
+  //   document.body.style.overflow = "hidden";
+  //   return () => {
+  //     document.body.style.overflow = "auto";
+  //   };
+  // }, []);
   const { genresList, handleGenres } = useContext(MovieContext);
   return (
     <div
@@ -25,13 +25,13 @@ const GenresMenu: FC<GenresProps> = ({ setIsOpenGenres }) => {
         <motion.ul
           initial={{ y: 200, opacity: 0 }}
           animate={{ y: 50, opacity: 1 }}
-          className="bg-neutral-800 py-4 overflow-y-auto px-6 max-h-[700px] flex-col   text-center"
+          className="gender-menu  overflow-y-auto   max-h-[500px] flex-col  text-center"
         >
           {genresList.map((item: Genres) => {
             return (
               <li
                 onClick={() => handleGenres(item.id, item.name)}
-                className="cursor-pointer hover:bg-neutral-600 rounded-xl transition-all  py-4 "
+                className="genres-el cursor-pointer rounded-xl py-3 transition-all  "
                 key={item.name}
               >
                 <h1 className="text-xl text-white">{item.name}</h1>

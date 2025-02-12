@@ -1,13 +1,13 @@
 import { Avatar, CircularProgress } from "@mui/material";
-import { FC, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useChooseImageToChange } from "../../hooks/useChooseImageToChange";
 import { ChangeEvent } from "react";
-
+import "./ProfilePage.css";
 import { Link } from "react-router-dom";
 import { useUpdateUser } from "../../hooks/useUpdateUser";
 import { useSelector } from "react-redux";
 import { RootState } from "../Movies/MovieInterface";
-export const ProfilePage: FC = () => {
+export const ProfilePage = () => {
   const ref = useRef<HTMLInputElement>(null);
   const { handleChooseImage, selectedImg } = useChooseImageToChange();
   const { handleUpdateUser, isLoading } = useUpdateUser();
@@ -31,7 +31,7 @@ export const ProfilePage: FC = () => {
     <>
       <div>
         <Link to="/">
-          <button className="text-white bg-slate-400 rounded-lg px-9 py-1 mt-10 ml-4">
+          <button className="back-btn text-white rounded-lg px-9 py-1 mt-10 ml-4">
             Back
           </button>
         </Link>

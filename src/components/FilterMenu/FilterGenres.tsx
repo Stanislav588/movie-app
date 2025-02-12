@@ -1,17 +1,19 @@
-import { FC, useContext, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { MovieContext } from "../../context/MovieContext";
 import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
 import GenresMenu from "./GenresMenu";
 import { enqueueSnackbar } from "notistack";
 import { motion } from "framer-motion";
 import { Genres } from "../Movies/MovieInterface";
-const FilterGenres: FC = () => {
+import "./FilterMenu.css";
+const FilterGenres = () => {
   const {
     genresList,
     genresLabel,
     handleGenres,
-    isOpenGenres,
     setIsOpenGenres,
+    isOpenGenres,
+    handleOpenFilterGenres,
   } = useContext(MovieContext);
 
   useEffect(() => {
@@ -30,8 +32,8 @@ const FilterGenres: FC = () => {
   return (
     <>
       <div
-        onClick={() => setIsOpenGenres((prev) => !prev)}
-        className="flex hover:bg-neutral-700   flex-col items-center  w-[250px]  border border-neutral-700 px-2 py-2  rounded-xl"
+        onClick={handleOpenFilterGenres}
+        className="filter-genres relative select-none"
       >
         <div className="flex cursor-pointer justify-between items-center  w-full">
           <h1
@@ -50,12 +52,12 @@ const FilterGenres: FC = () => {
           <motion.ul
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="absolute text-neutral-300 hidden md:flex  z-10 max-w-[400px] transition-transform origin-top  top-16 flex-wrap gap-5 p-3 items-center bg-neutral-800 rounded-lg shadow-lg"
+            className="genres-container absolute w-[450px] hidden md:grid-cols-2 lg:grid-cols-3 md:grid gap-1 top-14 z-30"
           >
             {genresList.map((genre: Genres) => {
               return (
                 <li
-                  className="cursor-pointer transition-all hover:shadow-md  hover:shadow-yellow-500 border rounded-full px-2 py-1"
+                  className="genres-menu text-white cursor-pointer transition-all hover:shadow-md  hover:shadow-red-500  px-2 py-1"
                   key={genre.name}
                 >
                   <p

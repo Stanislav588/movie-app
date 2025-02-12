@@ -1,0 +1,73 @@
+.filter-box {
+  background-color: rgba(31, 27, 46, 0.88);
+  padding: 25px;
+
+  border-radius: 7px;
+  margin: 20px 25px 0 25px;
+}
+
+.filter-category {
+  cursor: pointer;
+  transition: all;
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  width: 250px;
+  background-color: #f30745;
+  border-radius: 20px;
+  padding: 10px;
+}
+.filter-genres {
+  cursor: pointer;
+  transition: all;
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  width: 250px;
+  background-color: #f30745;
+  border-radius: 20px;
+  padding: 10px;
+}
+.genres-container {
+  background-color: rgb(31, 27, 46);
+}
+.genres-menu {
+  background-color: rgba(46, 42, 60, 0.88);
+}
+.category-menu {
+  background-color: rgba(46, 42, 60, 0.88);
+}
+.category-box {
+  background-color: rgb(31, 27, 46);
+}
+
+.checkbox {
+  cursor: pointer;
+  width: 25px;
+  height: 25px;
+  appearance: none;
+  background-color: #fff;
+}
+.checkbox:checked {
+  background-color: #f30745;
+}
+.checkbox:checked::before {
+  content: "";
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  border: 2px solid white;
+  right: 0;
+  width: 15px;
+  height: 15px;
+}
+
+.gender-menu {
+  background-color: #100e19;
+}
+.genres-el:hover {
+  background-color: #f30745;
+}
+.age-filter-menu {
+  background-color: #100e19;
+}

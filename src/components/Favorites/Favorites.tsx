@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import Movie from "../Movies/Movie";
 import Header from "../Header/Header";
@@ -8,7 +8,7 @@ import { enqueueSnackbar } from "notistack";
 import { useFetchFavMovies } from "../../hooks/useFetchFavMovies";
 import { Box, CircularProgress } from "@mui/material";
 
-const Favorites: FC = () => {
+const Favorites = () => {
   const authUser = useSelector((state: RootState) => state.movie.users);
 
   const { isLoading, favMovies } = useFetchFavMovies();

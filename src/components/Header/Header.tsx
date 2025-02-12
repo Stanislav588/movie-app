@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { RxHamburgerMenu } from "react-icons/rx";
 import DropDown from "../DropDown/DropDown";
@@ -6,8 +6,8 @@ import ProfileSettings from "../ProfileSettings/ProfileSettings";
 import { IoMdSearch } from "react-icons/io";
 import SearchMovie from "../Search/SearchMovie";
 import { headerComponents } from "../../utils/constants";
-
-const Header: FC = () => {
+import "./Header.css";
+const Header = () => {
   const [isOpenDropDown, setIsOpenDropDown] = useState<boolean>(false);
   const [isShowInput, setIsShowInput] = useState<boolean>(false);
 
@@ -24,7 +24,7 @@ const Header: FC = () => {
               key={item.id}
               to={item.link}
               className={({ isActive }) =>
-                isActive ? " border-b-yellow-500 border-b-2 text-white" : ""
+                isActive ? "header-el border-b-2 text-white" : ""
               }
             >
               <li>
@@ -46,7 +46,7 @@ const Header: FC = () => {
         />
         {isShowInput && <SearchMovie setIsShowInput={setIsShowInput} />}
         <Link to="/auth">
-          <button className="px-5 py-2 text-white hidden sm:hidden min-w-[100px] md:block rounded-md bg-yellow-600 ">
+          <button className="header-btn px-5 py-1 text-white hidden sm:hidden min-w-[100px] md:block rounded-md">
             Sign In
           </button>
         </Link>

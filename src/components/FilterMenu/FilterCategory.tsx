@@ -1,25 +1,25 @@
-import { FC, useContext } from "react";
+import { useContext } from "react";
 import { MovieContext } from "../../context/MovieContext";
 import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
 import { motion } from "framer-motion";
 import { SortOption } from "./FilterMovies";
-
-const FilterCategory: FC = () => {
+import "./FilterMenu.css";
+const FilterCategory = () => {
   const {
     handleSortedMoviesBy,
-    setIsOpenCategory,
     isOpenCategory,
     sortedMoviesLabel,
     sortedBy,
+    handleOpenFilterCategory,
   } = useContext(MovieContext);
 
   return (
     <>
       <div
-        onClick={() => setIsOpenCategory((prev: boolean) => !prev)}
-        className="flex hover:bg-neutral-700  transition-all  flex-col items-center w-[250px]  cursor-pointer border border-neutral-700 px-2 py-2  rounded-xl"
+        onClick={handleOpenFilterCategory}
+        className="filter-category relative"
       >
-        <div className=" relative flex justify-between items-center  w-full">
+        <div className="flex justify-between items-center  w-full">
           <h1 className="text-neutral-300">{sortedMoviesLabel}</h1>
           {isOpenCategory ? (
             <IoMdArrowDropup className="text-2xl text-white" />
@@ -32,14 +32,14 @@ const FilterCategory: FC = () => {
           <motion.ul
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="absolute text-neutral-300 w-[250px] z-40 text- top-16 left-8 flex flex-col items-center bg-neutral-800 rounded-lg shadow-lg"
+            className="category-box absolute text-neutral-300 w-[250px] z-40 top-16 flex flex-col gap-1 items-center bg-neutral-800 rounded-lg shadow-lg"
           >
             {sortedBy.map((item: SortOption) => {
               return (
                 <li
                   onClick={() => handleSortedMoviesBy(item.value, item.label)}
                   key={item.value}
-                  className="cursor-pointer border-b border-b-white last:border-b-0  hover:bg-neutral-600 transition-all w-full text-center py-2"
+                  className="category-menu cursor-pointer last:border-b-0  hover:shadow-red-500 hover:shadow-md transition-all w-full text-center py-2"
                 >
                   {item.label}
                 </li>

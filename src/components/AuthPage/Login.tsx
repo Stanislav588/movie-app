@@ -26,13 +26,11 @@ const Login: FC<LoginProps> = ({ setIsOpenSignUp }) => {
       animate={{ opacity: 1 }}
       className="bg-slate-100 text-center w-[80%] md:w-[500px] mx-auto p-4 rounded-md"
     >
-      <h1 className=" text-3xl mb-9">Welcome back</h1>
+      <h1 className="text-3xl mb-9">Welcome back</h1>
 
       <div className="flex flex-col gap-4">
         <div className="flex flex-col">
-          <label className="text-start" htmlFor="">
-            Email
-          </label>
+          <label className="text-start">Email</label>
           <input
             className="rounded-lg text-lg font-normal mt-1 outline-none px-2 py-2 w-[100%]"
             type="text"
@@ -41,9 +39,7 @@ const Login: FC<LoginProps> = ({ setIsOpenSignUp }) => {
           />
         </div>
         <div className="flex flex-col">
-          <label className="text-start" htmlFor="">
-            Password
-          </label>
+          <label className="text-start">Password</label>
           <input
             value={password}
             onChange={(e) => setPassword(e.target.value)}

@@ -1,0 +1,15 @@
+.show-more-btn {
+  border: 1px solid #f30745;
+}
+.show-more-btn:hover {
+  background-color: #f30745;
+}
+.content-btn {
+  background-color: #f30745;
+}
+.add-content-btn {
+  border: 1px solid #f30745;
+}
+.add-content-btn:hover {
+  background-color: #f30745;
+}

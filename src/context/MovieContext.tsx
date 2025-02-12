@@ -6,8 +6,6 @@ import React, {
   useState,
   useEffect,
   useRef,
-  RefObject,
-  MouseEventHandler,
 } from "react";
 import { SortOption, Videos } from "../components/FilterMenu/FilterMovies";
 
@@ -20,11 +18,16 @@ import {
 } from "../components/Movies/MovieInterface";
 import { useDispatch } from "react-redux";
 import { updateMovies } from "../slices/movieSlice";
-import { fetchMoviesBy, fetchMoviesByGenre } from "../services/api";
+import { fetchMoviesBy, getAgeMovie } from "../services/api";
+import { enqueueSnackbar } from "notistack";
 
 export interface MovieContextType {
   isOpenCategory: boolean;
-  setIsOpenCategory: (prev: any) => void;
+  isOpenGenres: boolean;
+  isOpenFilterAgeMenu: boolean;
+  setIsOpenCategory: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsOpenGenres: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsOpenFilterAgeMenu: React.Dispatch<React.SetStateAction<boolean>>;
   sortedMovies: string;
   setSortedMovies: (value: string) => void;
   sortedMoviesLabel: string;
@@ -32,10 +35,10 @@ export interface MovieContextType {
   setSortedMoviesLabel: (value: string) => void;
   sortedBy: SortOption[];
   genresList: Genres[];
-  isOpenGenres: boolean;
+
   genresLabel: string;
   setGenresLabel: (label: string) => void;
-  setIsOpenGenres: React.Dispatch<React.SetStateAction<boolean>>;
+
   genres: number;
   searchMovie: string;
   localState: MovieInfo[];
@@ -63,6 +66,11 @@ export interface MovieContextType {
   scrollContainer: React.MutableRefObject<
     Record<string, HTMLDivElement | null>
   >;
+  handleFilterByGenresAndAges: (selectedAge: number, label: string) => void;
+  ageLabel: string;
+  handleOpenFilterCategory: () => void;
+  handleOpenFilterGenres: () => void;
+  handleOpenFilterAge: () => void;
 }
 export const MovieContext = createContext<MovieContextType>(
   {} as MovieContextType
@@ -74,6 +82,8 @@ export const MovieProvider: FC<{ children: React.ReactNode }> = ({
   // Loading states
   const dispatch = useDispatch();
   const [seriesGenres, setSeriesGenres] = useState<number>(0);
+  const [ages, setAges] = useState(2024);
+  const [ageLabel, setAgeLabel] = useState("Choose the year");
   const [localState, setLocalState] = useState<MovieInfo[]>([]);
   const [isLoadingSearchMovieName, setIsLoadingSearchMovieName] =
     useState<boolean>(false);
@@ -85,6 +95,8 @@ export const MovieProvider: FC<{ children: React.ReactNode }> = ({
   const [searchMovie, setSearchMovie] = useState<string>("");
   const [isOpenGenres, setIsOpenGenres] = useState<boolean>(false);
   const [isOpenCategory, setIsOpenCategory] = useState<boolean>(false);
+  const [isOpenFilterAgeMenu, setIsOpenFilterAgeMenu] =
+    useState<boolean>(false);
   const [genres, setGenres] = useState<number>(28);
   const [movieVideosData, setMovieVideosData] = useState<Videos[]>([]);
   const [genresLabel, setGenresLabel] = useState<string>("Action");
@@ -96,12 +108,12 @@ export const MovieProvider: FC<{ children: React.ReactNode }> = ({
 
   const scrollLeft = (index: string) => {
     if (scrollContainer.current[index]) {
-      scrollContainer.current[index].scrollLeft -= 600;
+      scrollContainer.current[index].scrollLeft -= 1000;
     }
   };
   const scrollRight = (index: string) => {
     if (scrollContainer.current[index]) {
-      scrollContainer.current[index].scrollLeft += 600;
+      scrollContainer.current[index].scrollLeft += 1000;
     }
   };
 
@@ -126,6 +138,34 @@ export const MovieProvider: FC<{ children: React.ReactNode }> = ({
     );
   }
 
+  function handleFilterByGenresAndAges(selectedAge: number, label: string) {
+    setAges(selectedAge);
+    setAgeLabel(label);
+    localStorage.setItem(
+      "genre-age-filter",
+      JSON.stringify({
+        age: selectedAge,
+        name: label,
+      })
+    );
+  }
+
+  function handleOpenFilterCategory() {
+    setIsOpenCategory((prev) => !prev);
+    setIsOpenGenres(false);
+    setIsOpenFilterAgeMenu(false);
+  }
+  function handleOpenFilterGenres() {
+    setIsOpenGenres((prev) => !prev);
+    setIsOpenCategory(false);
+    setIsOpenFilterAgeMenu(false);
+  }
+  function handleOpenFilterAge() {
+    setIsOpenFilterAgeMenu((prev) => !prev);
+    setIsOpenCategory(false);
+    setIsOpenGenres(false);
+  }
+
   useEffect(() => {
     let isCancelled = false;
     const fetchingMovies = async () => {
@@ -136,7 +176,7 @@ export const MovieProvider: FC<{ children: React.ReactNode }> = ({
         }
       } catch (error) {
         if (!isCancelled) {
-          console.log("Error : ", error);
+          enqueueSnackbar("Failed to fetching movies : ", { variant: "error" });
         }
       }
     };
@@ -150,13 +190,15 @@ export const MovieProvider: FC<{ children: React.ReactNode }> = ({
     const handleFetchingMoviesByGenre = async () => {
       setIsLoadingGenres(true);
       try {
-        const res = await fetchMoviesByGenre(genres);
+        const res = await getAgeMovie(genres, ages);
         if (!isCancelled) {
           dispatch(updateMovies(res));
         }
       } catch (error) {
         if (!isCancelled) {
-          console.log("Error fetching by genre :", error);
+          enqueueSnackbar("Failed to fetching by genre :", {
+            variant: "error",
+          });
         }
       } finally {
         if (!isCancelled) {
@@ -168,7 +210,8 @@ export const MovieProvider: FC<{ children: React.ReactNode }> = ({
     return () => {
       isCancelled = true;
     };
-  }, [genres]);
+  }, [genres, ages]);
+
   return (
     <MovieContext.Provider
       value={{
@@ -209,6 +252,16 @@ export const MovieProvider: FC<{ children: React.ReactNode }> = ({
         scrollLeft,
         scrollRight,
         scrollContainer,
+        handleFilterByGenresAndAges,
+        ageLabel,
+        ages,
+        setAges,
+        setAgeLabel,
+        isOpenFilterAgeMenu,
+        setIsOpenFilterAgeMenu,
+        handleOpenFilterCategory,
+        handleOpenFilterGenres,
+        handleOpenFilterAge,
       }}
     >
       {children}

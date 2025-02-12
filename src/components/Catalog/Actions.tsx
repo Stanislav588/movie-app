@@ -1,4 +1,4 @@
-import { FC, useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { fetchMoviesByGenre } from "../../services/api";
 import { enqueueSnackbar } from "notistack";
 import { motion } from "framer-motion";
@@ -6,7 +6,7 @@ import { MovieInfo } from "../Movies/MovieInterface";
 import SingleMovie from "./SingleMovie";
 import { MovieContext } from "../../context/MovieContext";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-const Actions: FC = () => {
+const Actions = () => {
   const [actions, setActions] = useState<MovieInfo[]>([]);
   const imageBaseURL = "https://image.tmdb.org/t/p/w500";
   const { scrollLeft, scrollContainer, scrollRight } = useContext(MovieContext);

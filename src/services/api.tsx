@@ -121,8 +121,19 @@ export async function getTopRatedSeries() {
 export async function getSeriesGenres(genreId: number | undefined) {
   const response = await axios.get(
     `https://api.themoviedb.org/3/discover/tv?api_key=${apiKey}&with_genres=${genreId}&language=en-US
-
 `
+  );
+  return response.data.results;
+}
+export async function getMovieImages(page: number) {
+  const response = await axios.get(
+    `https://api.themoviedb.org/3/trending/all/week?api_key=${apiKey}&page=${page}`
+  );
+  return response.data.results;
+}
+export async function getAgeMovie(genre: number, year: number) {
+  const response = await axios.get(
+    `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&with_genres=${genre}&primary_release_year=${year}`
   );
   return response.data.results;
 }
