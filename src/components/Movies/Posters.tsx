@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { GoDotFill } from "react-icons/go";
 import { IoIosArrowForward } from "react-icons/io";
 import { IoIosArrowBack } from "react-icons/io";
+
 const Posters = () => {
   const [images, setImages] = useState([]);
   const [currentPoster, setCurrentPoster] = useState(1);
@@ -35,7 +36,11 @@ const Posters = () => {
   console.log(images);
 
   return (
-    <div className="relative">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      className="relative"
+    >
       <button
         onClick={handleScrollToTheLeft}
         className="absolute top-1/2 left-0 rounded-full text-white transition z-10"
@@ -82,7 +87,7 @@ const Posters = () => {
       >
         <IoIosArrowForward size={60} />
       </button>
-    </div>
+    </motion.div>
   );
 };
 export default Posters;
