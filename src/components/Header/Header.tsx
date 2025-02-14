@@ -15,7 +15,7 @@ const Header = () => {
     <div className="text-gray-400 z-30 py-5 mb-8 px-2 md:px-8 gap-14 sm:gap-2 flex  justify-between border-b border-b-slate-500">
       <div className="flex gap-14">
         <Link to="/">
-          <h1 className="text-3xl text-white font-medium">Movie.com</h1>
+          <h1 className="text-3xl text-white font-medium">Watch.com</h1>
         </Link>
 
         <ul className="hidden lg:flex md:hidden items-center text-xl gap-7 ">
