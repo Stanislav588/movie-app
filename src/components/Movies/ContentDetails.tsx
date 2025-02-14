@@ -281,7 +281,7 @@ const ContentDetails: FC<ContentProps> = ({ isMovie }) => {
               {actors?.length > 0 && (
                 <Link to={`/actors/${id}`} state={{ isMovie }}>
                   <button
-                    className="text-yellow-500 hover:text-white transition-all hidden md:block "
+                    className="actors-btn  hover:text-white transition-all hidden md:block "
                     onClick={() => setIsOpenActorsPage(true)}
                   >
                     Show all actors
@@ -295,7 +295,7 @@ const ContentDetails: FC<ContentProps> = ({ isMovie }) => {
           {checkContent?.overview}
         </p>
         <div className="flex flex-col mt-5 text-white gap-2">
-          <h1 className="text-3xl mb-5 text-yellow-500">Description</h1>
+          <h1 className="description text-3xl mb-5">Description</h1>
           <div className="flex gap-1 items-center">
             <h2 className="font-semibold">Released:</h2>
             <p className="text-slate-100">

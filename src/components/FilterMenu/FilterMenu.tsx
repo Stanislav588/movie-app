@@ -1,5 +1,6 @@
 import FilterAge from "./FilterAge";
 import FilterCategory from "./FilterCategory";
+
 import FilterGenres from "./FilterGenres";
 import "./FilterMenu.css";
 const FilterMenu = () => {

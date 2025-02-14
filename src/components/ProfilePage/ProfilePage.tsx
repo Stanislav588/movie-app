@@ -80,12 +80,12 @@ export const ProfilePage = () => {
               <div className="flex justify-end">
                 <button
                   onClick={handleUpdatingUserInfo}
-                  className="text-lg text-white py-1 px-5 bg-yellow-600 rounded-lg"
+                  className="profile-btn text-lg text-white py-1 px-5 rounded-lg"
                 >
                   {isLoading ? (
                     <CircularProgress size="22px" />
                   ) : (
-                    "Save changes"
+                    <h1>Save changes</h1>
                   )}
                 </button>
               </div>

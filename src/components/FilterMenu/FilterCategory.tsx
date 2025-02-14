@@ -17,7 +17,7 @@ const FilterCategory = () => {
     <>
       <div
         onClick={handleOpenFilterCategory}
-        className="filter-category relative"
+        className="filter-category select-none relative"
       >
         <div className="flex justify-between items-center  w-full">
           <h1 className="text-neutral-300">{sortedMoviesLabel}</h1>

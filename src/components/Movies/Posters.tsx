@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { getMovieImages } from "../../services/api";
 import { AnimatePresence, motion } from "framer-motion";
 import { GoDotFill } from "react-icons/go";
@@ -33,6 +32,7 @@ const Posters = () => {
     }
     handleGetMovieBanner();
   }, []);
+  console.log(images);
 
   return (
     <div className="relative">
@@ -45,16 +45,18 @@ const Posters = () => {
       <div className="relative w-full flex flex-col items-center">
         <AnimatePresence mode="wait">
           {images.length > 0 && (
-            <motion.img
-              key={currentPoster}
-              className="w-[90%] h-[250px] md:h-[500px] object-cover max-w-[1200px] block mx-auto rounded-xl"
-              src={`${imageBaseURL}${images[currentPoster].backdrop_path}`}
-              alt="banner"
-              initial={{ opacity: 0, x: 100 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -100 }}
-              transition={{ duration: 0.5, ease: "easeInOut" }}
-            />
+            <>
+              <motion.img
+                key={currentPoster}
+                className="w-[90%] h-[250px] md:h-[500px] object-cover max-w-[1200px] block mx-auto rounded-xl"
+                src={`${imageBaseURL}${images[currentPoster].backdrop_path}`}
+                alt="banner"
+                initial={{ opacity: 0, x: 100 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -100 }}
+                transition={{ duration: 0.5, ease: "easeInOut" }}
+              />
+            </>
           )}
         </AnimatePresence>
 
