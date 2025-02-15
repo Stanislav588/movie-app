@@ -338,7 +338,7 @@ const ContentDetails: FC<ContentProps> = ({ isMovie }) => {
           </div>
         </div>
         <div>
-          <h1 className="text-3xl mb-5 block  md:hidden text-yellow-500 mt-7">
+          <h1 className="actors-text text-3xl mb-5 block  md:hidden mt-7">
             Actors
           </h1>
           <div className=" overflow-x-auto mt-4 flex md:hidden text-center gap-4 ">
