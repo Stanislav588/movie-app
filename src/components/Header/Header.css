@@ -4,3 +4,37 @@
 .header-el {
   border-bottom: 3px solid #f30745;
 }
+.btn-2 {
+  scale: 0.7;
+  background: #f30745;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.btn-2:hover {
+  color: #f30745;
+}
+
+.btn-2:after {
+  content: "";
+  background: white;
+  position: absolute;
+  z-index: -1;
+  left: -20%;
+  right: -20%;
+  top: 0;
+  bottom: 0;
+  transform: skewX(-45deg) scale(0, 1);
+  transition: all 0.5s;
+}
+
+.btn-2:hover:after {
+  transform: skewX(-45deg) scale(1, 1);
+  -webkit-transition: all 0.5s;
+  transition: all 0.5s;
+}

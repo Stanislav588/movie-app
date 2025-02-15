@@ -46,7 +46,7 @@ const Header = () => {
         />
         {isShowInput && <SearchMovie setIsShowInput={setIsShowInput} />}
         <Link to="/auth">
-          <button className="header-btn px-5 py-1 text-white hidden sm:hidden min-w-[100px] md:block rounded-md">
+          <button className="btn-2 text-3xl px-8 py-1 text-white hidden sm:hidden  md:block rounded-md">
             Sign In
           </button>
         </Link>
