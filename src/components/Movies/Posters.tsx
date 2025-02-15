@@ -39,7 +39,7 @@ const Posters = () => {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="relative"
+      className="relative select-none"
     >
       <button
         onClick={handleScrollToTheLeft}
