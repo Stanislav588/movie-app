@@ -12,7 +12,6 @@ const Header = () => {
   const [isOpenDropDown, setIsOpenDropDown] = useState<boolean>(false);
   const [isShowInput, setIsShowInput] = useState<boolean>(false);
   const [darkMode, setDarkMode] = useDarkMode("dark");
-  const [toggleDarkMode, setToggleDarkMode] = useState(false);
 
   function handleDarkMode() {
     setDarkMode(darkMode === "dark" ? "light" : "dark");
@@ -25,7 +24,7 @@ const Header = () => {
     }
   }, [darkMode]);
   return (
-    <div className="header text-gray-400 dark:bg-white z-30 py-5  px-2 md:px-8 gap-14 sm:gap-2 flex w-full  justify-between border-b border-b-slate-700">
+    <div className="header text-gray-400 dark:bg-white z-30 py-5  px-2 md:px-8 gap-14 sm:gap-2 flex w-full  justify-between border-b border-b-slate-700 dark:border-b-gray-300">
       <div className="flex gap-14">
         <Link to="/">
           <h1 className="text-3xl dark:text-black text-white font-medium">
