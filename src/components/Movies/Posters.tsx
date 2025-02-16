@@ -39,13 +39,13 @@ const Posters = () => {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="relative select-none"
+      className="relative dark:bg-slate-50 pt-14 pb-7 select-none"
     >
       <button
         onClick={handleScrollToTheLeft}
-        className="absolute top-1/2 left-0 rounded-full text-white transition z-10"
+        className=" absolute top-1/2 left-0 rounded-full text-white transition z-10"
       >
-        <IoIosArrowBack size={60} />
+        <IoIosArrowBack className="dark:text-black" size={60} />
       </button>
       <div className="relative w-full flex flex-col items-center">
         <AnimatePresence mode="wait">
@@ -85,7 +85,7 @@ const Posters = () => {
         onClick={handleScrollToTheRight}
         className="absolute top-1/2  right-0 rounded-full text-white  transition z-10"
       >
-        <IoIosArrowForward size={60} />
+        <IoIosArrowForward className="dark:text-black" size={60} />
       </button>
     </motion.div>
   );

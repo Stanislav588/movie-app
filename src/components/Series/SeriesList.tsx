@@ -8,7 +8,7 @@ const SeriesList: FC = () => {
   return (
     <>
       <Header />
-      <div className="flex flex-col px-5 gap-8">
+      <div className="flex flex-col dark:bg-white px-5 gap-8">
         <PopularSeries />
         <RatedSeries />
         <SeriesGenres />

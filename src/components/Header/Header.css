@@ -38,3 +38,30 @@
   -webkit-transition: all 0.5s;
   transition: all 0.5s;
 }
+.header {
+  background-color: #100e19;
+}
+/*  */
+
+.dark-mode-btn {
+  width: 60px;
+  height: 30px;
+  border-radius: 30px;
+  position: relative;
+  background-color: gray;
+}
+.dark-mode-btn::before {
+  position: absolute;
+  content: "";
+  left: 0;
+  z-index: 1;
+  background-color: #f30745;
+  width: 50%;
+  border-radius: 50%;
+  height: 30px;
+  transition: all 0.4s ease;
+}
+.dark-mode-btn.active::before {
+  transform: translate(100%);
+  transition: all 0.4s ease;
+}

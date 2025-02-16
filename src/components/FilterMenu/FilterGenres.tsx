@@ -33,12 +33,12 @@ const FilterGenres = () => {
     <>
       <div
         onClick={handleOpenFilterGenres}
-        className="filter-genres relative select-none"
+        className="filter-genres dark:bg-blue-500 relative select-none"
       >
         <div className="flex cursor-pointer justify-between items-center  w-full">
           <h1
             onClick={() => setIsOpenGenres(true)}
-            className="text-neutral-300"
+            className="text-neutral-300 dark:text-white"
           >
             {genresLabel}
           </h1>
@@ -52,12 +52,12 @@ const FilterGenres = () => {
           <motion.ul
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="genres-container absolute w-[450px] hidden md:grid-cols-2 lg:grid-cols-3 md:grid gap-1 top-14 z-30"
+            className="genres-container dark:bg-blue-200 absolute w-[450px] hidden md:grid-cols-2 lg:grid-cols-3 md:grid gap-1 top-14 z-30"
           >
             {genresList.map((genre: Genres) => {
               return (
                 <li
-                  className="genres-menu text-white cursor-pointer transition-all hover:shadow-md  hover:shadow-red-500  px-2 py-1"
+                  className="genres-menu dark:bg-blue-500 text-white cursor-pointer transition-all hover:shadow-md  hover:shadow-red-500  px-2 py-1"
                   key={genre.name}
                 >
                   <p

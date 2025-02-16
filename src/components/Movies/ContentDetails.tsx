@@ -109,37 +109,6 @@ const ContentDetails: FC<ContentProps> = ({ isMovie }) => {
       </Box>
     </div>;
   }
-  const renderSkeletons = () => (
-    <>
-      <Header />
-      <div className="px-6 md:px-10 block mx-auto">
-        <Skeleton
-          variant="rectangular"
-          width="100%"
-          height={500}
-          className="rounded-md"
-        />
-        <Skeleton variant="text" width="50%" height={50} />
-        <Skeleton variant="text" width="80%" height={30} />
-        <div className="flex gap-4 mt-4">
-          <Skeleton variant="circular" width={60} height={60} />
-          <Skeleton variant="text" width="40%" height={20} />
-        </div>
-        <div className="grid grid-cols-3 md:grid-cols-5 gap-4 mt-8">
-          {Array.from({ length: 7 }).map((_, index) => (
-            <Skeleton
-              key={index}
-              variant="rectangular"
-              width="100%"
-              height={200}
-              className="rounded-md"
-            />
-          ))}
-        </div>
-      </div>
-    </>
-  );
-  if (isLoading) return renderSkeletons();
   return (
     <>
       <Header />
@@ -147,11 +116,11 @@ const ContentDetails: FC<ContentProps> = ({ isMovie }) => {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="px-6 md:px-10 block mx-auto"
+        className="px-6 md:px-10 pt-14 dark:bg-white  block mx-auto"
       >
         <div>
           <Link to={"/"}>
-            <button className="content-btn px-7 py-1 text-gray-400 hover:text-white transition-all rounded-lg text-lg">
+            <button className="content-btn dark:border-blue-500  dark:bg-blue-500 px-7 py-1 text-white transition-all rounded-lg text-lg">
               Back
             </button>
           </Link>
@@ -173,13 +142,13 @@ const ContentDetails: FC<ContentProps> = ({ isMovie }) => {
           <div className="flex flex-col gap-10 justify-between">
             <div className="flex flex-col gap-4 ">
               <div className="flex gap-4 flex-col md:flex-row  flex-wrap">
-                <h1 className="text-3xl">
+                <h1 className="text-3xl dark:text-black">
                   {checkContent?.title ||
                     checkContent?.name ||
                     "Title not available"}
                 </h1>
               </div>
-              <div className="flex gap-4 flex-wrap lg:gap-7">
+              <div className="flex gap-4 dark:text-black flex-wrap lg:gap-7">
                 {isMovie ? (
                   checkContent?.spoken_languages?.map((item, id) => (
                     <p key={id}>{item.name}</p>
@@ -214,20 +183,20 @@ const ContentDetails: FC<ContentProps> = ({ isMovie }) => {
               </div>
               <div className="flex items-center gap-2">
                 <FaStar className="text-3xl text-yellow-400" />
-                <p className="text-2xl">
+                <p className="text-2xl dark:text-black">
                   {checkContent?.vote_average
                     ? parseFloat(checkContent.vote_average).toFixed(1)
                     : "N/A"}
                 </p>
               </div>
 
-              <p className="w-[100%] hidden md:block text-slate-300 lg:w-[80%]">
+              <p className="w-[100%] dark:text-blue-500 hidden md:block text-slate-300 lg:w-[80%]">
                 {movie?.overview}
               </p>
               <button
                 onClick={handleToAddToFavorite}
                 type="button"
-                className="add-content-btn text-white leading-normal   border focus:ring-4 focus:outline-none w-44  font-medium rounded-lg text-sm px-3  py-2.5 text-center me-2 mb-2  "
+                className="add-content-btn text-white  dark:text-black leading-normal dark:border-blue-500 dark:hover:bg-blue-500  border focus:ring-4 focus:outline-none w-44  font-medium rounded-lg text-sm px-3  py-2.5 text-center me-2 mb-2  "
               >
                 {isAddToFavLoading ? (
                   <CircularProgress size={10} style={{ margin: "0 auto" }} />
@@ -243,7 +212,7 @@ const ContentDetails: FC<ContentProps> = ({ isMovie }) => {
                 )}
               </button>
 
-              <div className="overflow-x-auto mt-4 w-[350px] md:w-full lg:w-full hidden md:flex text-center gap-4 ">
+              <div className="overflow-x-auto dark:text-black mt-4 w-[350px] md:w-full lg:w-full hidden md:flex text-center gap-4 ">
                 {actors?.length === 0
                   ? Array.from({ length: 7 }).map((_, index) => (
                       <Skeleton
@@ -281,7 +250,7 @@ const ContentDetails: FC<ContentProps> = ({ isMovie }) => {
               {actors?.length > 0 && (
                 <Link to={`/actors/${id}`} state={{ isMovie }}>
                   <button
-                    className="actors-btn  hover:text-white transition-all hidden md:block "
+                    className="actors-btn  hover:text-white dark:text-blue-500 transition-all hidden md:block "
                     onClick={() => setIsOpenActorsPage(true)}
                   >
                     Show all actors
@@ -294,20 +263,25 @@ const ContentDetails: FC<ContentProps> = ({ isMovie }) => {
         <p className="w-[100%] mt-6 sm:block block md:hidden  text-slate-300 lg:w-[80%]">
           {checkContent?.overview}
         </p>
-        <div className="flex flex-col mt-5 text-white gap-2">
-          <h1 className="description text-3xl mb-5">Description</h1>
+        <div className="flex dark:text-blue-500 flex-col mt-5 text-white gap-2">
+          <h1 className="description text-3xl dark:text-blue-500  mb-5">
+            Description
+          </h1>
           <div className="flex gap-1 items-center">
             <h2 className="font-semibold">Released:</h2>
-            <p className="text-slate-100">
+            <p className="text-slate-100 dark:text-black font-medium">
               {checkContent?.release_date || checkContent?.first_air_date}
             </p>
           </div>
-          <div className="flex gap-1 flex-wrap items-center">
+          <div className="flex gap-1  flex-wrap items-center">
             <h2 className="font-semibold">Genre: </h2>
             <div className="flex items-center flex-wrap">
               {checkContent?.genres &&
                 checkContent?.genres?.map((genre, index) => (
-                  <p className="text-slate-100" key={genre.id}>
+                  <p
+                    className="text-slate-100 dark:text-black font-medium"
+                    key={genre.id}
+                  >
                     {genre.name}
                     {index < movie?.genres?.length - 1 ? ", " : " "}
                   </p>
@@ -319,7 +293,10 @@ const ContentDetails: FC<ContentProps> = ({ isMovie }) => {
             <h2 className="font-semibold">Production: </h2>
             <div className="flex flex-wrap ">
               {checkContent?.production_companies?.map((company, index) => (
-                <p className="text-slate-100" key={company.id}>
+                <p
+                  className="text-slate-100 dark:text-black font-medium"
+                  key={company.id}
+                >
                   {company.name}
                   {index < checkContent?.production_companies.length - 1
                     ? " ,"
@@ -332,7 +309,7 @@ const ContentDetails: FC<ContentProps> = ({ isMovie }) => {
             <h2 className="font-semibold ">
               {isMovie ? "Duration:" : "Duration of episode:"}
             </h2>
-            <p className="text-slate-100">
+            <p className="text-slate-100 dark:text-black font-medium">
               {checkContent?.runtime || checkContent?.episode_run_time} min
             </p>
           </div>
@@ -408,11 +385,13 @@ const ContentDetails: FC<ContentProps> = ({ isMovie }) => {
         </div>
 
         <div>
-          <h1 className="text-3xl text-white mt-16 mb-5">Reviews</h1>
+          <h1 className="text-3xl dark:text-blue-500 text-white mt-16 mb-14">
+            Reviews
+          </h1>
 
           {reviews?.length === 0 ? (
-            <h1 className="text-2xl text-center mt-4 text-white">
-              No comments to this movie
+            <h1 className="text-2xl dark:text-black text-center mt-4 text-white">
+              There are no comments to this movie yet ☺️
             </h1>
           ) : (
             <div
@@ -421,6 +400,7 @@ const ContentDetails: FC<ContentProps> = ({ isMovie }) => {
             gap-6
             overflow-x-auto
             scrollbar-thin
+            scrollbar-hide
             scrollbar-thumb-gray-500
             scrollbar-track-gray-800
             "
@@ -429,14 +409,16 @@ const ContentDetails: FC<ContentProps> = ({ isMovie }) => {
                 return (
                   <div key={detail.id}>
                     <Link to={`${detail.url}`}>
-                      <div className="reviews-container transition-all cursor-pointer text-white p-5 rounded-lg w-[350px]">
+                      <div className="reviews-container dark:bg-blue-200 transition-all cursor-pointer text-white p-5 rounded-lg w-[380px]">
                         <div className="flex mb-7 flex-col">
-                          <h1 className="author-text text-2xl font-medium">
+                          <h1 className="author-text text-2xl font-medium dark:text-blue-500">
                             {detail.author}
                           </h1>
                           <p>2 days ago</p>
                         </div>
-                        <p className="text-white">{detail.content}</p>
+                        <p className="text-white dark:text-gray-700">
+                          {detail.content}
+                        </p>
                       </div>
                     </Link>
                   </div>

@@ -43,7 +43,7 @@ const SeriesGenres: FC = () => {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="text-white mt-9 mb-10 gap-3 relative overflow-x-auto flex"
+        className="text-white mt-9 mb-10 gap-3 scrollbar-hide relative overflow-x-auto flex"
       >
         {filteredGenresList.map((item: Genres) => {
           return (
@@ -51,7 +51,7 @@ const SeriesGenres: FC = () => {
               <>
                 <div
                   onClick={() => handleSeriesGenres(item.id)}
-                  className="bg-yellow-600 rounded-md flex gap-1 flex-col justify-center items-center min-w-[150px] h-[80px]"
+                  className="bg-yellow-600 dark:bg-blue-500 rounded-md flex gap-1 flex-col justify-center items-center min-w-[150px] h-[80px]"
                 >
                   <p className="text-3xl">
                     <i className={item.icon}></i>

@@ -17,7 +17,7 @@ const GenresMenu: FC<GenresProps> = ({ setIsOpenGenres }) => {
   return (
     <div
       onClick={() => setIsOpenGenres(false)}
-      className={`fixed z-30 block md:hidden  min-h-screen bg-black bg-opacity-55 transition-all inset-0 
+      className={`fixed z-30 block md:hidden min-h-screen bg-black bg-opacity-55 transition-all inset-0 
         
         `}
     >
@@ -25,16 +25,18 @@ const GenresMenu: FC<GenresProps> = ({ setIsOpenGenres }) => {
         <motion.ul
           initial={{ y: 200, opacity: 0 }}
           animate={{ y: 50, opacity: 1 }}
-          className="gender-menu  overflow-y-auto   max-h-[500px] flex-col  text-center"
+          className="gender-menu dark:bg-white  overflow-y-auto   max-h-[500px] flex-col  text-center"
         >
           {genresList.map((item: Genres) => {
             return (
               <li
                 onClick={() => handleGenres(item.id, item.name)}
-                className="genres-el cursor-pointer rounded-xl py-3 transition-all  "
+                className="genres-el dark:hover:bg-blue-500  cursor-pointer rounded-xl py-3 transition-all  "
                 key={item.name}
               >
-                <h1 className="text-xl text-white">{item.name}</h1>
+                <h1 className="text-xl text-white dark:text-black">
+                  {item.name}
+                </h1>
               </li>
             );
           })}

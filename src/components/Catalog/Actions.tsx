@@ -26,11 +26,11 @@ const Actions = () => {
   return (
     <>
       <motion.div
-        className="relative"
+        className="relative pt-14"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
       >
-        <h1 className="text-white text-3xl mb-2  bg-gradient-to-l from-slate-400 from-50%">
+        <h1 className="text-white dark:text-gray-900 font-medium text-3xl mb-2  bg-gradient-to-l from-slate-400 from-50%">
           Actions
         </h1>
         <button

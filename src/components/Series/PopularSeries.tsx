@@ -31,44 +31,38 @@ const PopularSeries: FC = () => {
     handleFetchPopularSeries();
   }, []);
   return (
-    <>
-      <motion.div
-        className="relative"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
+    <motion.div
+      className="relative pt-14"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+    >
+      <h1 className="text-white dark:text-blue-900 text-3xl mb-2 bg-gradient-to-l dark:from-blue-600 from-yellow-600 from-50%">
+        Popular Series
+      </h1>
+      <button
+        onClick={() => scrollLeft("pop-series")}
+        className="absolute left-0 top-1/2  bg-black bg-opacity-50 p-2 rounded-full text-white hover:bg-opacity-75 transition z-10"
       >
-        <h1 className="text-white text-3xl mb-2   bg-gradient-to-l from-yellow-600 from-50%">
-          Popular Series
-        </h1>
-        <button
-          onClick={() => scrollLeft("pop-series")}
-          className="absolute left-0 top-1/2  bg-black bg-opacity-50 p-2 rounded-full text-white hover:bg-opacity-75 transition z-10"
-        >
-          <FaChevronLeft size={40} />
-        </button>
-        <div
-          ref={(el) => (scrollContainer.current["pop-series"] = el)}
-          className="flex gap-2 scrollbar-hide scroll-smooth overflow-x-auto"
-        >
-          {popularSeries?.length > 0 &&
-            popularSeries?.map((item: SeriesInfo) => {
-              return (
-                <SingleSeries
-                  key={item.id}
-                  imageURL={imageBaseURL}
-                  item={item}
-                />
-              );
-            })}
-        </div>
-        <button
-          onClick={() => scrollRight("pop-series")}
-          className="absolute right-0 top-1/2  bg-black bg-opacity-50 p-2 rounded-full text-white hover:bg-opacity-75 transition z-10"
-        >
-          <FaChevronRight size={40} />
-        </button>
-      </motion.div>
-    </>
+        <FaChevronLeft size={40} />
+      </button>
+      <div
+        ref={(el) => (scrollContainer.current["pop-series"] = el)}
+        className="flex gap-2 scrollbar-hide scroll-smooth overflow-x-auto"
+      >
+        {popularSeries?.length > 0 &&
+          popularSeries?.map((item: SeriesInfo) => {
+            return (
+              <SingleSeries key={item.id} imageURL={imageBaseURL} item={item} />
+            );
+          })}
+      </div>
+      <button
+        onClick={() => scrollRight("pop-series")}
+        className="absolute right-0 top-1/2  bg-black bg-opacity-50 p-2 rounded-full text-white hover:bg-opacity-75 transition z-10"
+      >
+        <FaChevronRight size={40} />
+      </button>
+    </motion.div>
   );
 };
 

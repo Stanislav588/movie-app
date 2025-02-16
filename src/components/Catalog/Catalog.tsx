@@ -8,7 +8,7 @@ const Catalog = () => {
   return (
     <>
       <Header />
-      <div className="flex flex-col px-5 gap-12">
+      <div className="flex flex-col dark:bg-white px-5 gap-12">
         <Actions />
         <Comedy />
         <Historical />

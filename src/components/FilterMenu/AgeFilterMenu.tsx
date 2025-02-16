@@ -33,7 +33,7 @@ const AgeFilterMenu: FC<AgeFilterMenuProps> = ({
         <motion.ul
           initial={{ y: 200, opacity: 0 }}
           animate={{ y: 50, opacity: 1 }}
-          className="age-filter-menu overflow-y-auto px-6 max-h-[500px]  grid grid-cols-2 text-center"
+          className="age-filter-menu dark:bg-white overflow-y-auto px-6 max-h-[500px] grid grid-cols-2 text-center"
         >
           {arr.map((year: number) => {
             return (
@@ -41,17 +41,19 @@ const AgeFilterMenu: FC<AgeFilterMenuProps> = ({
                 onClick={() =>
                   handleFilterByGenresAndAges(year, year.toString())
                 }
-                className="cursor-pointer rounded-xl transition-all  py-4 "
+                className="cursor-pointer rounded-xl transition-all py-4 "
                 key={year}
               >
-                <div className="flex justify-center gap-4">
+                <div
+                  onChange={() => handleOnChange(year)}
+                  className="flex justify-center gap-4"
+                >
                   <input
-                    onChange={() => handleOnChange(year)}
                     checked={selectedYear.includes(year)}
-                    className="checkbox"
+                    className="checkbox dark:checked:bg-blue-500"
                     type="checkbox"
                   />
-                  <h1 className="text-xl text-white">{year}</h1>
+                  <h1 className="text-xl dark:text-black text-white">{year}</h1>
                 </div>
               </li>
             );

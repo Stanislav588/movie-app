@@ -9,9 +9,9 @@ const FilterMenu = () => {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="filter-box"
+      className="filter-box dark:bg-blue-200"
     >
-      <div className="flex flex-wrap justify-center md:justify-start  gap-5 ">
+      <div className="flex flex-wrap justify-center md:justify-start gap-5">
         <FilterCategory />
         <FilterGenres />
         <FilterAge />

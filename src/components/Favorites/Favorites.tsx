@@ -7,6 +7,7 @@ import { MovieInfo, RootState } from "../Movies/MovieInterface";
 import { enqueueSnackbar } from "notistack";
 import { useFetchFavMovies } from "../../hooks/useFetchFavMovies";
 import { Box, CircularProgress } from "@mui/material";
+import Footer from "../Footer/Footer";
 
 const Favorites = () => {
   const authUser = useSelector((state: RootState) => state.movie.users);
@@ -25,11 +26,11 @@ const Favorites = () => {
   return (
     <>
       <Header />
-      <div>
-        <h1 className="text-white text-3xl px-8">Watchlist</h1>
+      <div className="dark:bg-white pt-14 min-h-screen">
+        <h1 className="text-white text-3xl dark:text-black px-8">Watchlist</h1>
 
         {favMovies.length === 0 ? (
-          <h1 className="text-center mt-32 text-3xl text-white">
+          <h1 className="text-center mt-32 dark:text-black text-3xl text-white">
             Here you can add your favorite movies and series
           </h1>
         ) : isLoading ? (
@@ -57,6 +58,7 @@ const Favorites = () => {
           </div>
         )}
       </div>
+      <Footer />
     </>
   );
 };
