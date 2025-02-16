@@ -358,7 +358,7 @@ const ContentDetails: FC<ContentProps> = ({ isMovie }) => {
                     />
                   )}
 
-                  <p className="py-2">{credit.name}</p>
+                  <p className="py-2 text-white">{credit.name}</p>
                 </div>
               );
             })}
