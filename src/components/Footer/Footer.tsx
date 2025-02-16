@@ -4,7 +4,7 @@ import linkedin from "../../images/linkedin-white.png";
 import { Link } from "react-router-dom";
 const Footer = () => {
   return (
-    <div className="px-16 border-t border-t-slate-700 my-28">
+    <div className="px-16 border-t border-t-slate-700 my-16">
       <h1 className="text-white text-center text-3xl mb-12 mt-3 font-medium ">
         About us
       </h1>
