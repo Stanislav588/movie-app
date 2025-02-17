@@ -5,9 +5,11 @@ import { AnimatePresence, motion } from "framer-motion";
 import { GoDotFill } from "react-icons/go";
 import { IoIosArrowForward } from "react-icons/io";
 import { IoIosArrowBack } from "react-icons/io";
-
+interface MovieImage {
+  backdrop_path: string;
+}
 const Posters = () => {
-  const [images, setImages] = useState([]);
+  const [images, setImages] = useState<MovieImage[]>([]);
   const [currentPoster, setCurrentPoster] = useState(1);
 
   const imageBaseURL = "https://image.tmdb.org/t/p/original";
