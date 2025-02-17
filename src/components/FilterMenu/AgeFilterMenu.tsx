@@ -39,10 +39,11 @@ const AgeFilterMenu: FC<AgeFilterMenuProps> = ({
                 key={year}
               >
                 <div
-                  onChange={() => handleOnChange(year)}
+                  onClick={() => handleOnChange(year)}
                   className="flex justify-center gap-4"
                 >
                   <input
+                    onChange={() => handleOnChange(year)}
                     checked={selectedYear.includes(year)}
                     className="checkbox dark:checked:bg-blue-500"
                     type="checkbox"

@@ -52,7 +52,10 @@ const FilterAge = () => {
                 className="genres-menu text-white dark:bg-blue-500 cursor-pointer transition-all hover:shadow-md  hover:shadow-red-500  px-2 py-1"
                 key={year}
               >
-                <div className="flex items-center gap-2">
+                <div
+                  onClick={() => handleOnChange(year)}
+                  className="flex items-center gap-2"
+                >
                   <input
                     onChange={() => handleOnChange(year)}
                     checked={selectedYear.includes(year)}
