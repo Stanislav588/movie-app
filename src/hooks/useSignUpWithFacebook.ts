@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { updateUserInfo } from "../slices/movieSlice";
 import { enqueueSnackbar } from "notistack";
 import { useNavigate } from "react-router-dom";
+import { UsersPropertys } from "../components/Movies/MovieInterface";
 
 export const useSignUpWithFacebook = () => {
   const dispatch = useDispatch();
@@ -20,7 +21,7 @@ export const useSignUpWithFacebook = () => {
       const userData = user?.user;
 
       if (userData) {
-        const newUser = {
+        const newUser: UsersPropertys = {
           email: userData.email,
           username: userData.email?.split("@")[0],
           fullName: userData.displayName,
@@ -48,5 +49,6 @@ export const useSignUpWithFacebook = () => {
 
   return {
     handleSignUpWithFacebook,
+    isLoading,
   };
 };

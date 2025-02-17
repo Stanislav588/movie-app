@@ -21,7 +21,7 @@ export const useLogInInWithFacebook = () => {
         const userInfo = await getDoc(userDoc);
         if (userInfo.exists()) {
           localStorage.setItem("users", JSON.stringify(userInfo.data()));
-          dispatch(updateUserInfo(userInfo.data() as UsersPropertys[]));
+          dispatch(updateUserInfo(userInfo.data() as UsersPropertys));
           enqueueSnackbar("User logged in successfully", {
             variant: "success",
           });

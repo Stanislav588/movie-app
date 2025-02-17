@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { doc, setDoc } from "firebase/firestore";
 import { updateUserInfo } from "../slices/movieSlice";
+import { UsersPropertys } from "../components/Movies/MovieInterface";
 
 export const useSignUpWithGoogle = () => {
   const navigate = useNavigate();
@@ -16,7 +17,7 @@ export const useSignUpWithGoogle = () => {
       const data = await signInWithGoogle();
       const user = data?.user;
       if (user) {
-        const newUser = {
+        const newUser: UsersPropertys = {
           email: user.email,
           fullName: user.displayName,
           username: user?.email?.split("@")[0],

@@ -5,7 +5,9 @@ import {
   SeriesGenres,
   SortOption,
 } from "../components/FilterMenu/FilterMovies";
-
+import instagram from "../images/instagram-white.png";
+import gitHub from "../images/git.png";
+import linkedin from "../images/linkedin-white.png";
 export const genresList: Genres[] = [
   { id: 28, name: "Action" },
   { id: 12, name: "Adventure" },
@@ -104,5 +106,12 @@ export const headerComponents: Header[] = [
     name: "Catalog",
     id: 3,
     link: "/catalog",
+  },
+];
+export const footerEl = [
+  {
+    id: 3,
+    icon: gitHub,
+    link: "https://github.com/Stanislav588",
   },
 ];

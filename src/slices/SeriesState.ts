@@ -31,5 +31,5 @@ export interface GeneralState {
   reviews: Reviews[] | null;
   recommendations: MovieInfo[] | null;
   actors: Actors[] | null;
-  users: UsersPropertys[] | null;
+  users: UsersPropertys | null;
 }

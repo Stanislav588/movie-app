@@ -21,7 +21,7 @@ export const useLogInInWithGoogle = () => {
         if (docSnap.exists()) {
           await setDoc(doc(firestore, "users", userData.uid), docSnap.data());
           localStorage.setItem("users", JSON.stringify(docSnap.data()));
-          dispatch(updateUserInfo(docSnap.data() as UsersPropertys[]));
+          dispatch(updateUserInfo(docSnap.data() as UsersPropertys));
           enqueueSnackbar("User logged in successfully!", {
             variant: "success",
           });

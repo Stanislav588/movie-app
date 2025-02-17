@@ -5,17 +5,28 @@ import {
 } from "../Series/Series";
 
 export interface MovieInfo {
-  name: string;
-  title: string;
-  media_type: string;
-  backdrop_path: string;
-  original_language: string;
-  original_name: string;
-  overview: string;
-  popularity: number;
-  poster_path: string;
-  runtime: number;
+  first_air_date: string;
+  number_of_seasons: number;
+  episode_run_time: number;
+  seasons: number;
   id: string;
+  media_type: string;
+  original_language: string;
+  original_title: string;
+  overview: string;
+  origin_country: string;
+  popularity: number;
+  title: string;
+  runtime: number;
+  backdrop_path: string;
+  poster_path: string;
+  release_date: string;
+  number_of_episodes: number;
+  name: string;
+  genres: Genres[];
+  spoken_languages: SpokenLanguages[];
+  video: boolean;
+  production_companies: ProductCompanies[];
   vote_average: string;
   vote_count: number;
 }
@@ -36,12 +47,12 @@ export interface User {
 }
 export interface UsersPropertys {
   createdAt: number;
-  email: string;
+  email: string | null;
   favorites: any;
-  fullName: string;
+  fullName: string | null;
   profilePicture: string;
   uid: string;
-  username: string;
+  username: string | undefined;
 }
 export interface recommendedFilms {
   poster_path: string;

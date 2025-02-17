@@ -11,7 +11,6 @@ import { useAddMovieToFavorite } from "../../hooks/useAddMovieToFavorite";
 import { Box, CircularProgress, Skeleton } from "@mui/material";
 import { MovieContext } from "../../context/MovieContext";
 import { motion } from "framer-motion";
-type ContentData = MovieDetails | SeriesInfo;
 import {
   Actors,
   MovieDetails,
@@ -53,7 +52,7 @@ const ContentDetails: FC<ContentProps> = ({ isMovie }) => {
     (state: RootState) => state.movie.recommendations as MovieInfo[]
   );
   const imageBaseURL = "https://image.tmdb.org/t/p/w500";
-  const checkContent: ContentData = isMovie ? movie : series;
+  const checkContent: MovieDetails = isMovie ? movie : series;
   const [isOpenActorsPage, setIsOpenActorsPage] = useState<boolean>(false);
   const { handleAddMoviesToFavorite, isAddToFavLoading } =
     useAddMovieToFavorite();
@@ -315,10 +314,10 @@ const ContentDetails: FC<ContentProps> = ({ isMovie }) => {
           </div>
         </div>
         <div>
-          <h1 className="actors-text text-3xl mb-5 block  md:hidden mt-7">
+          <h1 className="actors-text dark:text-blue-500 text-3xl mb-5 block  md:hidden mt-7">
             Actors
           </h1>
-          <div className=" overflow-x-auto mt-4 flex md:hidden text-center gap-4 ">
+          <div className="overflow-x-auto mt-4 flex md:hidden text-center gap-4 ">
             {actors?.slice(0, 7).map((credit: SeriesActors) => {
               return (
                 <div className="flex-shrink-0" key={credit.id}>

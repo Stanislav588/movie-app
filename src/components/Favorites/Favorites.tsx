@@ -8,12 +8,13 @@ import { enqueueSnackbar } from "notistack";
 import { useFetchFavMovies } from "../../hooks/useFetchFavMovies";
 import { Box, CircularProgress } from "@mui/material";
 import Footer from "../Footer/Footer";
-
+import { SeriesInfo } from "../Series/Series";
+type FavoriteItem = MovieInfo | SeriesInfo;
 const Favorites = () => {
   const authUser = useSelector((state: RootState) => state.movie.users);
 
   const { isLoading, favMovies } = useFetchFavMovies();
-
+  console.log("Wishlist: ", favMovies);
   const imageBaseURL = "https://image.tmdb.org/t/p/w400";
   useEffect(() => {
     if (!authUser?.uid) {
@@ -46,7 +47,7 @@ const Favorites = () => {
           </Box>
         ) : (
           <div className="grid relative mt-14 px-2 grid-cols-3 lg:grid-cols-7 sm:grid-cols-4 md:grid-cols-4 gap-6">
-            {favMovies.map((movie: MovieInfo) => {
+            {favMovies.map((movie: FavoriteItem) => {
               return (
                 <Movie
                   key={movie.id}

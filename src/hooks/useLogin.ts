@@ -30,7 +30,7 @@ export const useLogin = () => {
 
         if (docSnap.exists()) {
           localStorage.setItem("users", JSON.stringify(docSnap.data()));
-          dispatch(updateUserInfo(docSnap.data() as UsersPropertys[]));
+          dispatch(updateUserInfo(docSnap.data() as UsersPropertys));
           navigate("/");
           enqueueSnackbar("User logged in successfully!", {
             variant: "success",

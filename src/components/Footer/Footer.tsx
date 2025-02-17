@@ -1,8 +1,6 @@
-import instagram from "../../images/instagram-white.png";
-import gitHub from "../../images/git.png";
-import linkedin from "../../images/linkedin-white.png";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { footerEl } from "../../utils/constants";
 const Footer = () => {
   return (
     <motion.div
@@ -14,18 +12,15 @@ const Footer = () => {
         About us
       </h1>
       <div className="flex justify-center gap-8">
-        <Link
-          className="cursor-pointer"
-          to={"https://www.instagram.com/stas.korniienko/"}
-        >
-          <img className="w-9" src={instagram} />
-        </Link>
-        <Link to={"https://github.com/Stanislav588"}>
-          <img className="w-9" src={gitHub} />
-        </Link>
-        <Link to={"https://www.linkedin.com/in/stanislav-kornienko-7a414933b/"}>
-          <img className="w-9" src={linkedin} />
-        </Link>
+        {footerEl.map((el) => {
+          return (
+            <div key={el.id}>
+              <Link to={el.link}>
+                <img className="w-9" src={el.icon} />
+              </Link>
+            </div>
+          );
+        })}
       </div>
     </motion.div>
   );

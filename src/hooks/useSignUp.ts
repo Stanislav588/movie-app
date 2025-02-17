@@ -52,7 +52,7 @@ export const useSignUp = () => {
       const user = userData.user;
       const userRef = doc(firestore, "users", user.uid);
       if (user) {
-        const newUser = {
+        const newUser: UsersPropertys = {
           email: email,
           fullName: firstName,
           username: username,

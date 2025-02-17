@@ -1,4 +1,4 @@
-import { FC, useContext, useEffect, Dispatch, SetStateAction } from "react";
+import { FC, useContext, Dispatch, SetStateAction } from "react";
 import { MovieContext } from "../../context/MovieContext";
 import { motion } from "framer-motion";
 import { Genres } from "../Movies/MovieInterface";
@@ -7,12 +7,6 @@ interface GenresProps {
   setIsOpenGenres: Dispatch<SetStateAction<boolean>>;
 }
 const GenresMenu: FC<GenresProps> = ({ setIsOpenGenres }) => {
-  // useEffect(() => {
-  //   document.body.style.overflow = "hidden";
-  //   return () => {
-  //     document.body.style.overflow = "auto";
-  //   };
-  // }, []);
   const { genresList, handleGenres } = useContext(MovieContext);
   return (
     <div

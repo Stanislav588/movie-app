@@ -14,12 +14,6 @@ const AgeFilterMenu: FC<AgeFilterMenuProps> = ({
   handleOnChange,
   arr,
 }) => {
-  // useEffect(() => {
-  //   document.body.style.overflow = "hidden";
-  //   return () => {
-  //     document.body.style.overflow = "auto";
-  //   };
-  // }, []);
   const { handleFilterByGenresAndAges } = useContext(MovieContext);
   return (
     <div

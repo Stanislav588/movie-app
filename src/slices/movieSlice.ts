@@ -18,9 +18,9 @@ import { fetchActors } from "../features/ActorsThunk";
 
 const initialState: GeneralState = {
   movies: JSON.parse(localStorage.getItem("movies") || "[]") as MovieInfo[],
-  users: JSON.parse(localStorage.getItem("users") || "{}") as
-    | UsersPropertys[]
-    | null,
+  users: JSON.parse(
+    localStorage.getItem("users") || "{}"
+  ) as UsersPropertys | null,
   movieDetails: null,
   series: JSON.parse(localStorage.getItem("series") || "[]") as SeriesInfo[],
   actors: [],
@@ -55,7 +55,7 @@ const movieSlice = createSlice({
       state.movieDetails = action.payload;
       localStorage.setItem("movie-details", JSON.stringify(action.payload));
     },
-    updateUserInfo(state, action: PayloadAction<UsersPropertys[] | null>) {
+    updateUserInfo(state, action: PayloadAction<UsersPropertys | null>) {
       state.users = action.payload;
       localStorage.setItem("users", JSON.stringify(action.payload));
     },
