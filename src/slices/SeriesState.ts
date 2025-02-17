@@ -24,7 +24,6 @@ export interface GeneralState {
   recommendContentStatus: string;
   recommendContentError: any | null;
   reviewsError: any | null;
-
   reviewsStatus: string;
   allActorsDetails: Actors[] | null;
   movieDetails: MovieDetails[] | null;

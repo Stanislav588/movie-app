@@ -45,6 +45,15 @@ export interface User {
   uid: string;
   username: string;
 }
+export interface FavContent {
+  createdAt: number;
+  email: string;
+  favorites: [];
+  fullName: string;
+  profilePicture: string;
+  uid: string;
+  username: string;
+}
 export interface UsersPropertys {
   createdAt: number;
   email: string | null;
@@ -128,6 +137,7 @@ export interface MovieState {
   series: SeriesInfo[];
   actors: SeriesActors[];
   reviews: Reviews[];
+  favContent: FavContent[];
   searchedMovies: MovieInfo[];
   popularSeries: SeriesInfo[];
   allActorsDetails: Actors[];

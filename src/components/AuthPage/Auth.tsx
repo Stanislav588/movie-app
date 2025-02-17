@@ -8,7 +8,7 @@ const Auth = () => {
   return (
     <>
       <Header />
-      <div className="mt-20 ">
+      <div className="pt-20 min-h-screen dark:bg-white ">
         {isOpenSignUp ? (
           <SignUp setIsOpenSignUp={setIsOpenSignUp} />
         ) : (

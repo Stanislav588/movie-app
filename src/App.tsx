@@ -3,7 +3,6 @@ import { FC } from "react";
 import { Route, Routes } from "react-router-dom";
 
 import Home from "./components/Home/Home";
-import Favorites from "./components/Favorites/Favorites";
 import Auth from "./components/AuthPage/Auth";
 import { ProfilePage } from "./components/ProfilePage/ProfilePage";
 import ActorPage from "./components/Movies/ActorPage";
@@ -11,6 +10,7 @@ import Catalog from "./components/Catalog/Catalog";
 import SeriesList from "./components/Series/SeriesList";
 import ContentDetails from "./components/Movies/ContentDetails";
 import FetchGenres from "./components/Series/FetchGenres";
+import WishList from "./components/WishList/WishList";
 
 const App: FC = () => {
   return (
@@ -29,7 +29,7 @@ const App: FC = () => {
         />
 
         <Route path="/:name" element={<FetchGenres />} />
-        <Route path="/favorites" element={<Favorites />} />
+        <Route path="/wishlist" element={<WishList />} />
 
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/actors/:id" element={<ActorPage />} />

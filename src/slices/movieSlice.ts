@@ -167,6 +167,7 @@ export const {
   updateTopRatedSeries,
   updateSeries,
   updatePopularSeries,
+
   updateOnTheAirSeries,
 } = movieSlice.actions;
 export default movieSlice.reducer;

@@ -29,9 +29,9 @@ export const ProfilePage = () => {
   }
   return (
     <>
-      <div>
+      <div className="dark:bg-white min-h-screen">
         <Link to="/">
-          <button className="back-btn text-white rounded-lg px-9 py-1 mt-10 ml-4">
+          <button className="back-btn text-white dark:bg-blue-500 rounded-lg px-9 py-1 mt-10 ml-4">
             Back
           </button>
         </Link>
@@ -92,7 +92,7 @@ export const ProfilePage = () => {
             </div>
           </div>
         ) : (
-          <h1 className="text-white text-center mt-16 text-3xl">
+          <h1 className="text-white dark:text-black text-center mt-16 text-3xl">
             Sign in into your account to change user info
           </h1>
         )}

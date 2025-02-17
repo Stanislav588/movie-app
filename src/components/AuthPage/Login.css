@@ -1,0 +1,12 @@
+.login-text {
+  color: #f30745;
+}
+.login-btn {
+  color: #f30745;
+}
+.login-btn:hover {
+  background-color: #f30745;
+}
+.login-page {
+  background-color: rgba(37, 30, 62, 0.88);
+}
