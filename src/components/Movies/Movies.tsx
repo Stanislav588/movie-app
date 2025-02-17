@@ -1,6 +1,4 @@
-import { useContext, useState } from "react";
 import Movie from "./Movie";
-import { MovieContext } from "../../context/MovieContext";
 import { MovieInfo, RootState } from "./MovieInterface";
 import { motion } from "framer-motion";
 import { useSelector } from "react-redux";
@@ -11,8 +9,7 @@ import { Box, CircularProgress } from "@mui/material";
 const Movies = () => {
   const movies = useSelector((state: RootState) => state.movie.movies);
 
-  const { isLoading } = useContext(MovieContext);
-  const { localState } = useMovies();
+  const { localState, isLoading } = useMovies();
   const imageBaseURL = "https://image.tmdb.org/t/p/w500";
   const isMovies = movies && movies.length > 0 && localState.length > 0;
 
@@ -33,7 +30,7 @@ const Movies = () => {
                 key={movie.id}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ duration: 0.5 }}
+                transition={{ duration: 1 }}
               >
                 <Movie imageBaseURL={imageBaseURL} movie={movie} />
               </motion.div>

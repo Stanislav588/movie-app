@@ -35,6 +35,7 @@ const PopularSeries: FC = () => {
       className="relative pt-14"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
+      transition={{ duration: 1 }}
     >
       <h1 className="text-white dark:text-blue-900 text-3xl mb-2 bg-gradient-to-l dark:from-blue-600 from-yellow-600 from-50%">
         Popular Series

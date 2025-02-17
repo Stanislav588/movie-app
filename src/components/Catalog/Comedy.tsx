@@ -6,13 +6,17 @@ import SingleMovie from "./SingleMovie";
 import { motion } from "framer-motion";
 import { MovieContext } from "../../context/MovieContext";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { Skeleton } from "@mui/material";
 
 const Comedy = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   const { scrollLeft, scrollRight, scrollContainer } = useContext(MovieContext);
   const [comedy, setComedy] = useState<MovieInfo[]>([]);
   const imageBaseURL = "https://image.tmdb.org/t/p/w500";
   useEffect(() => {
     const handleFetchComedy = async () => {
+      setIsLoading(true);
       try {
         const res = await fetchMoviesByGenre(35);
         setComedy(res);
@@ -20,6 +24,8 @@ const Comedy = () => {
         enqueueSnackbar(`Failet to fetch actions: ${error}`, {
           variant: "error",
         });
+      } finally {
+        setIsLoading(false);
       }
     };
     handleFetchComedy();
@@ -30,6 +36,7 @@ const Comedy = () => {
         className="relative"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
+        transition={{ duration: 1 }}
       >
         <h1 className="text-white dark:text-gray-900 font-medium mb-2 bg-gradient-to-l from-slate-400 from-50%  text-3xl">
           Comedy
@@ -50,15 +57,19 @@ const Comedy = () => {
           >
             <FaChevronRight size={40} />
           </button>
-          {comedy.map((movie: MovieInfo) => {
-            return (
-              <SingleMovie
-                key={movie.id}
-                imageBaseURL={imageBaseURL}
-                movie={movie}
-              />
-            );
-          })}
+          {isLoading
+            ? Array(5)
+                .fill(null)
+                .map((_, index) => <Skeleton key={index} />)
+            : comedy.map((movie: MovieInfo) => {
+                return (
+                  <SingleMovie
+                    key={movie.id}
+                    imageBaseURL={imageBaseURL}
+                    movie={movie}
+                  />
+                );
+              })}
         </div>
       </motion.div>
     </>

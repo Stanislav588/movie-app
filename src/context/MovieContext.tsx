@@ -48,8 +48,6 @@ export interface MovieContextType {
   setGenres: (value: number) => void;
   movieDataByName: MovieInfo[];
   setMovieDataByName: Dispatch<SetStateAction<MovieInfo[]>>;
-  isLoading: boolean;
-  setIsLoading: (value: boolean) => void;
   isLoadingGenres: boolean;
   setIsLoadingGenres: (value: boolean) => void;
   movieVideosData: Videos[];
@@ -89,7 +87,6 @@ export const MovieProvider: FC<{ children: React.ReactNode }> = ({
     useState<boolean>(false);
   const [movieDataByName, setMovieDataByName] = useState<MovieInfo[]>([]);
   const [isLoadingGenres, setIsLoadingGenres] = useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   // ============
 
   const [searchMovie, setSearchMovie] = useState<string>("");
@@ -235,14 +232,12 @@ export const MovieProvider: FC<{ children: React.ReactNode }> = ({
         setLocalState,
         handleSortedMoviesBy,
         searchMovie,
-        setIsLoading,
         genresList,
         isOpenGenres,
         setIsOpenGenres,
         genres,
         isLoadingGenres,
         setIsLoadingGenres,
-        isLoading,
         setGenres,
         setReviews,
         handleGenres,

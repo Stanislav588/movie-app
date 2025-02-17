@@ -7,13 +7,16 @@ import SingleMovie from "./SingleMovie";
 import { MovieInfo } from "../Movies/MovieInterface";
 import { MovieContext } from "../../context/MovieContext";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { Skeleton } from "@mui/material";
 
 const Documentary = () => {
   const { scrollContainer, scrollLeft, scrollRight } = useContext(MovieContext);
   const [nowPlayingMovies, setNowPlayingMovies] = useState<MovieInfo[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const imageBaseURL = "https://image.tmdb.org/t/p/w500";
   useEffect(() => {
     const handleFetchDocumentary = async () => {
+      setIsLoading(true);
       try {
         const res = await fetchMoviesByGenre(99);
         setNowPlayingMovies(res);
@@ -21,6 +24,8 @@ const Documentary = () => {
         enqueueSnackbar(`Failet to fetch actions: ${error}`, {
           variant: "error",
         });
+      } finally {
+        setIsLoading(false);
       }
     };
     handleFetchDocumentary();
@@ -45,15 +50,19 @@ const Documentary = () => {
           ref={(el) => (scrollContainer.current["documentary"] = el)}
           className="flex overflow-x-auto gap-2 scroll-smooth scrollbar-hide"
         >
-          {nowPlayingMovies.map((movie: MovieInfo) => {
-            return (
-              <SingleMovie
-                key={movie.id}
-                imageBaseURL={imageBaseURL}
-                movie={movie}
-              />
-            );
-          })}
+          {isLoading
+            ? Array(5)
+                .fill(null)
+                .map((_, index) => <Skeleton key={index} />)
+            : nowPlayingMovies.map((movie: MovieInfo) => {
+                return (
+                  <SingleMovie
+                    key={movie.id}
+                    imageBaseURL={imageBaseURL}
+                    movie={movie}
+                  />
+                );
+              })}
         </div>
         <button
           onClick={() => scrollRight("documentary")}

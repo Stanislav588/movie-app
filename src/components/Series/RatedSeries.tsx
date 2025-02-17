@@ -39,6 +39,7 @@ const RatedSeries: FC = () => {
         className="relative"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
+        transition={{ duration: 1 }}
       >
         <h1 className="text-white dark:text-blue-900 text-3xl mb-2   bg-gradient-to-l from-yellow-600 dark:from-blue-500 from-50%">
           Rated Series
