@@ -17,7 +17,7 @@ const ProfileSettings = () => {
   };
 
   return (
-    <div>
+    <div className="hidden sm:block">
       <Avatar
         src={authUser?.profilePicture}
         onClick={handleClick}
