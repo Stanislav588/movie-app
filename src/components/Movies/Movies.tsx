@@ -30,7 +30,7 @@ const Movies = () => {
                 key={movie.id}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ duration: 1 }}
+                transition={{ duration: 0.7 }}
               >
                 <Movie imageBaseURL={imageBaseURL} movie={movie} />
               </motion.div>
