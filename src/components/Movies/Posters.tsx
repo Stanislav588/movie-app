@@ -5,13 +5,15 @@ import { AnimatePresence, motion } from "framer-motion";
 import { GoDotFill } from "react-icons/go";
 import { IoIosArrowForward } from "react-icons/io";
 import { IoIosArrowBack } from "react-icons/io";
+import { Link } from "react-router-dom";
 interface MovieImage {
   backdrop_path: string;
+  id: number;
 }
 const Posters = () => {
   const [images, setImages] = useState<MovieImage[]>([]);
   const [currentPoster, setCurrentPoster] = useState(1);
-
+  console.log(images);
   const imageBaseURL = "https://image.tmdb.org/t/p/original";
 
   function handleScrollToTheRight() {
@@ -52,10 +54,10 @@ const Posters = () => {
       <div className="relative w-full flex flex-col items-center">
         <AnimatePresence mode="wait">
           {images.length > 0 && (
-            <>
+            <Link to={`/movie/${images[currentPoster]?.id}`}>
               <motion.img
                 key={currentPoster}
-                className="w-[90%] h-[250px] md:h-[500px] object-cover max-w-[1200px] block mx-auto rounded-xl"
+                className="w-[1400px] h-[250px] md:h-[500px] object-cover block mx-auto rounded-xl"
                 src={`${imageBaseURL}${images[currentPoster].backdrop_path}`}
                 alt="banner"
                 initial={{ opacity: 0, x: 100 }}
@@ -63,7 +65,8 @@ const Posters = () => {
                 exit={{ opacity: 0, x: -100 }}
                 transition={{ duration: 0.5, ease: "easeInOut" }}
               />
-            </>
+              {/* <p>{images[currentPoster].original_title}</p> */}
+            </Link>
           )}
         </AnimatePresence>
 
