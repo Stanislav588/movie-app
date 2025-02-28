@@ -53,7 +53,16 @@ const Actions = () => {
           {isLoading
             ? Array(5)
                 .fill(null)
-                .map((_, index) => <Skeleton key={index} />)
+                .map((_, index) => (
+                  <Skeleton
+                    key={index}
+                    variant="rectangular"
+                    width={200}
+                    height={300}
+                    animation="wave"
+                    className="flex-shrink-0"
+                  />
+                ))
             : actions &&
               actions.length > 0 &&
               actions.map((movie: MovieInfo) => {

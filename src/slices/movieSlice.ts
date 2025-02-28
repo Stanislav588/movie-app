@@ -21,21 +21,41 @@ const initialState: GeneralState = {
   users: JSON.parse(
     localStorage.getItem("users") || "{}"
   ) as UsersPropertys | null,
-  movieDetails: null,
-  series: JSON.parse(localStorage.getItem("series") || "[]") as SeriesInfo[],
-  actors: [],
+  movieDetails: {
+    data: null,
+    status: "idle",
+    error: null,
+  },
+  series: {
+    data: JSON.parse(localStorage.getItem("series") || "[]") as SeriesInfo[],
+    status: "idle",
+    error: null,
+  },
+  actors: {
+    data: [],
+    status: "idle",
+    error: null,
+  },
   allActorsDetails: [],
-  reviews: null,
-  recommendations: null,
+  reviews: {
+    data: null,
+    status: "idle",
+    error: null,
+  },
+  recommendContent: {
+    data: null,
+    status: "idle",
+    error: null,
+  },
   popularSeries: null,
   topRatedSeries: null,
   onTheAirSeries: null,
-  trailer: null,
-  trailerStatus: "idle",
-  trailerError: null,
+  trailer: {
+    data: null,
+    status: "idle",
+    error: null,
+  },
   status: "idle",
-  recommendContentStatus: "idle",
-  recommendContentError: null,
   reviewsError: null,
   reviewsStatus: "idle",
   actorsStatus: "idle",
@@ -51,10 +71,10 @@ const movieSlice = createSlice({
       state.series = action.payload;
       localStorage.setItem("series", JSON.stringify(action.payload));
     },
-    updateChoosedMovie(state, action: PayloadAction<MovieDetails[] | null>) {
-      state.movieDetails = action.payload;
-      localStorage.setItem("movie-details", JSON.stringify(action.payload));
-    },
+    // updateChoosedMovie(state, action: PayloadAction<MovieDetails[] | null>) {
+    //   state.movieDetails = action.payload;
+    //   localStorage.setItem("movie-details", JSON.stringify(action.payload));
+    // },
     updateUserInfo(state, action: PayloadAction<UsersPropertys | null>) {
       state.users = action.payload;
       localStorage.setItem("users", JSON.stringify(action.payload));
@@ -80,80 +100,96 @@ const movieSlice = createSlice({
       state.topRatedSeries = action.payload;
       localStorage.setItem("topRatedSeries", JSON.stringify(action.payload));
     },
-    updateOnTheAirSeries(state, action: PayloadAction<SeriesInfo[]>) {
-      state.onTheAirSeries = action.payload;
-      localStorage.setItem("onTheAirSeries", JSON.stringify(action.payload));
-    },
+    // updateOnTheAirSeries(state, action: PayloadAction<SeriesInfo[]>) {
+    //   state.onTheAirSeries = action.payload;
+    //   localStorage.setItem("onTheAirSeries", JSON.stringify(action.payload));
+    // },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchContent.pending, (state) => {
-        state.status = "loading";
+      .addCase(fetchContent.pending, (state, action) => {
+        const isMovie = action.meta.arg?.isMovie || false;
+        if (isMovie) {
+          state.movieDetails.status = "loading";
+          state.movieDetails.data = null;
+        } else {
+          state.series.data = null;
+          state.series.status = "loading";
+        }
       })
       .addCase(fetchContent.fulfilled, (state, action) => {
         const { response, isMovie } = action.payload;
         if (isMovie) {
-          state.movieDetails = response;
+          state.movieDetails.data = response;
           localStorage.setItem("movie-details", JSON.stringify(response));
+          state.movieDetails.status = "succeeded";
         } else {
-          state.series = response;
+          state.series.data = response;
           localStorage.setItem("series", JSON.stringify(response));
+          state.series.status = "succeeded";
         }
-        state.status = "succeeded";
       })
       .addCase(fetchContent.rejected, (state, action) => {
-        state.status = "failed";
-        state.error = action.payload;
+        const { isMovie } = action.payload;
+        if (isMovie) {
+          state.movieDetails.status = "failed";
+        } else {
+          state.series.status = "failed";
+        }
       })
       .addCase(fetchTrailer.pending, (state) => {
         state.status = "loading";
+        state.trailer.data = null;
       })
       .addCase(fetchTrailer.fulfilled, (state, action) => {
         const { response } = action.payload;
-        state.trailer = response;
-        state.trailerStatus = "succeeded";
+        state.trailer.data = response;
+        state.trailer.status = "succeeded";
         localStorage.setItem("trailer", JSON.stringify(response));
       })
       .addCase(fetchTrailer.rejected, (state, action) => {
-        state.trailerStatus = "failed";
-        state.trailerError = action.payload;
+        state.trailer.status = "failed";
+        state.trailer.error = action.payload;
       })
       .addCase(fetchRecommendContent.pending, (state) => {
-        state.recommendContentStatus = "loading";
+        state.recommendContent.status = "loading";
+        state.recommendContent.data = null;
       })
       .addCase(fetchRecommendContent.fulfilled, (state, action) => {
         const { response } = action.payload;
-        state.recommendations = response;
+        state.recommendContent.data = action.payload;
         localStorage.setItem("recommendations", JSON.stringify(response));
       })
       .addCase(fetchRecommendContent.rejected, (state, action) => {
-        state.recommendContentStatus = "failed";
-        state.recommendContentError = action.payload;
+        state.recommendContent.status = "failed";
+        state.recommendContent.error = action.payload;
       })
       .addCase(fetchReviews.pending, (state) => {
-        state.reviewsStatus = "loading";
+        state.reviews.status = "loading";
+        state.reviews.data = null;
       })
       .addCase(fetchReviews.fulfilled, (state, action) => {
         const { data } = action.payload;
-        state.reviews = data;
+        state.reviews.data = data;
         localStorage.setItem("reviews", JSON.stringify(data));
-        state.reviewsStatus = "succeeded";
+        state.reviews.status = "succeeded";
       })
       .addCase(fetchReviews.rejected, (state, action) => {
-        state.reviewsError = action.payload;
-        state.reviewsStatus = "failed";
+        state.reviews.error = action.payload;
+        state.reviews.status = "failed";
       })
-      .addCase(fetchActors.pending, (state, action) => {
-        state.actorsStatus = "loading";
+      .addCase(fetchActors.pending, (state) => {
+        state.actors.status = "loading";
+        state.actors.data = [];
       })
       .addCase(fetchActors.fulfilled, (state, action) => {
         const { data } = action.payload;
-        state.actors = data;
-        state.actorsStatus = "succeeded";
+        state.actors.data = data;
+        state.actors.status = "succeeded";
       })
       .addCase(fetchActors.rejected, (state, action) => {
-        state.actorsStatus = "failed";
-        state.actorsError = action.payload;
+        state.actors.status = "failed";
+        state.actors.error = action.payload;
       });
   },
 });

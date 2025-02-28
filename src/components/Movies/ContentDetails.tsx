@@ -37,19 +37,19 @@ const ContentDetails: FC<ContentProps> = ({ isMovie }) => {
   const { handleApiCalls, isLoading } = useApiCalls();
   const authUser = useSelector((state: RootState) => state.movie.users);
   const movie = useSelector(
-    (state: RootState) => state.movie.movieDetails
+    (state: RootState) => state.movie.movieDetails?.data
   ) as MovieDetails;
   const series = useSelector(
-    (state: RootState) => state.movie.series as SeriesInfo[]
+    (state: RootState) => state.movie.series?.data as SeriesInfo[]
   );
   const actors = useSelector(
-    (state: RootState) => state.movie.actors as Actors[]
+    (state: RootState) => state.movie.actors?.data as Actors[]
   );
   const reviews = useSelector(
-    (state: RootState) => state.movie.reviews as Reviews[]
+    (state: RootState) => state.movie.reviews?.data as Reviews[]
   );
   const recommendations = useSelector(
-    (state: RootState) => state.movie.recommendations as MovieInfo[]
+    (state: RootState) => state.movie.recommendations?.data as MovieInfo[]
   );
   const imageBaseURL = "https://image.tmdb.org/t/p/w500";
   const checkContent: MovieDetails = isMovie ? movie : series;

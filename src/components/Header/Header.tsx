@@ -52,15 +52,17 @@ const Header = () => {
       </div>
       {isOpenDropDown && <DropDown setIsOpen={setIsOpenDropDown} />}
       <div className="flex items-center lg:gap-7 md:gap-7 gap-3">
-        {/* <div
-          className={`md:dark-mode-btn ${
-            darkMode === "dark" ? "active " : ""
-          } cursor-pointer flex justify-around items-center gap-2`}
-          onClick={handleDarkMode}
-        >
-          <i className=" hidden md:block fa-solid fa-moon text-white z-10"></i>
-          <i className="hidden md:block fa-solid fa-sun text-white z-10"></i>
-        </div> */}
+        <div className="hidden sm:block">
+          <div
+            className={`dark-mode-btn ${
+              darkMode === "dark" ? "active " : ""
+            } cursor-pointer flex justify-around items-center gap-2`}
+            onClick={handleDarkMode}
+          >
+            <i className="block fa-solid fa-moon text-white z-10"></i>
+            <i className="block fa-solid fa-sun text-white z-10"></i>
+          </div>
+        </div>
 
         <RxHamburgerMenu
           onClick={() => setIsOpenDropDown(true)}
