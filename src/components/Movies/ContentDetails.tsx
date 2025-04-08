@@ -189,7 +189,7 @@ const ContentDetails: FC<ContentProps> = ({ isMovie }) => {
                 </p>
               </div>
 
-              <p className="w-[100%] dark:text-blue-500 hidden md:block text-slate-300 lg:w-[80%]">
+              <p className="w-[100%] dark:text-black text-white hidden md:block lg:w-[80%]">
                 {movie?.overview}
               </p>
               <button
@@ -259,7 +259,7 @@ const ContentDetails: FC<ContentProps> = ({ isMovie }) => {
             </div>
           </div>
         </div>
-        <p className="w-[100%] mt-6 sm:block block md:hidden  text-slate-300 lg:w-[80%]">
+        <p className="w-[100%] mt-6 sm:block block md:hidden  dark:text-black text-white lg:w-[80%]">
           {checkContent?.overview}
         </p>
         <div className="flex dark:text-blue-500 flex-col mt-5 text-white gap-2">
@@ -341,7 +341,7 @@ const ContentDetails: FC<ContentProps> = ({ isMovie }) => {
             <div className="flex items-center">
               <Link to={`/actors/${id}`} state={{ isMovie }}>
                 <button
-                  className="border-2 w-32 text-white py-1 rounded-lg  border-yellow-600"
+                  className="border-2 w-32 dark:text-black text-white py-1 rounded-lg dark:border-blue-600 border-yellow-600"
                   onClick={() => setIsOpenActorsPage(true)}
                 >
                   Show all actors
