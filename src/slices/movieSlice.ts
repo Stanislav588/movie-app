@@ -3,7 +3,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import {
   Actors,
-  MovieDetails,
   MovieInfo,
   UsersPropertys,
 } from "../components/Movies/MovieInterface";
@@ -68,13 +67,10 @@ const movieSlice = createSlice({
   initialState,
   reducers: {
     updateSeries(state, action: PayloadAction<SeriesInfo[] | null>) {
-      state.series = action.payload;
+      state.series = action.payload as any;
       localStorage.setItem("series", JSON.stringify(action.payload));
     },
-    // updateChoosedMovie(state, action: PayloadAction<MovieDetails[] | null>) {
-    //   state.movieDetails = action.payload;
-    //   localStorage.setItem("movie-details", JSON.stringify(action.payload));
-    // },
+
     updateUserInfo(state, action: PayloadAction<UsersPropertys | null>) {
       state.users = action.payload;
       localStorage.setItem("users", JSON.stringify(action.payload));
@@ -100,10 +96,6 @@ const movieSlice = createSlice({
       state.topRatedSeries = action.payload;
       localStorage.setItem("topRatedSeries", JSON.stringify(action.payload));
     },
-    // updateOnTheAirSeries(state, action: PayloadAction<SeriesInfo[]>) {
-    //   state.onTheAirSeries = action.payload;
-    //   localStorage.setItem("onTheAirSeries", JSON.stringify(action.payload));
-    // },
   },
   extraReducers: (builder) => {
     builder
@@ -130,7 +122,7 @@ const movieSlice = createSlice({
         }
       })
       .addCase(fetchContent.rejected, (state, action) => {
-        const { isMovie } = action.payload;
+        const { isMovie } = action.payload as any;
         if (isMovie) {
           state.movieDetails.status = "failed";
         } else {
@@ -149,7 +141,7 @@ const movieSlice = createSlice({
       })
       .addCase(fetchTrailer.rejected, (state, action) => {
         state.trailer.status = "failed";
-        state.trailer.error = action.payload;
+        state.trailer.error = action.payload as string;
       })
       .addCase(fetchRecommendContent.pending, (state) => {
         state.recommendContent.status = "loading";
@@ -157,12 +149,12 @@ const movieSlice = createSlice({
       })
       .addCase(fetchRecommendContent.fulfilled, (state, action) => {
         const { response } = action.payload;
-        state.recommendContent.data = action.payload;
+        state.recommendContent.data = action.payload as any;
         localStorage.setItem("recommendations", JSON.stringify(response));
       })
       .addCase(fetchRecommendContent.rejected, (state, action) => {
         state.recommendContent.status = "failed";
-        state.recommendContent.error = action.payload;
+        state.recommendContent.error = action.payload as string;
       })
       .addCase(fetchReviews.pending, (state) => {
         state.reviews.status = "loading";
@@ -175,7 +167,7 @@ const movieSlice = createSlice({
         state.reviews.status = "succeeded";
       })
       .addCase(fetchReviews.rejected, (state, action) => {
-        state.reviews.error = action.payload;
+        state.reviews.error = action.payload as string;
         state.reviews.status = "failed";
       })
       .addCase(fetchActors.pending, (state) => {
@@ -189,21 +181,18 @@ const movieSlice = createSlice({
       })
       .addCase(fetchActors.rejected, (state, action) => {
         state.actors.status = "failed";
-        state.actors.error = action.payload;
+        state.actors.error = action.payload as string;
       });
   },
 });
 
 export const {
   updateUserInfo,
-  updateChoosedMovie,
   resetProfile,
   updateMovies,
   updateActorsDetails,
   updateTopRatedSeries,
   updateSeries,
   updatePopularSeries,
-
-  updateOnTheAirSeries,
 } = movieSlice.actions;
 export default movieSlice.reducer;

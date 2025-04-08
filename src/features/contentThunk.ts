@@ -4,7 +4,10 @@ import { getContentDetails, getSeriesDetails } from "../services/api";
 export const fetchContent = createAsyncThunk(
   "content/fetchContent",
   async (
-    { id, isMovie }: { isMovie: boolean; id: string | undefined },
+    {
+      id,
+      isMovie,
+    }: { isMovie: boolean; id: string | undefined; rejectWithValue: string },
     { rejectWithValue }
   ) => {
     try {
